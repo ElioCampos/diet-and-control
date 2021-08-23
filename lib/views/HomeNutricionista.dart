@@ -1,5 +1,6 @@
-import 'package:diet_and_control/widgets/ListMensajes.dart';
-import 'package:diet_and_control/widgets/ListPacientes.dart';
+import 'package:diet_and_control/views/NuevoPaciente.dart';
+import 'package:diet_and_control/widgets/homeNutricionista/ListMensajes.dart';
+import 'package:diet_and_control/widgets/homeNutricionista/ListPacientes.dart';
 import 'package:flutter/material.dart';
 
 class HomeNutricionista extends StatefulWidget {
@@ -51,7 +52,12 @@ class _HomeNutricionistaState extends State<HomeNutricionista> {
                   ),
                 ),
                 GestureDetector(
-                  onTap: (){},
+                  onTap: (){
+                    Navigator.push(
+                      context, 
+                      MaterialPageRoute(builder: (context) => NuevoPaciente())
+                    );
+                  },
                   child: Container(
                     margin: EdgeInsets.symmetric(vertical: 15.0, horizontal: 7.0),
                     width: MediaQuery.of(context).size.width,

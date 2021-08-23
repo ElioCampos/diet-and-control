@@ -1,9 +1,14 @@
 import 'package:diet_and_control/models/Mensajes.dart';
 import 'package:flutter/material.dart';
 
-class ListMensajes extends StatelessWidget {
+class ListMensajes extends StatefulWidget {
   const ListMensajes({ Key? key }) : super(key: key);
 
+  @override
+  _ListMensajesState createState() => _ListMensajesState();
+}
+
+class _ListMensajesState extends State<ListMensajes> {
   @override
   Widget build(BuildContext context) {
     return Container(

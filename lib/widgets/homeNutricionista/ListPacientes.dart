@@ -1,9 +1,14 @@
 import 'package:diet_and_control/models/Paciente.dart';
 import 'package:flutter/material.dart';
 
-class ListPacientes extends StatelessWidget {
+class ListPacientes extends StatefulWidget {
   const ListPacientes({ Key? key }) : super(key: key);
 
+  @override
+  _ListPacientesState createState() => _ListPacientesState();
+}
+
+class _ListPacientesState extends State<ListPacientes> {
   @override
   Widget build(BuildContext context) {
     return Container(

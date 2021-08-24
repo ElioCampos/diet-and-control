@@ -1,7 +1,7 @@
-import 'package:diet_and_control/widgets/nuevoPaciente/datosPersonales.dart';
-import 'package:diet_and_control/widgets/nuevoPaciente/estadoSalud.dart';
-import 'package:diet_and_control/widgets/nuevoPaciente/evaluacionAntro.dart';
-import 'package:diet_and_control/widgets/nuevoPaciente/reparticionKCal.dart';
+import 'package:diet_and_control/widgets/nuevoPaciente/personal_info.dart';
+import 'package:diet_and_control/widgets/nuevoPaciente/health_status.dart';
+import 'package:diet_and_control/widgets/nuevoPaciente/anthro_evaluation.dart';
+import 'package:diet_and_control/widgets/nuevoPaciente/calories_repartition.dart';
 import 'package:flutter/material.dart';
 
 class NuevoPaciente extends StatefulWidget {

@@ -1,4 +1,4 @@
-import 'package:diet_and_control/models/Mensajes.dart';
+import 'package:diet_and_control/models/messages.dart';
 import 'package:flutter/material.dart';
 
 class ListMensajes extends StatefulWidget {
@@ -59,13 +59,12 @@ class _ListMensajesState extends State<ListMensajes> {
                             ),
                           ),
                           Container(
-                            width: 235.0,
                             child: Text(
                               messages[index].message,
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 20.0,
-                                fontWeight: FontWeight.bold
+                                fontSize: 15.0,
+                                // fontWeight: FontWeight.normal
                               ),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,

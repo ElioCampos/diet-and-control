@@ -1,0 +1,293 @@
+import 'package:diet_and_control/models/meal.dart';
+import 'package:diet_and_control/widgets/homeNutricionista/list_messages.dart';
+import 'package:flutter/material.dart';
+
+Map days = {
+  "Lu": "Lunes",
+  "Ma": "Martes",
+  "Mi": "Miércoles",
+  "Ju": "Jueves",
+  "Vi": "Viernes",
+  "Sa": "Sábado",
+  "Do": "Domingo"
+};
+
+Color customGreen = Color.fromRGBO(0, 214, 129, 1.0);
+
+class NutritionalPlan extends StatefulWidget {
+  const NutritionalPlan({Key? key}) : super(key: key);
+
+  @override
+  _NutritionalPlanState createState() => _NutritionalPlanState();
+}
+
+class _NutritionalPlanState extends State<NutritionalPlan> {
+  int _selectedDay = 0;
+  int _currentWeek = 1;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Column(
+        children: [
+          Container(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                  onPressed: () {
+                    if (_currentWeek == 1) {
+                      print(_currentWeek);
+                    } else {
+                      setState(() {
+                        _currentWeek--;
+                      });
+                    }
+                  },
+                  icon: Icon(
+                    Icons.keyboard_arrow_left,
+                    color: customGreen,
+                  ),
+                ),
+                Text(
+                  "Semana $_currentWeek",
+                  style: TextStyle(
+                      color: customGreen,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold),
+                ),
+                IconButton(
+                  onPressed: () {
+                    setState(() {
+                      _currentWeek++;
+                    });
+                  },
+                  icon: Icon(
+                    Icons.keyboard_arrow_right,
+                    color: customGreen,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: customGreen,
+                width: 2,
+              ),
+              borderRadius: BorderRadius.all(
+                Radius.circular(20),
+              ),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: List.generate(
+                days.length,
+                (index) {
+                  return InkWell(
+                      child: Container(
+                        padding: EdgeInsets.all(10),
+                        child: Text(
+                          days.keys.elementAt(index),
+                          style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: index == _selectedDay
+                                  ? FontWeight.bold
+                                  : FontWeight.w300,
+                              color:
+                                  index == _selectedDay ? customGreen : null),
+                        ),
+                      ),
+                      onTap: () {
+                        setState(() {
+                          _selectedDay = index;
+                        });
+                      });
+                },
+              ),
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.only(top: 10),
+            child: Column(
+              children: List.generate(meals.length, (index) {
+                return Column(
+                  children: [
+                    SizedBox(height: 25),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: Container(
+                            padding: EdgeInsets.all(10),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(15.0),
+                              child: Image.network(
+                                meals[index].imageUrl,
+                                scale: 2,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: InkWell(
+                            onTap: () {
+                              showDialog<void>(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return _mealDetails(index, context);
+                                },
+                              );
+                            },
+                            child: Column(
+                              children: [
+                                Text(
+                                  meals[index].type,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                                Divider(),
+                                Text(
+                                  meals[index].name,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15,
+                                    color: customGreen,
+                                  ),
+                                ),
+                                Center(
+                                  child: Text(
+                                    meals[index].description,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w300,
+                                      fontSize: 13,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: Checkbox(
+                            checkColor: Colors.white,
+                            activeColor: customGreen,
+                            value: meals[index].completed,
+                            onChanged: (bool? value) {
+                              setState(() {
+                                meals[index].completed = value!;
+                              });
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                );
+              }),
+            ),
+          ),
+          Divider(),
+          ListMensajes()
+        ],
+      ),
+    );
+  }
+
+  Widget _mealDetails(int index, BuildContext context) {
+    return StatefulBuilder(builder: (context, setState) {
+      return Dialog(
+        // title: Text(meals[index].name),
+        child: Container(
+            height: 340,
+            padding: EdgeInsets.fromLTRB(10, 50, 20, 20),
+            child: Column(children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Container(
+                      child: Column(
+                        children: [
+                          Text(meals[index].name,
+                              style: TextStyle(
+                                  fontSize: 24,
+                                  color: customGreen,
+                                  fontWeight: FontWeight.bold),
+                              textAlign: TextAlign.center),
+                          Container(
+                            padding: EdgeInsets.fromLTRB(10, 20, 20, 20),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(15.0),
+                              child: Image.network(
+                                meals[index].imageUrl,
+                                scale: 4,
+                              ),
+                            ),
+                          ),
+                          Text(days[days.keys.elementAt(_selectedDay)],
+                              style: TextStyle(
+                                fontSize: 20,
+                                color: customGreen,
+                              ),
+                              textAlign: TextAlign.center),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(left: 10),
+                    child: Column(
+                      children: [
+                        _infoText("Carbohidratos", true),
+                        _infoText("30Kcal", false),
+                        Divider(),
+                        _infoText("Proteínas", true),
+                        _infoText("30Kcal", false),
+                        Divider(),
+                        _infoText("Grasas", true),
+                        _infoText("30Kcal", false),
+                        Divider(),
+                        Text(
+                          "Kcal totales",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.red,
+                              fontSize: 20),
+                        ),
+                        Text(
+                          "90Kcal",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 20),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 10),
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  style: ElevatedButton.styleFrom(primary: Colors.amber),
+                  child: Text("Cerrar", style: TextStyle(color: Colors.black),))
+            ])),
+      );
+    });
+  }
+
+  Widget _infoText(String text, bool main) {
+    return Text(
+      text,
+      textAlign: TextAlign.center,
+      style: TextStyle(
+          fontWeight: main ? FontWeight.bold : null,
+          color: main ? customGreen : null),
+    );
+  }
+}

@@ -102,7 +102,6 @@ class _EstadoSaludState extends State<EstadoSalud> {
             Row(
               children: [
                 Container(
-                    width: 150.0,
                     child: Text(
                       "Enfermedad(s) Anteriores: ",
                       style: TextStyle(
@@ -110,7 +109,6 @@ class _EstadoSaludState extends State<EstadoSalud> {
                           fontWeight: FontWeight.bold),
                     )),
                 Container(
-                  width: 190.0,
                   padding: EdgeInsets.symmetric(horizontal: 15.0),
                   decoration: BoxDecoration(
                       color: Colors.white,

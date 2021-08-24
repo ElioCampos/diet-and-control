@@ -1,4 +1,4 @@
-import 'package:diet_and_control/models/Paciente.dart';
+import 'package:diet_and_control/models/patient.dart';
 import 'package:flutter/material.dart';
 
 class ListPacientes extends StatefulWidget {

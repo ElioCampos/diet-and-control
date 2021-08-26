@@ -44,7 +44,7 @@ class _ReparticionKCalState extends State<ReparticionKCal> {
                       borderRadius: BorderRadius.circular(20.0)),
                   child: Row(children: [
                     Container(
-                      width: 80.0,
+                      width: 90.0,
                       child: Text(
                         "IMC: " + "25.5",
                         style: TextStyle(
@@ -74,7 +74,7 @@ class _ReparticionKCalState extends State<ReparticionKCal> {
                       borderRadius: BorderRadius.circular(20.0)),
                   child: Row(children: [
                     Container(
-                      width: 90.0,
+                      width: 100.0,
                       child: Text(
                         "TMB: " + "2420",
                         style: TextStyle(

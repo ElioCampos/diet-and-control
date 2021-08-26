@@ -66,7 +66,7 @@ class _EvaluacionAntroState extends State<EvaluacionAntro> {
                     child: Row(
                       children: [
                         Container(
-                          width: 80.0,
+                          width: 100.0,
                           child: Text(
                             "IMC: "+ "25.5",
                             style: TextStyle(
@@ -99,7 +99,7 @@ class _EvaluacionAntroState extends State<EvaluacionAntro> {
                     child: Row(
                       children: [
                         Container(
-                          width: 90.0,
+                          width: 110.0,
                           child: Text(
                             "TMB: "+ "2420",
                             style: TextStyle(

@@ -102,6 +102,7 @@ class _EstadoSaludState extends State<EstadoSalud> {
             Row(
               children: [
                 Container(
+                  width: 150.0,
                     child: Text(
                       "Enfermedad(s) Anteriores: ",
                       style: TextStyle(

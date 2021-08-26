@@ -110,7 +110,7 @@ class _ListPacientesState extends State<ListPacientes> {
                       GestureDetector(
                         onTap: (){},
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          padding: const EdgeInsets.symmetric(vertical: 4.0),
                           child: Text(
                             "Ver Perfil",
                             style: TextStyle(

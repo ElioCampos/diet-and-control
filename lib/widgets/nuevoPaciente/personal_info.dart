@@ -50,7 +50,7 @@ class _DatosPersonalesState extends State<DatosPersonales> {
                     child: Row(
                       children: [
                         Container(
-                          width: 80.0,
+                          width: 85.0,
                           child: Text(
                             "Fecha de nacimiento: ",
                             style: TextStyle(
@@ -98,7 +98,7 @@ class _DatosPersonalesState extends State<DatosPersonales> {
                     child: Row(
                       children: [
                         Container(
-                          width: 80.0,
+                          width: 85.0,
                           child: Text(
                             "Actividad física: ",
                             style: TextStyle(
@@ -150,7 +150,7 @@ class _DatosPersonalesState extends State<DatosPersonales> {
                 children: [
                   CircleAvatar(
                   backgroundImage: NetworkImage("https://static-cdn.jtvnw.net/jtv_user_pictures/986abe5c-d7ee-4f2b-818f-a5a421e481f2-profile_image-300x300.png"),
-                  radius: 50.0,
+                  radius: 45.0,
                   ),
                   GestureDetector(
                     onTap: (){},
@@ -180,7 +180,7 @@ class _DatosPersonalesState extends State<DatosPersonales> {
       child: Row(
         children: [
           Container(
-            width: 80.0,
+            width: 85.0,
             child: Text(
               title + ": ",
               style: TextStyle(

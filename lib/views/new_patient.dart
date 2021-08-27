@@ -5,7 +5,8 @@ import 'package:diet_and_control/widgets/nuevoPaciente/calories_repartition.dart
 import 'package:flutter/material.dart';
 
 class NuevoPaciente extends StatefulWidget {
-  const NuevoPaciente({ Key? key }) : super(key: key);
+  final Function goToCreatePlan;
+  const NuevoPaciente({ Key? key, required this.goToCreatePlan }) : super(key: key);
 
   @override
   _NuevoPacienteState createState() => _NuevoPacienteState();
@@ -51,7 +52,9 @@ class _NuevoPacienteState extends State<NuevoPaciente> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       GestureDetector(
-                        onTap: (){},
+                        onTap: () {
+                          widget.goToCreatePlan(true);
+                        },
                         child: Container(
                           padding: EdgeInsets.all(10.0),
                           decoration: BoxDecoration(

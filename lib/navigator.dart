@@ -1,17 +1,9 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:diet_and_control/views/create_plan.dart';
 import 'package:diet_and_control/views/home_nutritionist.dart';
 import 'package:diet_and_control/views/home_patient.dart';
+import 'package:diet_and_control/views/new_patient.dart';
 import 'package:flutter/material.dart';
-
-final List<Widget> _routes = [HomePatient(), HomePatient(), HomePatient()];
-final List<Widget> _routesN = [
-  HomeNutricionista(),
-  HomeNutricionista(),
-  HomeNutricionista(),
-  HomeNutricionista()
-];
-int _activePage = 0;
-Color customGreen = Color.fromRGBO(0, 214, 129, 1.0);
 
 class MainNavigator extends StatefulWidget {
   final bool isPatient;
@@ -22,11 +14,37 @@ class MainNavigator extends StatefulWidget {
 }
 
 class _MainNavigatorState extends State<MainNavigator> {
+  List<Widget> _routes = [HomePatient(), HomePatient(), HomePatient()];
+  List<Widget> _routesN = [];
+  int _activePage = 0;
+  Color customGreen = Color.fromRGBO(0, 214, 129, 1.0);
+
+  @override
+  void initState() {
+    super.initState();
+    _routesN = [
+      HomeNutricionista(
+        navigate: changeRoute,
+      ),
+      NuevoPaciente(goToCreatePlan: togglePlanRoute,),
+      HomeNutricionista(
+        navigate: changeRoute,
+      ),
+      HomeNutricionista(
+        navigate: changeRoute,
+      )
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: widget.isPatient ? _routes[_activePage] : _routesN[_activePage],
+      body: IndexedStack(
+        index: _activePage,
+        children: widget.isPatient ? _routes : _routesN,
+      ),
       bottomNavigationBar: CurvedNavigationBar(
+        index: _activePage,
         backgroundColor: Colors.transparent,
         items: _options(widget.isPatient),
         onTap: (index) {
@@ -65,7 +83,7 @@ class _MainNavigatorState extends State<MainNavigator> {
           size: 30,
         ),
         Icon(
-          Icons.person,
+          Icons.person_add,
           size: 30,
           color: customGreen,
         ),
@@ -81,5 +99,19 @@ class _MainNavigatorState extends State<MainNavigator> {
         ),
       ];
     }
+  }
+
+  changeRoute(r) {
+    setState(() {
+      _activePage = r;
+    });
+  }
+
+  togglePlanRoute(a) {
+    setState(() {
+      a
+          ? _routesN[1] = CreatePlan()
+          : _routesN[1] = NuevoPaciente(goToCreatePlan: togglePlanRoute,);
+    });
   }
 }

@@ -48,7 +48,6 @@ class _EstadoSaludState extends State<EstadoSalud> {
                           fontWeight: FontWeight.bold),
                     )),
                 Container(
-                  width: 190.0,
                   padding: EdgeInsets.symmetric(horizontal: 15.0),
                   decoration: BoxDecoration(
                       color: Colors.white,

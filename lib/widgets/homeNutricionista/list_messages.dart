@@ -64,7 +64,6 @@ class _ListMensajesState extends State<ListMensajes> {
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 15.0,
-                                // fontWeight: FontWeight.normal
                               ),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,

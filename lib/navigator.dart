@@ -1,4 +1,5 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:diet_and_control/utils/text_style.dart';
 import 'package:diet_and_control/views/create_plan.dart';
 import 'package:diet_and_control/views/home_nutritionist.dart';
 import 'package:diet_and_control/views/home_patient.dart';
@@ -17,7 +18,6 @@ class _MainNavigatorState extends State<MainNavigator> {
   List<Widget> _routes = [HomePatient(), HomePatient(), HomePatient()];
   List<Widget> _routesN = [];
   int _activePage = 0;
-  Color customGreen = Color.fromRGBO(0, 214, 129, 1.0);
 
   @override
   void initState() {

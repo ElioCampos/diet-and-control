@@ -1,4 +1,5 @@
 import 'package:diet_and_control/models/meal.dart';
+import 'package:diet_and_control/utils/text_style.dart';
 import 'package:diet_and_control/widgets/homeNutricionista/list_messages.dart';
 import 'package:flutter/material.dart';
 
@@ -11,8 +12,6 @@ Map days = {
   "Sa": "Sábado",
   "Do": "Domingo"
 };
-
-Color customGreen = Color.fromRGBO(0, 214, 129, 1.0);
 
 class NutritionalPlan extends StatefulWidget {
   const NutritionalPlan({Key? key}) : super(key: key);
@@ -191,7 +190,7 @@ class _NutritionalPlanState extends State<NutritionalPlan> {
             ),
           ),
           Divider(),
-          ListMensajes()
+          ListMensajes(),
         ],
       ),
     );
@@ -200,94 +199,94 @@ class _NutritionalPlanState extends State<NutritionalPlan> {
   Widget _mealDetails(int index, BuildContext context) {
     return StatefulBuilder(builder: (context, setState) {
       return Dialog(
-        // title: Text(meals[index].name),
-        child: Container(
-            height: 340,
-            padding: EdgeInsets.fromLTRB(10, 50, 20, 20),
-            child: Column(children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              padding: EdgeInsets.fromLTRB(10, 50, 20, 20),
+              child: Column(
                 children: [
-                  Expanded(
-                    child: Container(
-                      child: Column(
-                        children: [
-                          Text(meals[index].name,
-                              style: TextStyle(
-                                  fontSize: 24,
-                                  color: customGreen,
-                                  fontWeight: FontWeight.bold),
-                              textAlign: TextAlign.center),
-                          Container(
-                            padding: EdgeInsets.fromLTRB(10, 20, 20, 20),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(15.0),
-                              child: Image.network(
-                                meals[index].imageUrl,
-                                scale: 4,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Container(
+                          child: Column(
+                            children: [
+                              Text(meals[index].name,
+                                  style: TextStyle(
+                                      fontSize: 24,
+                                      color: customGreen,
+                                      fontWeight: FontWeight.bold),
+                                  textAlign: TextAlign.center),
+                              Container(
+                                padding: EdgeInsets.fromLTRB(10, 20, 20, 20),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(15.0),
+                                  child: Image.network(
+                                    meals[index].imageUrl,
+                                    scale: 4,
+                                  ),
+                                ),
                               ),
-                            ),
+                              Text(days[days.keys.elementAt(_selectedDay)],
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    color: customGreen,
+                                  ),
+                                  textAlign: TextAlign.center),
+                            ],
                           ),
-                          Text(days[days.keys.elementAt(_selectedDay)],
-                              style: TextStyle(
-                                fontSize: 20,
-                                color: customGreen,
-                              ),
-                              textAlign: TextAlign.center),
-                        ],
+                        ),
                       ),
-                    ),
+                      Container(
+                        padding: EdgeInsets.only(left: 10),
+                        child: Column(
+                          children: [
+                            infoText("Carbohidratos", true),
+                            infoText("30Kcal", false),
+                            Divider(),
+                            infoText("Proteínas", true),
+                            infoText("30Kcal", false),
+                            Divider(),
+                            infoText("Grasas", true),
+                            infoText("30Kcal", false),
+                            Divider(),
+                            Text(
+                              "Kcal totales",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.red,
+                                  fontSize: 20),
+                            ),
+                            Text(
+                              "90Kcal",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(fontSize: 20),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                  Container(
-                    padding: EdgeInsets.only(left: 10),
-                    child: Column(
-                      children: [
-                        _infoText("Carbohidratos", true),
-                        _infoText("30Kcal", false),
-                        Divider(),
-                        _infoText("Proteínas", true),
-                        _infoText("30Kcal", false),
-                        Divider(),
-                        _infoText("Grasas", true),
-                        _infoText("30Kcal", false),
-                        Divider(),
-                        Text(
-                          "Kcal totales",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.red,
-                              fontSize: 20),
-                        ),
-                        Text(
-                          "90Kcal",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 20),
-                        ),
-                      ],
+                  SizedBox(height: 10),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    style: ElevatedButton.styleFrom(primary: Colors.amber),
+                    child: Text(
+                      "Cerrar",
+                      style: TextStyle(color: Colors.black),
                     ),
                   ),
                 ],
               ),
-              SizedBox(height: 10),
-              ElevatedButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  style: ElevatedButton.styleFrom(primary: Colors.amber),
-                  child: Text("Cerrar", style: TextStyle(color: Colors.black),))
-            ])),
+            ),
+          ],
+        ),
       );
     });
-  }
-
-  Widget _infoText(String text, bool main) {
-    return Text(
-      text,
-      textAlign: TextAlign.center,
-      style: TextStyle(
-          fontWeight: main ? FontWeight.bold : null,
-          color: main ? customGreen : null),
-    );
   }
 }

@@ -15,32 +15,32 @@ class CustomTextFieldPassword extends StatefulWidget {
 }
 
 class _CustomTextFieldPasswordState extends State<CustomTextFieldPassword> {
-  bool isVissible = true;
+  bool isVisible = true;
 
   @override
   Widget build(BuildContext context) {
     return TextFieldContainer(
       child: TextField(
-        obscureText: isVissible,
+        obscureText: isVisible,
         onChanged: widget.onChanged,
         decoration: InputDecoration(
           border: InputBorder.none,
           icon: Icon(Icons.lock, color: Color.fromRGBO(0, 214, 129, 1),),
           hintText: widget.title,
-          suffixIcon: VisibilityIcon(),
+          suffixIcon: _visibilityIcon(),
         ),
       ),
     );
   }
 
-  Widget VisibilityIcon(){
+  Widget _visibilityIcon(){
     return IconButton(
       onPressed: (){
         setState(() {
-          isVissible = !isVissible;
+          isVisible = !isVisible;
         });
       }, 
-      icon: isVissible ? Icon(
+      icon: isVisible ? Icon(
           Icons.visibility, 
           color: Color.fromRGBO(0, 214, 129, 1)
         ):

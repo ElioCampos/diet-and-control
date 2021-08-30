@@ -1,7 +1,7 @@
+import 'package:diet_and_control/utils/text_style.dart';
 import 'package:diet_and_control/widgets/createPlan/list_meals.dart';
 import 'package:flutter/material.dart';
 
-Color customGreen = Color.fromRGBO(0, 214, 129, 1.0);
 
 class NewPlan extends StatefulWidget {
   const NewPlan({Key? key}) : super(key: key);
@@ -87,7 +87,6 @@ class _NewPlanState extends State<NewPlan> {
                 ),
                 Divider(),
                 MealsList(),
-
               ],
             ),
           ),

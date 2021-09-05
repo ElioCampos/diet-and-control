@@ -1,4 +1,3 @@
-import 'package:diet_and_control/models/messages.dart';
 import 'package:diet_and_control/utils/text_style.dart';
 import 'package:flutter/material.dart';
 
@@ -43,7 +42,6 @@ class _ChatUIState extends State<ChatUI> {
           color: customGreen,
         ),
         title: Row(
-          // mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             CircleAvatar(
               backgroundImage: NetworkImage(
@@ -99,27 +97,21 @@ class _ChatUIState extends State<ChatUI> {
                     child: Scrollbar(
                       child: SingleChildScrollView(
                         scrollDirection: Axis.vertical,
-                        // reverse: true,
                         child: SizedBox(
-                          // height: 190.0,
                           child: TextField(
                             cursorColor: customGreen,
                             controller: messageText,
                             maxLines: 10,
-                            // minLines: 1,
                             decoration: InputDecoration(
                               border: InputBorder.none,
                               focusedBorder: InputBorder.none,
                               enabledBorder: InputBorder.none,
                               errorBorder: InputBorder.none,
                               disabledBorder: InputBorder.none,
-
-                              // border: OutlineInputBorder(),
                               floatingLabelBehavior:
                                   FloatingLabelBehavior.never,
                               labelText: 'Enviar un mensaje...',
                               hintText: "Mensaje",
-                              // errorText: descValid ? null : 'Por favor, ingrese una descripción',
                             ),
                           ),
                         ),

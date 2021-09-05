@@ -2,7 +2,6 @@ import 'package:diet_and_control/utils/text_style.dart';
 import 'package:diet_and_control/widgets/createPlan/list_meals.dart';
 import 'package:flutter/material.dart';
 
-
 class NewPlan extends StatefulWidget {
   const NewPlan({Key? key}) : super(key: key);
 
@@ -23,10 +22,8 @@ class _NewPlanState extends State<NewPlan> {
               children: [
                 IconButton(
                   onPressed: () {
-                    if (_currentWeek == 1) {
-                      print(_currentWeek);
-                    } else {
-                      setState(() {
+                    if (_currentWeek > 1) {
+                     setState(() {
                         _currentWeek--;
                       });
                     }

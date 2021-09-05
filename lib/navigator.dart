@@ -3,6 +3,7 @@ import 'package:diet_and_control/utils/text_style.dart';
 import 'package:diet_and_control/views/create_plan.dart';
 import 'package:diet_and_control/views/home_nutritionist.dart';
 import 'package:diet_and_control/views/home_patient.dart';
+import 'package:diet_and_control/views/messages_page.dart';
 import 'package:diet_and_control/views/my_patients.dart';
 import 'package:diet_and_control/views/new_patient.dart';
 import 'package:diet_and_control/views/view_plan.dart';
@@ -30,9 +31,7 @@ class _MainNavigatorState extends State<MainNavigator> {
       ),
       NuevoPaciente(goToCreatePlan: togglePlanRoute,),
       MyPatients(),
-      HomeNutricionista(
-        navigate: changeRoute,
-      )
+      MessagesPage(),
     ];
   }
 
@@ -110,7 +109,7 @@ class _MainNavigatorState extends State<MainNavigator> {
   togglePlanRoute(a) {
     setState(() {
       a
-          ? _routesN[1] = CreatePlan()
+          ? _routesN[1] = CreatePlan(confirmPlan: togglePlanRoute,)
           : _routesN[1] = NuevoPaciente(goToCreatePlan: togglePlanRoute,);
     });
   }

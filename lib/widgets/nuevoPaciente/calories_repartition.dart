@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pie_chart/pie_chart.dart';
 
 class ReparticionKCal extends StatefulWidget {
   const ReparticionKCal({Key? key}) : super(key: key);
@@ -9,7 +10,11 @@ class ReparticionKCal extends StatefulWidget {
 
 class _ReparticionKCalState extends State<ReparticionKCal> {
   final columns = ["%", "Kcal", "g", "g/Kg"];
-
+  Map<String, double> dataMap = {
+    "Desayuno": 25,
+    "Almuerzo": 45,
+    "Cena": 30,
+  };
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -101,51 +106,48 @@ class _ReparticionKCalState extends State<ReparticionKCal> {
             padding: const EdgeInsets.symmetric(vertical: 15.0),
             child: Table(
               children: [
-                TableRow(
-                  children: [
-                    nameCeldas("", Colors.transparent, Colors.transparent),
-                    nameCeldas("%", Color.fromRGBO(59, 203, 90, 1.0), Colors.white),
-                    nameCeldas("Kcal", Color.fromRGBO(59, 203, 90, 1.0), Colors.white),
-                    nameCeldas("g", Color.fromRGBO(59, 203, 90, 1.0), Colors.white),
-                    nameCeldas("g/Kg", Color.fromRGBO(59, 203, 90, 1.0), Colors.white)
-                  ]
-                ),
-                TableRow(
-                  children: [
-                    nameCeldas("Carbohidratos", Color.fromRGBO(59, 203, 90, 1.0), Colors.white),
-                    nameCeldas("25", Colors.white, Colors.black),
-                    nameCeldas("500", Colors.white, Colors.black),
-                    nameCeldas("106", Colors.white, Colors.black),
-                    nameCeldas("1.45", Colors.white, Colors.black)
-                  ]
-                ),
-                TableRow(
-                  children: [
-                    nameCeldas("Proteinas", Color.fromRGBO(59, 203, 90, 1.0), Colors.white),
-                    nameCeldas("30", Colors.white, Colors.black),
-                    nameCeldas("600", Colors.white, Colors.black),
-                    nameCeldas("122", Colors.white, Colors.black),
-                    nameCeldas("2.22", Colors.white, Colors.black)
-                  ]
-                ),
-                TableRow(
-                  children: [
-                    nameCeldas("Grasas", Color.fromRGBO(59, 203, 90, 1.0), Colors.white),
-                    nameCeldas("45", Colors.white, Colors.black),
-                    nameCeldas("900", Colors.white, Colors.black),
-                    nameCeldas("278", Colors.white, Colors.black),
-                    nameCeldas("5.40", Colors.white, Colors.black)
-                  ]
-                ),
-                TableRow(
-                  children: [
-                    nameCeldas("K Totales", Colors.redAccent, Colors.white),
-                    nameCeldas("100", Colors.white, Colors.red),
-                    nameCeldas("", Colors.transparent, Colors.transparent),
-                    nameCeldas("", Colors.transparent, Colors.transparent),
-                    nameCeldas("", Colors.transparent, Colors.transparent)
-                  ]
-                )
+                TableRow(children: [
+                  nameCeldas("", Colors.transparent, Colors.transparent),
+                  nameCeldas(
+                      "%", Color.fromRGBO(59, 203, 90, 1.0), Colors.white),
+                  nameCeldas(
+                      "Kcal", Color.fromRGBO(59, 203, 90, 1.0), Colors.white),
+                  nameCeldas(
+                      "g", Color.fromRGBO(59, 203, 90, 1.0), Colors.white),
+                  nameCeldas(
+                      "g/Kg", Color.fromRGBO(59, 203, 90, 1.0), Colors.white)
+                ]),
+                TableRow(children: [
+                  nameCeldas("Carbohidratos", Color.fromRGBO(59, 203, 90, 1.0),
+                      Colors.white),
+                  nameCeldas("25", Colors.white, Colors.black),
+                  nameCeldas("500", Colors.white, Colors.black),
+                  nameCeldas("106", Colors.white, Colors.black),
+                  nameCeldas("1.45", Colors.white, Colors.black)
+                ]),
+                TableRow(children: [
+                  nameCeldas("Proteinas", Color.fromRGBO(59, 203, 90, 1.0),
+                      Colors.white),
+                  nameCeldas("30", Colors.white, Colors.black),
+                  nameCeldas("600", Colors.white, Colors.black),
+                  nameCeldas("122", Colors.white, Colors.black),
+                  nameCeldas("2.22", Colors.white, Colors.black)
+                ]),
+                TableRow(children: [
+                  nameCeldas(
+                      "Grasas", Color.fromRGBO(59, 203, 90, 1.0), Colors.white),
+                  nameCeldas("45", Colors.white, Colors.black),
+                  nameCeldas("900", Colors.white, Colors.black),
+                  nameCeldas("278", Colors.white, Colors.black),
+                  nameCeldas("5.40", Colors.white, Colors.black)
+                ]),
+                TableRow(children: [
+                  nameCeldas("K Totales", Colors.redAccent, Colors.white),
+                  nameCeldas("100", Colors.white, Colors.red),
+                  nameCeldas("", Colors.transparent, Colors.transparent),
+                  nameCeldas("", Colors.transparent, Colors.transparent),
+                  nameCeldas("", Colors.transparent, Colors.transparent)
+                ])
               ],
             ),
           ),
@@ -154,10 +156,9 @@ class _ReparticionKCalState extends State<ReparticionKCal> {
             child: Text(
               "Requerimiento energético del día:",
               style: TextStyle(
-                color: Colors.grey,
-                fontWeight: FontWeight.bold,
-                fontSize: 17.0
-              ),
+                  color: Colors.grey,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 17.0),
             ),
           ),
           Row(
@@ -166,9 +167,9 @@ class _ReparticionKCalState extends State<ReparticionKCal> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  requerimentText("Desayuno: "+"25%", 15.0),
-                  requerimentText("Almuerzo: "+"45%", 15.0),
-                  requerimentText("Cena: "+"30%", 15.0),
+                  requerimentText("Desayuno: " + "25%", 15.0),
+                  requerimentText("Almuerzo: " + "45%", 15.0),
+                  requerimentText("Cena: " + "30%", 15.0),
                   requerimentText("Calorías Totales: ", 17.0),
                 ],
               ),
@@ -182,44 +183,46 @@ class _ReparticionKCalState extends State<ReparticionKCal> {
                 ],
               )
             ],
+          ),
+          PieChart(
+            dataMap: dataMap,
+            chartLegendSpacing: 30,
+            chartValuesOptions: ChartValuesOptions(
+              showChartValueBackground: true,
+              showChartValues: true,
+              showChartValuesInPercentage: true,
+              showChartValuesOutside: false,
+              decimalPlaces: 0,
+            ),
           )
-        ]
-      )
-    );
+        ]));
   }
 
-  Widget requerimentText(String text, double size){
+  Widget requerimentText(String text, double size) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5.0),
       child: Text(
         text,
         style: TextStyle(
-          color: Color.fromRGBO(59, 203, 90, 1.0),
-          fontWeight: FontWeight.bold,
-          fontSize: size
-        ),
+            color: Color.fromRGBO(59, 203, 90, 1.0),
+            fontWeight: FontWeight.bold,
+            fontSize: size),
       ),
     );
   }
 
-  Widget nameCeldas(String name, Color color, Color textColor){
+  Widget nameCeldas(String name, Color color, Color textColor) {
     return Container(
       padding: EdgeInsets.all(3.0),
       height: 40.0,
       decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(20.0)
-      ),
+          color: color, borderRadius: BorderRadius.circular(20.0)),
       child: Center(
-        child: Text(
-          name,
-          style: TextStyle(
-            color: textColor,
-            fontWeight: FontWeight.bold
-          ),
-          textAlign: TextAlign.center,
-        )
-      ),
+          child: Text(
+        name,
+        style: TextStyle(color: textColor, fontWeight: FontWeight.bold),
+        textAlign: TextAlign.center,
+      )),
     );
   }
 }

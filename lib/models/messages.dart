@@ -6,9 +6,9 @@ class Message{
 }
 
 List<Message> messages = [
-  Message(user: "Rodrigo", message: "Hola, que tal va la dieta."),
-  Message(user: "Rodrigo", message: "Hola, que tal va la dieta."),
-  Message(user: "Rodrigo", message: "Hola, que tal va la dieta."),
-  Message(user: "Rodrigo", message: "Hola, que tal va la dieta."),
-  Message(user: "Rodrigo", message: "Hola, que tal va la dieta.")
+  Message(user: "Rodrigo", message: "Sigue así"),
+  Message(user: "Rodrigo", message: "Sigue así"),
+  Message(user: "Rodrigo", message: "Sigue así"),
+  Message(user: "Rodrigo", message: "Sigue así"),
+  Message(user: "Rodrigo", message: "Sigue así")
 ];

@@ -19,7 +19,7 @@ class _HomePatientState extends State<HomePatient> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Divider(),
+                SizedBox(height: 10),
                 Row(
                   children: [
                     Image.asset('assets/logo.png', height: 70.0),

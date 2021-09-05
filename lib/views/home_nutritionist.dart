@@ -52,7 +52,7 @@ class _HomeNutricionistaState extends State<HomeNutricionista> {
                         fontSize: 20.0),
                   ),
                 ),
-                GestureDetector(
+                InkResponse(
                   onTap: () {
                     widget.navigate(1);
                   },
@@ -92,7 +92,12 @@ class _HomeNutricionistaState extends State<HomeNutricionista> {
                   ),
                 ),
                 ListPacientes(),
-                ListMensajes()
+                InkResponse(
+                  onTap: () {
+                    widget.navigate(3);
+                  },
+                  child: ListMensajes(),
+                ),
               ],
             ),
           ),

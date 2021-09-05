@@ -3,7 +3,9 @@ import 'package:diet_and_control/utils/text_style.dart';
 import 'package:diet_and_control/views/create_plan.dart';
 import 'package:diet_and_control/views/home_nutritionist.dart';
 import 'package:diet_and_control/views/home_patient.dart';
+import 'package:diet_and_control/views/my_patients.dart';
 import 'package:diet_and_control/views/new_patient.dart';
+import 'package:diet_and_control/views/view_plan.dart';
 import 'package:flutter/material.dart';
 
 class MainNavigator extends StatefulWidget {
@@ -27,9 +29,7 @@ class _MainNavigatorState extends State<MainNavigator> {
         navigate: changeRoute,
       ),
       NuevoPaciente(goToCreatePlan: togglePlanRoute,),
-      HomeNutricionista(
-        navigate: changeRoute,
-      ),
+      MyPatients(),
       HomeNutricionista(
         navigate: changeRoute,
       )

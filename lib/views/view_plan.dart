@@ -189,48 +189,39 @@ class _ViewPlanState extends State<ViewPlan> {
                                       },
                                     );
                                   },
-                                  child: Column(
-                                    children: [
-                                      Text(
-                                        meals[index].type,
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20,
-                                        ),
-                                      ),
-                                      Divider(),
-                                      Text(
-                                        meals[index].name,
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15,
-                                          color: Color.fromRGBO(0, 230, 137, 1),
-                                        ),
-                                      ),
-                                      Center(
-                                        child: Text(
-                                          meals[index].description,
-                                          textAlign: TextAlign.center,
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          meals[index].type,
                                           style: TextStyle(
-                                            fontWeight: FontWeight.w300,
-                                            fontSize: 13,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20,
                                           ),
                                         ),
-                                      ),
-                                    ],
+                                        Divider(),
+                                        Text(
+                                          meals[index].name,
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 15,
+                                            color: Color.fromRGBO(0, 230, 137, 1),
+                                          ),
+                                        ),
+                                        Center(
+                                          child: Text(
+                                            meals[index].description,
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.w300,
+                                              fontSize: 13,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ),
-                              Expanded(
-                                child: Checkbox(
-                                  checkColor: Colors.white,
-                                  activeColor: Color.fromRGBO(0, 230, 137, 1),
-                                  value: meals[index].completed,
-                                  onChanged: (bool? value) {
-                                    setState(() {
-                                      meals[index].completed = value!;
-                                    });
-                                  },
                                 ),
                               ),
                             ],

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pie_chart/pie_chart.dart';
+//import 'package:pie_chart/pie_chart.dart';
 
 class ReparticionKCal extends StatefulWidget {
   const ReparticionKCal({Key? key}) : super(key: key);
@@ -10,11 +10,11 @@ class ReparticionKCal extends StatefulWidget {
 
 class _ReparticionKCalState extends State<ReparticionKCal> {
   final columns = ["%", "Kcal", "g", "g/Kg"];
-  Map<String, double> dataMap = {
-    "Desayuno": 25,
-    "Almuerzo": 45,
-    "Cena": 30,
-  };
+  // Map<String, double> dataMap = {
+  //   "Desayuno": 25,
+  //   "Almuerzo": 45,
+  //   "Cena": 30,
+  // };
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -184,17 +184,17 @@ class _ReparticionKCalState extends State<ReparticionKCal> {
               )
             ],
           ),
-          PieChart(
-            dataMap: dataMap,
-            chartLegendSpacing: 30,
-            chartValuesOptions: ChartValuesOptions(
-              showChartValueBackground: true,
-              showChartValues: true,
-              showChartValuesInPercentage: true,
-              showChartValuesOutside: false,
-              decimalPlaces: 0,
-            ),
-          )
+          // PieChart(
+          //   dataMap: dataMap,
+          //   chartLegendSpacing: 30,
+          //   chartValuesOptions: ChartValuesOptions(
+          //     showChartValueBackground: true,
+          //     showChartValues: true,
+          //     showChartValuesInPercentage: true,
+          //     showChartValuesOutside: false,
+          //     decimalPlaces: 0,
+          //   ),
+          // )
         ]));
   }
 

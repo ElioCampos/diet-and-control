@@ -10,8 +10,10 @@ class DatosPersonales extends StatefulWidget {
 class _DatosPersonalesState extends State<DatosPersonales> {
   DateTime _date = new DateTime.now();
   String _dateFormat = "";
-  String? valueChoose;
-  List activities = ["Postrado en cama", "Baja actividad"];
+  String? valueChooseActivity;
+  String? valueChooseSex;
+  List sex = ["Hombre", "Mujer"];
+  List activities = ["Poco o ningún", "Ejercicio ligero", "Ejercicio moderado", "Ejercicio fuerte", "Ejercicio muy fuerte"];
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +92,56 @@ class _DatosPersonalesState extends State<DatosPersonales> {
                       ],
                     ),
                   ),
-                  _textField("Sexo"),
+                  Padding(
+                    padding: const EdgeInsets.all(3.0),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 85.0,
+                          child: Text(
+                            "Sexo: ",
+                            style: TextStyle(
+                              color: Color.fromRGBO(59, 203, 90, 1.0),
+                              fontWeight: FontWeight.bold
+                            ),
+                          )
+                        ),
+                        Container(
+                          width: 150.0,
+                          padding: EdgeInsets.symmetric(horizontal: 15.0),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(30.0),
+                            border: Border.all(color: Color.fromRGBO(112, 112, 112, 1.0))
+                          ),
+                          child: DropdownButton<String>(
+                            value: valueChooseSex,
+                            icon: Icon(Icons.arrow_downward),
+                            elevation: 16,
+                            onChanged: (value){
+                              setState(() {
+                                this.valueChooseSex = value;
+                                          });
+                            },
+                            items: sex.map((valueItem) {
+                              return DropdownMenuItem<String>(
+                                value: valueItem,
+                                child: Container(
+                                  width: 90.0,
+                                  child: Text(
+                                    valueItem,
+                                    style: TextStyle(fontSize: 15.0),
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                )
+                              );
+                            }).toList()
+                          ),
+                        ),
+                      ]
+                    ),
+                  ),
                   _textField("Teléfono"),
                   _textField("DNI"),
                   Padding(
@@ -116,12 +167,12 @@ class _DatosPersonalesState extends State<DatosPersonales> {
                             border: Border.all(color: Color.fromRGBO(112, 112, 112, 1.0))
                           ),
                           child: DropdownButton<String>(
-                            value: valueChoose,
+                            value: valueChooseActivity,
                             icon: Icon(Icons.arrow_downward),
                             elevation: 16,
                             onChanged: (value){
                               setState(() {
-                                this.valueChoose = value;
+                                this.valueChooseActivity = value;
                                           });
                             },
                             items: activities.map((valueItem) {

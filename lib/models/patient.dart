@@ -26,7 +26,7 @@ List<Paciente> pacientes = [
     progress: 0.70,
     status: "Al día",
     enfermedad: "Diabetes y obeso",
-    statusDay: {"Lu": 1, "Ma": 1, "Mi": 2, "Ju": 3, "Vi": 0, "Sa": 0, "Do": 0}
+    statusDay: {"Lu": 1, "Ma": 1, "Mi": 1, "Ju": 1, "Vi": 0, "Sa": 0, "Do": 0}
   ),
   Paciente(
     name: "Rodrigo Morales",
@@ -35,7 +35,7 @@ List<Paciente> pacientes = [
     progress: 0.70,
     status: "Pendiente",
     enfermedad: "Obesidad grave",
-    statusDay: {"Lu": 1, "Ma": 1, "Mi": 2, "Ju": 2, "Vi": 3, "Sa": 0, "Do": 0}
+    statusDay: {"Lu": 1, "Ma": 1, "Mi": 1, "Ju": 1, "Vi": 1, "Sa": 0, "Do": 0}
   ),
   Paciente(
     name: "Rodrigo Morales",
@@ -44,7 +44,7 @@ List<Paciente> pacientes = [
     progress: 0.70,
     status: "Al día",
     enfermedad: "Hipertensión",
-    statusDay: {"Lu": 1, "Ma": 2, "Mi": 1, "Ju": 3, "Vi": 0, "Sa": 0, "Do": 0}
+    statusDay: {"Lu": 1, "Ma": 1, "Mi": 1, "Ju": 1, "Vi": 0, "Sa": 0, "Do": 0}
   ),
   Paciente(
     name: "Rodrigo Morales",
@@ -53,7 +53,7 @@ List<Paciente> pacientes = [
     progress: 0.70,
     status: "Al día",
     enfermedad: "Diabetes y obeso",
-    statusDay: {"Lu": 1, "Ma": 1, "Mi": 1, "Ju": 1, "Vi": 3, "Sa": 0, "Do": 0}
+    statusDay: {"Lu": 1, "Ma": 1, "Mi": 1, "Ju": 1, "Vi": 1, "Sa": 0, "Do": 0}
   ),
   Paciente(
     name: "Rodrigo Morales",
@@ -62,7 +62,7 @@ List<Paciente> pacientes = [
     progress: 0.70,
     status: "Al día",
     enfermedad: "Diabetes y obeso",
-    statusDay: {"Lu": 1, "Ma": 3, "Mi": 0, "Ju": 0, "Vi": 0, "Sa": 0, "Do": 0}
+    statusDay: {"Lu": 1, "Ma": 1, "Mi": 0, "Ju": 0, "Vi": 0, "Sa": 0, "Do": 0}
   ),
   Paciente(
     name: "Rodrigo Morales",
@@ -71,7 +71,7 @@ List<Paciente> pacientes = [
     progress: 0.70,
     status: "Al día",
     enfermedad: "Hipertensión",
-    statusDay: {"Lu": 1, "Ma": 1, "Mi": 2, "Ju": 3, "Vi": 0, "Sa": 0, "Do": 0}
+    statusDay: {"Lu": 1, "Ma": 1, "Mi": 1, "Ju": 1, "Vi": 0, "Sa": 0, "Do": 0}
   ),
   Paciente(
     name: "Rodrigo Morales",
@@ -80,7 +80,7 @@ List<Paciente> pacientes = [
     progress: 0.70,
     status: "Al día",
     enfermedad: "Hipertensión",
-    statusDay: {"Lu": 1, "Ma": 1, "Mi": 2, "Ju": 3, "Vi": 0, "Sa": 0, "Do": 0}
+    statusDay: {"Lu": 1, "Ma": 1, "Mi": 1, "Ju": 1, "Vi": 0, "Sa": 0, "Do": 0}
   ),
   Paciente(
     name: "Rodrigo Morales",
@@ -89,6 +89,6 @@ List<Paciente> pacientes = [
     progress: 0.70,
     status: "Al día",
     enfermedad: "Hipertensión",
-    statusDay: {"Lu": 1, "Ma": 1, "Mi": 2, "Ju": 3, "Vi": 0, "Sa": 0, "Do": 0}
+    statusDay: {"Lu": 1, "Ma": 1, "Mi": 1, "Ju": 1, "Vi": 0, "Sa": 0, "Do": 0}
   )
 ];

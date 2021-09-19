@@ -53,12 +53,8 @@ class _ViewStatusState extends State<ViewStatus> {
   Color statusColor(value){
     if(value == 0){
       return Color.fromRGBO(109, 109, 109, 1);
-    }else if(value == 1){
-      return Color.fromRGBO(0, 214, 129, 1);
-    }else if(value == 2){
-      return Color.fromRGBO(255, 120, 4, 1);
     }else{
-      return Color.fromRGBO(255, 244, 137, 1);
+      return Color.fromRGBO(0, 214, 129, 1);
     }
   }
 }

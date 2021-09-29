@@ -68,14 +68,16 @@ class _MessagesPageState extends State<MessagesPage> {
                               subtitle: Text(messages[i].message),
                               leading: CircleAvatar(
                                 backgroundImage: NetworkImage(
-                                    "https://static-cdn.jtvnw.net/jtv_user_pictures/986abe5c-d7ee-4f2b-818f-a5a421e481f2-profile_image-300x300.png"),
+                                    "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y&s=128"),
                                 backgroundColor: customGreen,
                               ),
                               onTap: () {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (BuildContext context) => ChatUI(username: messages[i].user,),
+                                    builder: (BuildContext context) => ChatUI(
+                                      username: messages[i].user,
+                                    ),
                                   ),
                                 );
                               },

@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 class CustomTextFieldPassword extends StatefulWidget {
   final ValueChanged<String> onChanged;
   final String title;
-  const CustomTextFieldPassword({ 
-    Key? key,
-    required this.onChanged,
-    required this.title
-  }) : super(key: key);
+  final TextEditingController controller;
+  const CustomTextFieldPassword(
+      {Key? key, required this.onChanged, required this.title, required this.controller})
+      : super(key: key);
 
   @override
-  _CustomTextFieldPasswordState createState() => _CustomTextFieldPasswordState();
+  _CustomTextFieldPasswordState createState() =>
+      _CustomTextFieldPasswordState();
 }
 
 class _CustomTextFieldPasswordState extends State<CustomTextFieldPassword> {
@@ -23,9 +23,13 @@ class _CustomTextFieldPasswordState extends State<CustomTextFieldPassword> {
       child: TextField(
         obscureText: isVisible,
         onChanged: widget.onChanged,
+        controller: widget.controller,
         decoration: InputDecoration(
           border: InputBorder.none,
-          icon: Icon(Icons.lock, color: Color.fromRGBO(0, 214, 129, 1),),
+          icon: Icon(
+            Icons.lock,
+            color: Color.fromRGBO(0, 214, 129, 1),
+          ),
           hintText: widget.title,
           suffixIcon: _visibilityIcon(),
         ),
@@ -33,21 +37,16 @@ class _CustomTextFieldPasswordState extends State<CustomTextFieldPassword> {
     );
   }
 
-  Widget _visibilityIcon(){
+  Widget _visibilityIcon() {
     return IconButton(
-      onPressed: (){
-        setState(() {
-          isVisible = !isVisible;
-        });
-      }, 
-      icon: isVisible ? Icon(
-          Icons.visibility, 
-          color: Color.fromRGBO(0, 214, 129, 1)
-        ):
-        Icon(
-          Icons.visibility_off, 
-          color: Color.fromRGBO(0, 214, 129, 1)
-        )
-    ); 
+        onPressed: () {
+          setState(() {
+            isVisible = !isVisible;
+          });
+        },
+        icon: isVisible
+            ? Icon(Icons.visibility, color: Color.fromRGBO(0, 214, 129, 1))
+            : Icon(Icons.visibility_off,
+                color: Color.fromRGBO(0, 214, 129, 1)));
   }
 }

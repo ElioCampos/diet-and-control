@@ -1,17 +1,9 @@
+import 'package:diet_and_control/modules/controllers/new_patient_controller/new_patient_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:get/state_manager.dart';
 
-class EstadoSalud extends StatefulWidget {
+class EstadoSalud extends GetView<NewPatientController> {
   const EstadoSalud({Key? key}) : super(key: key);
-
-  @override
-  _EstadoSaludState createState() => _EstadoSaludState();
-}
-
-class _EstadoSaludState extends State<EstadoSalud> {
-  String? valueChooseActual;
-  String? valueChooseAnt;
-  List enfermedades = ["Postrado en cama", "Baja actividad"];
-  List options = [];
 
   @override
   Widget build(BuildContext context) {
@@ -54,54 +46,62 @@ class _EstadoSaludState extends State<EstadoSalud> {
                       borderRadius: BorderRadius.circular(30.0),
                       border: Border.all(
                           color: Color.fromRGBO(112, 112, 112, 1.0))),
-                  child: DropdownButton<String>(
-                      value: valueChooseActual,
-                      icon: Icon(Icons.arrow_downward),
-                      elevation: 16,
-                      onChanged: (value) {
-                        setState(() {
-                          valueChooseActual = value;
-                        });
-                      },
-                      items: enfermedades.map((valueItem) {
-                        return DropdownMenuItem<String>(
-                            value: valueItem,
-                            child: Container(
-                              width: 130.0,
-                              child: Text(
-                                valueItem,
-                                style: TextStyle(fontSize: 15.0),
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ));
-                      }).toList()),
+                  child: Obx(
+                    () => DropdownButtonHideUnderline(
+                      child: DropdownButton<String>(
+                          value: controller.valueChooseActual.value,
+                          icon: Icon(Icons.arrow_downward),
+                          elevation: 16,
+                          onChanged: (value) {
+                            controller.valueChooseActual.value = value!;
+                          },
+                          items: controller.enfermedades.map((valueItem) {
+                            return DropdownMenuItem<String>(
+                                value: valueItem,
+                                child: Container(
+                                  width: 130.0,
+                                  child: Text(
+                                    valueItem,
+                                    style: TextStyle(fontSize: 15.0),
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ));
+                          }).toList()),
+                    ),
+                  ),
                 ),
               ],
             ),
-            SizedBox(height: 5.0,),
+            SizedBox(
+              height: 5.0,
+            ),
             Text(
               "Hábitos nocivos: ",
               style: TextStyle(
-                color: Color.fromRGBO(59, 203, 90, 1.0),
-                fontWeight: FontWeight.bold
-              ),
+                  color: Color.fromRGBO(59, 203, 90, 1.0),
+                  fontWeight: FontWeight.bold),
             ),
             Container(
-              child: Wrap(
-                spacing: 5.0,
-                runSpacing: 3.0,
-                children: [
-                  ChipOptions(chipName: "Alcoholismo", listOptions: options,),
-                  ChipOptions(chipName: "Tabaco", listOptions: options,),
-                  ChipOptions(chipName: "Drogas", listOptions: options)
-                ],
-              )
-            ),
+                child: Wrap(
+              spacing: 5.0,
+              runSpacing: 3.0,
+              children: [
+                ChipOptions(
+                  chipName: "Alcoholismo",
+                  listOptions: controller.options,
+                ),
+                ChipOptions(
+                  chipName: "Tabaco",
+                  listOptions: controller.options,
+                ),
+                ChipOptions(chipName: "Drogas", listOptions: controller.options)
+              ],
+            )),
             Row(
               children: [
                 Container(
-                  width: 150.0,
+                    width: 150.0,
                     child: Text(
                       "Enfermedad(s) Anteriores: ",
                       style: TextStyle(
@@ -115,50 +115,57 @@ class _EstadoSaludState extends State<EstadoSalud> {
                       borderRadius: BorderRadius.circular(30.0),
                       border: Border.all(
                           color: Color.fromRGBO(112, 112, 112, 1.0))),
-                  child: DropdownButton<String>(
-                      value: valueChooseAnt,
-                      icon: Icon(Icons.arrow_downward),
-                      elevation: 16,
-                      onChanged: (value) {
-                        setState(() {
-                          valueChooseAnt = value;
-                        });
-                      },
-                      items: enfermedades.map((valueItem) {
-                        return DropdownMenuItem<String>(
-                            value: valueItem,
-                            child: Container(
-                              width: 130.0,
-                              child: Text(
-                                valueItem,
-                                style: TextStyle(fontSize: 15.0),
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ));
-                      }).toList()),
+                  child: Obx(
+                    () => DropdownButtonHideUnderline(
+                      child: DropdownButton<String>(
+                          value: controller.valueChooseAnt.value,
+                          icon: Icon(Icons.arrow_downward),
+                          elevation: 16,
+                          onChanged: (value) {
+                            controller.valueChooseAnt.value = value!;
+                          },
+                          items: controller.enfermedades.map((valueItem) {
+                            return DropdownMenuItem<String>(
+                                value: valueItem,
+                                child: Container(
+                                  width: 130.0,
+                                  child: Text(
+                                    valueItem,
+                                    style: TextStyle(fontSize: 15.0),
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ));
+                          }).toList()),
+                    ),
+                  ),
                 ),
               ],
             ),
-            SizedBox(height: 5.0,),
+            SizedBox(
+              height: 5.0,
+            ),
             Text(
               "Algún familiar padece de: ",
               style: TextStyle(
-                color: Color.fromRGBO(59, 203, 90, 1.0),
-                fontWeight: FontWeight.bold
-              ),
+                  color: Color.fromRGBO(59, 203, 90, 1.0),
+                  fontWeight: FontWeight.bold),
             ),
             Container(
-              child: Wrap(
-                spacing: 5.0,
-                runSpacing: 3.0,
-                children: [
-                  ChipOptions(chipName: "Obesidad", listOptions: options,),
-                  ChipOptions(chipName: "Diabetes", listOptions: options),
-                  ChipOptions(chipName: "Hipertensión", listOptions: options)
-                ],
-              )
-            ),
+                child: Wrap(
+              spacing: 5.0,
+              runSpacing: 3.0,
+              children: [
+                ChipOptions(
+                  chipName: "Obesidad",
+                  listOptions: controller.options,
+                ),
+                ChipOptions(
+                    chipName: "Diabetes", listOptions: controller.options),
+                ChipOptions(
+                    chipName: "Hipertensión", listOptions: controller.options)
+              ],
+            )),
           ],
         ));
   }
@@ -168,11 +175,9 @@ class ChipOptions extends StatefulWidget {
   final String chipName;
   final List listOptions;
 
-  const ChipOptions({ 
-    Key? key,
-    required this.chipName,
-    required this.listOptions
-  }) : super(key: key);
+  const ChipOptions(
+      {Key? key, required this.chipName, required this.listOptions})
+      : super(key: key);
 
   @override
   _ChipOptionsState createState() => _ChipOptionsState();
@@ -187,12 +192,12 @@ class _ChipOptionsState extends State<ChipOptions> {
       label: Text(widget.chipName),
       selected: _isSelected,
       selectedColor: Colors.green,
-      onSelected: (isSelected){
+      onSelected: (isSelected) {
         setState(() {
           _isSelected = isSelected;
-          if(_isSelected == true){
+          if (_isSelected == true) {
             widget.listOptions.add(widget.chipName);
-          }else{
+          } else {
             widget.listOptions.remove(widget.chipName);
           }
           print(widget.listOptions);

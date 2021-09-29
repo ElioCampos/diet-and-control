@@ -1,5 +1,6 @@
 import 'package:diet_and_control/models/patient.dart';
-import 'package:diet_and_control/views/view_plan.dart';
+import 'package:diet_and_control/modules/views/view_plan.dart';
+
 import 'package:diet_and_control/widgets/myPatients/button_patients.dart';
 import 'package:diet_and_control/widgets/myPatients/data_patient.dart';
 import 'package:diet_and_control/widgets/myPatients/view_status.dart';

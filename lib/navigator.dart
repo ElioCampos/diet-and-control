@@ -1,13 +1,14 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:diet_and_control/utils/text_style.dart';
-import 'package:diet_and_control/views/create_plan.dart';
-import 'package:diet_and_control/views/home_nutritionist.dart';
-import 'package:diet_and_control/views/home_patient.dart';
-import 'package:diet_and_control/views/messages_page.dart';
-import 'package:diet_and_control/views/my_patients.dart';
-import 'package:diet_and_control/views/new_patient.dart';
-import 'package:diet_and_control/views/view_plan.dart';
+
 import 'package:flutter/material.dart';
+
+import 'modules/views/create_plan.dart';
+import 'modules/views/home_nutritionist.dart';
+import 'modules/views/home_patient.dart';
+import 'modules/views/messages_page.dart';
+import 'modules/views/my_patients.dart';
+import 'modules/views/new_patient.dart';
 
 class MainNavigator extends StatefulWidget {
   final bool isPatient;

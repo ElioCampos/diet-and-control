@@ -1,15 +1,12 @@
+import 'package:diet_and_control/modules/controllers/new_patient_controller/new_patient_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 //import 'package:pie_chart/pie_chart.dart';
 
-class ReparticionKCal extends StatefulWidget {
+class ReparticionKCal extends GetView<NewPatientController> {
   const ReparticionKCal({Key? key}) : super(key: key);
 
-  @override
-  _ReparticionKCalState createState() => _ReparticionKCalState();
-}
-
-class _ReparticionKCalState extends State<ReparticionKCal> {
-  final columns = ["%", "Kcal", "g", "g/Kg"];
   // Map<String, double> dataMap = {
   //   "Desayuno": 25,
   //   "Almuerzo": 45,
@@ -50,14 +47,16 @@ class _ReparticionKCalState extends State<ReparticionKCal> {
                   child: Row(children: [
                     Container(
                       width: 90.0,
-                      child: Text(
-                        "IMC: " + "25.5",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18.0),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
+                      child: Obx(
+                        () => Text(
+                          "IMC: ${controller.icmIndice.value}",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18.0),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
                     ),
                     Text(
@@ -104,54 +103,134 @@ class _ReparticionKCalState extends State<ReparticionKCal> {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 15.0),
-            child: Table(
-              children: [
-                TableRow(children: [
-                  nameCeldas("", Colors.transparent, Colors.transparent),
-                  nameCeldas(
-                      "%", Color.fromRGBO(59, 203, 90, 1.0), Colors.white),
-                  nameCeldas(
-                      "Kcal", Color.fromRGBO(59, 203, 90, 1.0), Colors.white),
-                  nameCeldas(
-                      "g", Color.fromRGBO(59, 203, 90, 1.0), Colors.white),
-                  nameCeldas(
-                      "g/Kg", Color.fromRGBO(59, 203, 90, 1.0), Colors.white)
-                ]),
-                TableRow(children: [
-                  nameCeldas("Carbohidratos", Color.fromRGBO(59, 203, 90, 1.0),
-                      Colors.white),
-                  nameCeldas("25", Colors.white, Colors.black),
-                  nameCeldas("500", Colors.white, Colors.black),
-                  nameCeldas("106", Colors.white, Colors.black),
-                  nameCeldas("1.45", Colors.white, Colors.black)
-                ]),
-                TableRow(children: [
-                  nameCeldas("Proteinas", Color.fromRGBO(59, 203, 90, 1.0),
-                      Colors.white),
-                  nameCeldas("30", Colors.white, Colors.black),
-                  nameCeldas("600", Colors.white, Colors.black),
-                  nameCeldas("122", Colors.white, Colors.black),
-                  nameCeldas("2.22", Colors.white, Colors.black)
-                ]),
-                TableRow(children: [
-                  nameCeldas(
-                      "Grasas", Color.fromRGBO(59, 203, 90, 1.0), Colors.white),
-                  nameCeldas("45", Colors.white, Colors.black),
-                  nameCeldas("900", Colors.white, Colors.black),
-                  nameCeldas("278", Colors.white, Colors.black),
-                  nameCeldas("5.40", Colors.white, Colors.black)
-                ]),
-                TableRow(children: [
-                  nameCeldas("K Totales", Colors.redAccent, Colors.white),
-                  nameCeldas("100", Colors.white, Colors.red),
-                  nameCeldas("", Colors.transparent, Colors.transparent),
-                  nameCeldas("", Colors.transparent, Colors.transparent),
-                  nameCeldas("", Colors.transparent, Colors.transparent)
-                ])
-              ],
+            child: Obx(
+              () => Table(
+                children: [
+                  TableRow(children: [
+                    nameCeldas("", Colors.transparent, Colors.transparent),
+                    nameCeldas(
+                        "%", Color.fromRGBO(59, 203, 90, 1.0), Colors.white),
+                    nameCeldas(
+                        "Kcal", Color.fromRGBO(59, 203, 90, 1.0), Colors.white),
+                    nameCeldas(
+                        "g", Color.fromRGBO(59, 203, 90, 1.0), Colors.white),
+                    nameCeldas(
+                        "g/Kg", Color.fromRGBO(59, 203, 90, 1.0), Colors.white)
+                  ]),
+                  TableRow(children: [
+                    nameCeldas("Carbohidratos",
+                        Color.fromRGBO(59, 203, 90, 1.0), Colors.white),
+                    _textField(context,
+                        textController: controller.carbohydrateController,
+                        type: 1),
+                    nameCeldas(
+                        (controller.carbohydrates *
+                                double.parse(controller.tbmIndice.value) /
+                                100)
+                            .toStringAsFixed(0),
+                        Colors.white,
+                        Colors.black),
+                    nameCeldas(
+                        (controller.carbohydrates *
+                                double.parse(controller.tbmIndice.value) /
+                                400)
+                            .toStringAsFixed(0),
+                        Colors.white,
+                        Colors.black),
+                    nameCeldas(
+                        (controller.carbohydrates *
+                                double.parse(controller.tbmIndice.value) /
+                                400 /
+                                double.parse(
+                                  (controller.weightController.text.length == 0
+                                      ? "0"
+                                      : controller.weightController.text),
+                                ))
+                            .toStringAsFixed(2),
+                        Colors.white,
+                        Colors.black)
+                  ]),
+                  TableRow(children: [
+                    nameCeldas("Proteinas", Color.fromRGBO(59, 203, 90, 1.0),
+                        Colors.white),
+                    _textField(context,
+                        textController: controller.proteinController, type: 2),
+                    nameCeldas(
+                        (controller.protein *
+                                double.parse(controller.tbmIndice.value) /
+                                100)
+                            .toStringAsFixed(0),
+                        Colors.white,
+                        Colors.black),
+                    nameCeldas(
+                        (controller.protein *
+                                double.parse(controller.tbmIndice.value) /
+                                400)
+                            .toStringAsFixed(0),
+                        Colors.white,
+                        Colors.black),
+                    nameCeldas(
+                        (controller.protein *
+                                double.parse(controller.tbmIndice.value) /
+                                400 /
+                                double.parse(
+                                  (controller.weightController.text.length == 0
+                                      ? "0"
+                                      : controller.weightController.text),
+                                ))
+                            .toStringAsFixed(2),
+                        Colors.white,
+                        Colors.black)
+                  ]),
+                  TableRow(children: [
+                    nameCeldas("Grasas", Color.fromRGBO(59, 203, 90, 1.0),
+                        Colors.white),
+                    _textField(context,
+                        textController: controller.fatController, type: 3),
+                    nameCeldas(
+                        (controller.fat *
+                                double.parse(controller.tbmIndice.value) /
+                                100)
+                            .toStringAsFixed(0),
+                        Colors.white,
+                        Colors.black),
+                    nameCeldas(
+                        (controller.fat *
+                                double.parse(controller.tbmIndice.value) /
+                                900)
+                            .toStringAsFixed(0),
+                        Colors.white,
+                        Colors.black),
+                    nameCeldas(
+                        (controller.fat *
+                                double.parse(controller.tbmIndice.value) /
+                                900 /
+                                double.parse(
+                                  (controller.weightController.text.length == 0
+                                      ? "0"
+                                      : controller.weightController.text),
+                                ))
+                            .toStringAsFixed(2),
+                        Colors.white,
+                        Colors.black)
+                  ]),
+                  TableRow(children: [
+                    nameCeldas("K Totales", Colors.redAccent, Colors.white),
+                    Obx(() {
+                      return nameCeldas(
+                          "${controller.fat.value + controller.carbohydrates.value + controller.protein.value}",
+                          Colors.white,
+                          Colors.red);
+                    }),
+                    nameCeldas("", Colors.transparent, Colors.transparent),
+                    nameCeldas("", Colors.transparent, Colors.transparent),
+                    nameCeldas("", Colors.transparent, Colors.transparent)
+                  ])
+                ],
+              ),
             ),
           ),
-          Padding(
+          /* Padding(
             padding: const EdgeInsets.symmetric(vertical: 8.0),
             child: Text(
               "Requerimiento energético del día:",
@@ -181,9 +260,9 @@ class _ReparticionKCalState extends State<ReparticionKCal> {
                   requerimentText("203 kcal", 15.0),
                   requerimentText("2630 kcal", 17.0),
                 ],
-              )
+              ) 
             ],
-          ),
+          ),*/
           // PieChart(
           //   dataMap: dataMap,
           //   chartLegendSpacing: 30,
@@ -207,6 +286,54 @@ class _ReparticionKCalState extends State<ReparticionKCal> {
             color: Color.fromRGBO(59, 203, 90, 1.0),
             fontWeight: FontWeight.bold,
             fontSize: size),
+      ),
+    );
+  }
+
+  _textField(BuildContext context,
+      {required TextEditingController textController, required int type}) {
+    return Padding(
+      padding: const EdgeInsets.all(3.0),
+      child: Container(
+        width: 70.0,
+        height: 42.0,
+        padding: EdgeInsets.symmetric(horizontal: 15.0),
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(30.0),
+            border: Border.all(color: Colors.transparent)),
+        child: TextField(
+          keyboardType: TextInputType.number,
+          inputFormatters: <TextInputFormatter>[
+            FilteringTextInputFormatter.digitsOnly
+          ],
+          controller: textController,
+          onChanged: (value) {
+            if (value.length > 2) {
+              FocusScope.of(context).requestFocus(FocusNode());
+              textController.text =
+                  textController.text[0] + textController.text[1];
+            }
+            if (value != "") {
+              switch (type) {
+                case 1:
+                  controller.carbohydrates.value =
+                      int.parse(textController.text);
+                  break;
+                case 2:
+                  controller.protein.value = int.parse(textController.text);
+                  break;
+                case 3:
+                  controller.fat.value = int.parse(textController.text);
+                  break;
+              }
+            }
+          },
+          style: TextStyle(fontSize: 15.0),
+          decoration: InputDecoration(
+            border: InputBorder.none,
+          ),
+        ),
       ),
     );
   }

@@ -10,7 +10,17 @@ class NewPlan extends StatefulWidget {
 }
 
 class _NewPlanState extends State<NewPlan> {
-  int _currentWeek = 1;
+  List _days = [
+    "Lunes",
+    "Martes",
+    "Miércoles",
+    "Jueves",
+    "Viernes",
+    "Sábado",
+    "Domingo"
+  ];
+  int _currentDay = 0;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -22,11 +32,13 @@ class _NewPlanState extends State<NewPlan> {
               children: [
                 IconButton(
                   onPressed: () {
-                    if (_currentWeek > 1) {
-                     setState(() {
-                        _currentWeek--;
-                      });
-                    }
+                    setState(() {
+                      if (_currentDay > 0) {
+                        _currentDay--;
+                      } else {
+                        _currentDay = 6;
+                      }
+                    });
                   },
                   icon: Icon(
                     Icons.keyboard_arrow_left,
@@ -34,7 +46,7 @@ class _NewPlanState extends State<NewPlan> {
                   ),
                 ),
                 Text(
-                  "Semana $_currentWeek",
+                  "${_days[_currentDay]}",
                   style: TextStyle(
                       color: customGreen,
                       fontSize: 20,
@@ -43,7 +55,12 @@ class _NewPlanState extends State<NewPlan> {
                 IconButton(
                   onPressed: () {
                     setState(() {
-                      _currentWeek++;
+                      if (_currentDay < 6) {
+                        _currentDay++;
+                      }
+                      else {
+                        _currentDay = 0;
+                      }
                     });
                   },
                   icon: Icon(

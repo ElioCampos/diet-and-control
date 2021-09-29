@@ -1,10 +1,20 @@
 import 'package:diet_and_control/modules/controllers/auth_controller/auth_controller.dart';
+import 'package:diet_and_control/utils/validators.dart';
 import 'package:diet_and_control/widgets/authWidget/custom_textfield.dart';
+import 'package:diet_and_control/widgets/authWidget/custom_textfield_email.dart';
 import 'package:diet_and_control/widgets/authWidget/custom_textfield_password.dart';
 import 'package:diet_and_control/widgets/authWidget/roudend_button.dart';
+import 'package:diet_and_control/widgets/authWidget/rounded_button_register.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loading_indicator/loading_indicator.dart';
+import 'login.dart';
+
+bool emailValid = true;
+bool nameValid = true;
+bool userValid = true;
+bool passValid = true;
+bool repeatPassValid = true;
 
 class Register extends GetView<AuthController> {
   @override
@@ -36,31 +46,59 @@ class Register extends GetView<AuthController> {
                           ),
                           CustomTextField(
                               hintText: "Nombres",
+                              isValid: nameValid,
                               icon: Icons.api,
                               controller: controller.nameController,
                               onChanged: (value) {}),
                           CustomTextField(
                               hintText: "Usuario",
+                              isValid: userValid,
                               icon: Icons.person,
                               controller: controller.usernameController,
                               onChanged: (value) {}),
-                          CustomTextField(
+                          CustomEmailField(
                               hintText: "Email",
+                              isValid: emailValid,
                               icon: Icons.email,
                               controller: controller.emailController,
                               onChanged: (value) {}),
                           CustomTextFieldPassword(
                               controller: controller.passwordController,
                               title: "Contraseña",
-                              onChanged: (value) {}),
+                              onChanged: (value) {},
+                              isRepeat: false),
                           CustomTextFieldPassword(
-                              controller: controller.repeatPasswordController,
+                              controller: controller.passwordController,
                               title: "Repetir Contraseña",
-                              onChanged: (value) {}),
+                              onChanged: (value) {},
+                              isRepeat: true,
+                              repeatController:
+                                  controller.repeatPasswordController),
                           RoundedButton(
-                            title: "Registrar",
+                            title: "Crear cuenta",
                             onTap: () async {
-                              await controller.signUpUser();
+                              emailValid =
+                                  validateEmail(controller.emailController);
+                              controller.nameController.text.isNotEmpty
+                                  ? nameValid = true
+                                  : nameValid = false;
+                              controller.usernameController.text.isNotEmpty
+                                  ? userValid = true
+                                  : userValid = false;
+                              controller.passwordController.text.isNotEmpty
+                                  ? passValid = true
+                                  : passValid = false;
+                              controller.repeatPasswordController.text ==
+                                      controller.passwordController.text
+                                  ? repeatPassValid = true
+                                  : repeatPassValid = false;
+                              if (nameValid &&
+                                  emailValid &&
+                                  userValid &&
+                                  passValid &&
+                                  repeatPassValid) {
+                                await controller.signUpUser();
+                              }
                             },
                           ),
                           Row(
@@ -82,39 +120,18 @@ class Register extends GetView<AuthController> {
                               ),
                             ],
                           ),
-                          GestureDetector(
-                            onTap: () {},
-                            child: Container(
-                              margin: EdgeInsets.symmetric(vertical: 30.0),
-                              padding: EdgeInsets.symmetric(vertical: 15.0),
-                              width: MediaQuery.of(context).size.width * 0.7,
-                              decoration: BoxDecoration(
-                                  color: Color.fromRGBO(255, 97, 29, 1),
-                                  borderRadius: BorderRadius.circular(30.0),
-                                  boxShadow: [
-                                    BoxShadow(
-                                        blurRadius: 3.0,
-                                        color: Colors.grey,
-                                        offset: Offset(1.0, 2.0))
-                                  ]),
-                              child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    Image.asset(
-                                      "assets/google.png",
-                                      height: 30.0,
-                                    ),
-                                    Text(
-                                      "Registrate con Google",
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20.0),
-                                    ),
-                                  ]),
-                            ),
-                          )
+                          RoundedButtonRegister(
+                            title: "Inicia sesión",
+                            onTap: () {
+                              Navigator.pop(context);
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Login(),
+                                ),
+                              );
+                            },
+                          ),
                         ],
                       ),
                     ),

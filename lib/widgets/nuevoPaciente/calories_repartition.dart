@@ -2,16 +2,10 @@ import 'package:diet_and_control/modules/controllers/new_patient_controller/new_
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-//import 'package:pie_chart/pie_chart.dart';
 
 class ReparticionKCal extends GetView<NewPatientController> {
   const ReparticionKCal({Key? key}) : super(key: key);
 
-  // Map<String, double> dataMap = {
-  //   "Desayuno": 25,
-  //   "Almuerzo": 45,
-  //   "Cena": 30,
-  // };
   @override
   Widget build(BuildContext context) {
     return Container(

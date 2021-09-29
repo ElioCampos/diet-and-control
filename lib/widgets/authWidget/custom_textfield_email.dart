@@ -1,18 +1,18 @@
 import 'package:diet_and_control/widgets/authWidget/textfield_container.dart';
 import 'package:flutter/material.dart';
 
-class CustomTextField extends StatefulWidget {
+class CustomEmailField extends StatefulWidget {
   final String hintText;
-  final IconData icon;
   final bool isValid;
+  final IconData icon;
   final ValueChanged<String> onChanged;
   final TextEditingController controller;
 
-  const CustomTextField(
+  const CustomEmailField(
       {Key? key,
       required this.hintText,
-      required this.icon,
       required this.isValid,
+      required this.icon,
       required this.onChanged,
       required this.controller})
       : super(key: key);
@@ -21,7 +21,7 @@ class CustomTextField extends StatefulWidget {
   _CustomTextFieldState createState() => _CustomTextFieldState();
 }
 
-class _CustomTextFieldState extends State<CustomTextField> {
+class _CustomTextFieldState extends State<CustomEmailField> {
   @override
   Widget build(BuildContext context) {
     return TextFieldContainer(
@@ -35,7 +35,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
             color: Color.fromRGBO(0, 214, 129, 1),
           ),
           hintText: widget.hintText,
-          errorText: widget.isValid ? null : "Complete este campo."
+          errorText: widget.isValid ? null : "No es un correo válido."
         ),
       ),
     );

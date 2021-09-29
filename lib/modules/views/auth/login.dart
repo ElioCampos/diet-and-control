@@ -9,6 +9,9 @@ import 'package:loading_indicator/loading_indicator.dart';
 
 import 'register.dart';
 
+bool emailValid = true;
+bool passValid = true;
+
 class Login extends GetView<AuthController> {
   @override
   Widget build(BuildContext context) {
@@ -42,16 +45,26 @@ class Login extends GetView<AuthController> {
                             icon: Icons.person,
                             onChanged: (value) {},
                             controller: controller.usernameController,
+                            isValid: userValid,
                           ),
                           CustomTextFieldPassword(
                             title: "Contraseña",
                             controller: controller.passwordController,
                             onChanged: (value) {},
+                            isRepeat: false,
                           ),
                           RoundedButton(
-                            title: "Iniciar Sesión",
+                            title: "Iniciar sesión",
                             onTap: () async {
-                              await controller.getSesion();
+                              controller.usernameController.text.isNotEmpty
+                                  ? userValid = true
+                                  : userValid = false;
+                              controller.passwordController.text.isNotEmpty
+                                  ? passValid = true
+                                  : passValid = false;
+                              if (userValid && passValid) {
+                                await controller.getSesion();
+                              }
                             },
                           ),
                           Row(
@@ -74,12 +87,15 @@ class Login extends GetView<AuthController> {
                             ],
                           ),
                           RoundedButtonRegister(
-                            title: "Registrate",
+                            title: "Crea una cuenta",
                             onTap: () {
+                              Navigator.pop(context);
                               Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => Register()));
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Register(),
+                                ),
+                              );
                             },
                           ),
                         ],

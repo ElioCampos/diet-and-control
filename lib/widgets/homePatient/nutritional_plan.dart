@@ -22,52 +22,11 @@ class NutritionalPlan extends StatefulWidget {
 
 class _NutritionalPlanState extends State<NutritionalPlan> {
   int _selectedDay = 0;
-  int _currentWeek = 1;
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Column(
         children: [
-          Container(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                IconButton(
-                  onPressed: () {
-                    if (_currentWeek == 1) {
-                      print(_currentWeek);
-                    } else {
-                      setState(() {
-                        _currentWeek--;
-                      });
-                    }
-                  },
-                  icon: Icon(
-                    Icons.keyboard_arrow_left,
-                    color: customGreen,
-                  ),
-                ),
-                Text(
-                  "Semana $_currentWeek",
-                  style: TextStyle(
-                      color: customGreen,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold),
-                ),
-                IconButton(
-                  onPressed: () {
-                    setState(() {
-                      _currentWeek++;
-                    });
-                  },
-                  icon: Icon(
-                    Icons.keyboard_arrow_right,
-                    color: customGreen,
-                  ),
-                ),
-              ],
-            ),
-          ),
           Container(
             decoration: BoxDecoration(
               border: Border.all(

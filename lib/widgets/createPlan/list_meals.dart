@@ -12,15 +12,52 @@ class MealsList extends StatefulWidget {
 class _MealsListState extends State<MealsList> {
   bool _viewDetails = false;
   int _currentSelection = 0;
-  List _days = [
-    "Lunes",
-    "Martes",
-    "Miércoles",
-    "Jueves",
-    "Viernes",
-    "Sábado",
-    "Domingo"
-  ];
+  List _dList = [];
+  List _aList = [];
+  List _cList = [];
+  List _sList = [];
+  Map _mealsCount = {
+    "Desayuno": 2,
+    "Almuerzo": 3,
+    "Cena": 2,
+    "Snack": 1,
+  };
+  Map _allMeals = {};
+
+  @override
+  void initState() {
+    super.initState();
+    for (var meal in meals) {
+      switch (meal.type) {
+        case "Desayuno":
+          {
+            _dList.add(meal);
+          }
+          break;
+        case "Almuerzo":
+          {
+            _aList.add(meal);
+          }
+          break;
+        case "Cena":
+          {
+            _cList.add(meal);
+          }
+          break;
+        case "Snack":
+          {
+            _sList.add(meal);
+          }
+          break;
+      }
+    }
+    _allMeals = {
+      "Desayuno": _dList,
+      "Almuerzo": _aList,
+      "Cena": _cList,
+      "Snack": _sList
+    };
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +65,7 @@ class _MealsListState extends State<MealsList> {
       scrollDirection: Axis.vertical,
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
-      itemCount: _viewDetails ? 1 : 3,
+      itemCount: _viewDetails ? 1 : 4,
       itemBuilder: (BuildContext context, i) {
         return SingleChildScrollView(
             physics: ScrollPhysics(),
@@ -45,8 +82,8 @@ class _MealsListState extends State<MealsList> {
                     children: [
                       Text(
                         _viewDetails
-                            ? meals[_currentSelection].type
-                            : meals[i].type,
+                            ? _allMeals.keys.elementAt(_currentSelection)
+                            : _allMeals.keys.elementAt(i),
                         style: TextStyle(
                             fontSize: 20,
                             color: customGreen,
@@ -72,19 +109,18 @@ class _MealsListState extends State<MealsList> {
   Widget _mealsByDay(int i) {
     return Visibility(
       child: ListView.builder(
-          itemCount: 7,
+          itemCount: _mealsCount[_allMeals.keys.elementAt(i)],
           shrinkWrap: true,
           scrollDirection: Axis.horizontal,
           itemBuilder: (context, index) {
             return Card(
               child: InkWell(
                 onTap: () {
-                  print(i);
-                  print(meals[i].name);
                   showDialog<void>(
                     context: context,
                     builder: (BuildContext context) {
-                      return _mealDetails(i, index, context);
+                      return _mealDetails(
+                          index, _allMeals.keys.elementAt(i), context);
                     },
                   );
                 },
@@ -96,22 +132,15 @@ class _MealsListState extends State<MealsList> {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(15.0),
                         child: Image.network(
-                          _viewDetails
-                              ? meals[_currentSelection].imageUrl
-                              : meals[i].imageUrl,
+                          _allMeals.values.elementAt(i)[index].imageUrl,
                         ),
                       ),
                     ),
                     Divider(),
                     Text(
-                        _viewDetails
-                            ? meals[_currentSelection].name
-                            : meals[i].name,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 17)),
-                    Text(
-                      _days[index],
-                      style: TextStyle(color: customGreen, fontSize: 15),
+                      _allMeals.values.elementAt(i)[index].name,
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
                     ),
                   ],
                 ),
@@ -127,10 +156,12 @@ class _MealsListState extends State<MealsList> {
             scrollDirection: Axis.vertical,
             shrinkWrap: true,
             crossAxisCount: 2,
-            childAspectRatio: 0.5,
+            childAspectRatio: 0.6,
             crossAxisSpacing: 5,
             mainAxisSpacing: 5,
-            children: List.generate(7, (index) {
+            children: List.generate(
+                _mealsCount[_allMeals.keys.elementAt(_currentSelection)],
+                (index) {
               return Container(
                 child: Card(
                   child: InkWell(
@@ -146,11 +177,16 @@ class _MealsListState extends State<MealsList> {
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(15.0),
                             child: Image.network(
-                              meals[_currentSelection].imageUrl,
+                              _allMeals.values
+                                  .elementAt(_currentSelection)[index]
+                                  .imageUrl,
                             ),
                           ),
                         ),
-                        Text(meals[_currentSelection].name,
+                        Text(
+                            _allMeals.values
+                                .elementAt(_currentSelection)[index]
+                                .name,
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 17)),
                         Divider(),
@@ -163,21 +199,8 @@ class _MealsListState extends State<MealsList> {
                               infoText("30Kcal", false),
                               infoText("Grasas", true),
                               infoText("30Kcal", false),
-                              Divider(),
-                              Container(
-                                padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                                child: Text(
-                                  meals[_currentSelection].description,
-                                  style: TextStyle(fontSize: 10),
-                                  textAlign: TextAlign.center,
-                                ),
-                              )
                             ],
                           ),
-                        ),
-                        Text(
-                          _days[index],
-                          style: TextStyle(color: customGreen, fontSize: 15),
                         ),
                       ],
                     ),
@@ -192,25 +215,40 @@ class _MealsListState extends State<MealsList> {
     );
   }
 
-  Widget _mealDetails(int index, int day, BuildContext context) {
+  Widget _mealDetails(int index, String type, BuildContext context) {
     return StatefulBuilder(builder: (context, setState) {
       return Dialog(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Container(
-              padding: EdgeInsets.fromLTRB(10, 20, 20, 20),
+              padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
               child: Column(
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Icon(Icons.keyboard_arrow_left, color: customGreen,),
+                      IconButton(
+                        onPressed: () {
+                          setState(() {
+                            if (index == 0){
+                              index = (_allMeals[type].length-1);
+                            }
+                            else  {
+                              index--;
+                            }
+                          });
+                        },
+                        icon: Icon(
+                          Icons.keyboard_arrow_left,
+                          color: customGreen,
+                        ),
+                      ),
                       Expanded(
                         child: Container(
                           child: Column(
                             children: [
-                              Text(meals[index].name,
+                              Text(_allMeals[type][index].name,
                                   style: TextStyle(
                                       fontSize: 24,
                                       color: customGreen,
@@ -221,17 +259,11 @@ class _MealsListState extends State<MealsList> {
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(15.0),
                                   child: Image.network(
-                                    meals[index].imageUrl,
+                                    _allMeals[type][index].imageUrl,
                                     scale: 4,
                                   ),
                                 ),
                               ),
-                              Text(_days[day],
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    color: customGreen,
-                                  ),
-                                  textAlign: TextAlign.center),
                             ],
                           ),
                         ),
@@ -263,25 +295,25 @@ class _MealsListState extends State<MealsList> {
                           ],
                         ),
                       ),
-                      Icon(Icons.keyboard_arrow_right, color: customGreen,),
+                      IconButton(
+                        onPressed: () {
+                          setState(() {
+                            if (index == (_allMeals[type].length-1)){
+                              index = 0;
+                            }
+                            else  {
+                              index++;
+                            }
+                          });
+                        },
+                        icon: Icon(
+                          Icons.keyboard_arrow_right,
+                          color: customGreen,
+                        ),
+                      ),
                     ],
                   ),
                   SizedBox(height: 10),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Flexible(
-                        child: Container(
-                          padding: EdgeInsets.fromLTRB(5, 0, 10, 0),
-                          child: Text(
-                            meals[index].description,
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ),
-                      Icon(Icons.edit),
-                    ],
-                  ),
                   Divider(),
                   Text(
                     "Requerimiento recomendado",

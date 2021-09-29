@@ -1,12 +1,20 @@
+import 'package:diet_and_control/utils/validators.dart';
 import 'package:diet_and_control/widgets/authWidget/textfield_container.dart';
 import 'package:flutter/material.dart';
 
 class CustomTextFieldPassword extends StatefulWidget {
   final ValueChanged<String> onChanged;
+  final bool isRepeat;
   final String title;
   final TextEditingController controller;
+  final TextEditingController? repeatController;
   const CustomTextFieldPassword(
-      {Key? key, required this.onChanged, required this.title, required this.controller})
+      {Key? key,
+      required this.onChanged,
+      required this.isRepeat,
+      required this.title,
+      required this.controller,
+      this.repeatController})
       : super(key: key);
 
   @override
@@ -23,7 +31,8 @@ class _CustomTextFieldPasswordState extends State<CustomTextFieldPassword> {
       child: TextField(
         obscureText: isVisible,
         onChanged: widget.onChanged,
-        controller: widget.controller,
+        controller:
+            widget.isRepeat ? widget.repeatController : widget.controller,
         decoration: InputDecoration(
           border: InputBorder.none,
           icon: Icon(
@@ -31,6 +40,10 @@ class _CustomTextFieldPasswordState extends State<CustomTextFieldPassword> {
             color: Color.fromRGBO(0, 214, 129, 1),
           ),
           hintText: widget.title,
+          errorText: widget.isRepeat
+              ? errorPassword(widget.controller.text, widget.repeatController!.text)
+              : errorPassword(
+                  widget.controller.text, null),
           suffixIcon: _visibilityIcon(),
         ),
       ),

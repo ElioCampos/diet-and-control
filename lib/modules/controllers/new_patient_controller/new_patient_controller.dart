@@ -114,14 +114,14 @@ class NewPatientController extends GetxController {
           factor = 1.9;
         if (valueChooseSex.value == "Hombre") {
           tbmAns = (66.00 +
-                  13.7 * double.parse(height) +
-                  5 * double.parse(height) -
+                  13.7 * double.parse(weight) +
+                  5 * double.parse(height) / 100 -
                   6.8 * age) *
               factor;
         } else if (valueChooseSex.value == "Mujer") {
           tbmAns = (655.00 +
-                  9.6 * double.parse(height) +
-                  1.8 * double.parse(height) -
+                  9.6 * double.parse(weight) +
+                  1.8 * double.parse(height) / 100 -
                   4.7 * age) *
               factor;
         } else {

@@ -1,8 +1,15 @@
 import 'package:diet_and_control/utils/validators.dart';
 import 'package:diet_and_control/widgets/authWidget/textfield_container.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class CustomTextFieldPassword extends StatefulWidget {
+class ValidatorController extends GetxController {
+  var hidePassword = true.obs;
+  toggleVisibility() => hidePassword.value = !(hidePassword.value);
+ 
+}
+
+class CustomTextFieldPassword extends StatelessWidget {
   final ValueChanged<String> onChanged;
   final bool isRepeat;
   final String title;
@@ -18,46 +25,38 @@ class CustomTextFieldPassword extends StatefulWidget {
       : super(key: key);
 
   @override
-  _CustomTextFieldPasswordState createState() =>
-      _CustomTextFieldPasswordState();
-}
-
-class _CustomTextFieldPasswordState extends State<CustomTextFieldPassword> {
-  bool isVisible = true;
-
-  @override
   Widget build(BuildContext context) {
-    return TextFieldContainer(
-      child: TextField(
-        obscureText: isVisible,
-        onChanged: widget.onChanged,
-        controller:
-            widget.isRepeat ? widget.repeatController : widget.controller,
-        decoration: InputDecoration(
-          border: InputBorder.none,
-          icon: Icon(
-            Icons.lock,
-            color: Color.fromRGBO(0, 214, 129, 1),
+    final ValidatorController c = Get.put(ValidatorController());
+    return Obx(
+      () => TextFieldContainer(
+        child: TextField(
+          obscureText: c.hidePassword.value,
+          onChanged: onChanged,
+          controller: isRepeat ? repeatController : controller,
+          decoration: InputDecoration(
+            border: InputBorder.none,
+            icon: Icon(
+              Icons.lock,
+              color: Color.fromRGBO(0, 214, 129, 1),
+            ),
+            hintText: title,
+            errorText: isRepeat
+                ? errorPassword(controller.text, repeatController!.text)
+                : errorPassword(controller.text, null),
+            suffixIcon: _visibilityIcon(),
           ),
-          hintText: widget.title,
-          errorText: widget.isRepeat
-              ? errorPassword(widget.controller.text, widget.repeatController!.text)
-              : errorPassword(
-                  widget.controller.text, null),
-          suffixIcon: _visibilityIcon(),
         ),
       ),
     );
   }
 
   Widget _visibilityIcon() {
+    final ValidatorController c = Get.find();
     return IconButton(
         onPressed: () {
-          setState(() {
-            isVisible = !isVisible;
-          });
+          c.toggleVisibility();
         },
-        icon: isVisible
+        icon: c.hidePassword.value
             ? Icon(Icons.visibility, color: Color.fromRGBO(0, 214, 129, 1))
             : Icon(Icons.visibility_off,
                 color: Color.fromRGBO(0, 214, 129, 1)));

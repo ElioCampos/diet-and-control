@@ -1,6 +1,9 @@
+import 'package:diet_and_control/modules/controllers/auth_controller/auth_controller.dart';
 import 'package:diet_and_control/utils/http_api.dart';
 import 'package:dio/dio.dart';
+import 'package:get/get.dart' as global;
 import 'package:logger/logger.dart';
+import 'package:jwt_decode/jwt_decode.dart';
 
 class AuthProvider {
   final logger = Logger(
@@ -51,6 +54,30 @@ class AuthProvider {
             "password": password,
             "username": username,
           },
+          options: Options(
+            followRedirects: false,
+            validateStatus: (status) {
+              return status! < 500;
+            },
+          ));
+      logger.i(response.data);
+    } on DioError catch (e) {
+      logger.e(e.response);
+      throw Exception(e);
+    }
+
+    return response;
+  }
+
+  Future<Response> userType() async {
+    final _dio = Dio();
+    final Response response;
+    String token = global.Get.find<AuthController>().token.value;
+    int userId = global.Get.find<AuthController>().userId.value;
+    _dio.options.headers = {"Authorization": "Bearer $token"};
+    _dio.options.baseUrl = HttpInfo.url;
+    try {
+      response = await _dio.get("/profiles/$userId/",
           options: Options(
             followRedirects: false,
             validateStatus: (status) {

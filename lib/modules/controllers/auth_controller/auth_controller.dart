@@ -3,6 +3,7 @@ import 'package:diet_and_control/modules/views/auth/login.dart';
 import 'package:diet_and_control/navigator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jwt_decode/jwt_decode.dart';
 import 'package:logger/logger.dart';
 import 'package:dio/dio.dart' as dio;
 
@@ -13,6 +14,7 @@ class AuthController extends GetxController {
 
   final Rx<String> token = "".obs;
   final RxBool loading = false.obs;
+  final RxInt userId = 0.obs;
 
   //*Login
 
@@ -45,9 +47,9 @@ class AuthController extends GetxController {
           .getSession(usernameController.text, passwordController.text);
       if (response.statusCode == 201 || response.statusCode == 200) {
         token.value = response.data["access"].toString();
-        Get.to(MainNavigator(
-          isPatient: false,
-        ));
+        Map<String, dynamic> payload = Jwt.parseJwt(token.value);
+        userId.value = payload["user_id"];
+        await userType();
       } else {
         logger.i(response.statusCode);
       }
@@ -73,6 +75,39 @@ class AuthController extends GetxController {
       logger.i(response.data);
       if (response.statusCode == 201 || response.statusCode == 200) {
         Get.back();
+      }
+      loading.value = false;
+    } on Exception catch (e) {
+      loading.value = false;
+      logger.e(e);
+    }
+  }
+
+  Future userType() async {
+    loading.value = true;
+    dio.Response response;
+
+    try {
+      response = await AuthProvider().userType();
+      logger.i(response.data);
+      logger.i(response.statusCode);
+      if (response.statusCode == 302) {
+        switch (response.data["type"]) {
+          case "doctor":
+            {
+              Get.to(MainNavigator(
+                isPatient: false,
+              ));
+            }
+            break;
+          case "patient":
+            {
+              Get.to(MainNavigator(
+                isPatient: true,
+              ));
+            }
+            break;
+        }
       }
       loading.value = false;
     } on Exception catch (e) {

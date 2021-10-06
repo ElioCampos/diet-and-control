@@ -1,5 +1,7 @@
 import 'package:diet_and_control/models/patient.dart';
+import 'package:diet_and_control/modules/controllers/auth_controller/auth_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class ListPacientes extends StatefulWidget {
   const ListPacientes({Key? key}) : super(key: key);
@@ -106,7 +108,9 @@ class _ListPacientesState extends State<ListPacientes> {
                           ),
                         ),
                         GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            // print(Get.find<AuthController>().token.value);
+                          },
                           child: Padding(
                             padding: const EdgeInsets.symmetric(vertical: 4.0),
                             child: Text(

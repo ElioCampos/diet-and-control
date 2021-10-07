@@ -1,5 +1,7 @@
 import 'package:diet_and_control/widgets/homePatient/nutritional_plan.dart';
 import 'package:flutter/material.dart';
+import 'package:diet_and_control/modules/views/auth/login.dart';
+import 'package:get/get.dart';
 
 class HomePatient extends StatefulWidget {
   const HomePatient({Key? key}) : super(key: key);
@@ -28,16 +30,44 @@ class _HomePatientState extends State<HomePatient> {
                     ),
                     Container(
                       width: 290.0,
-                      child: Text(
-                        // "Bienvenido $name",
-                        "Bienvenido Juan Carlos",
+                      child: Row (children: [
+                      Text(
+                        "Bienvenido\nJuan Carlos",
                         style: TextStyle(
                             color: Color.fromRGBO(59, 203, 90, 1.0),
                             fontSize: 27.0,
                             fontWeight: FontWeight.bold),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                      ),
+                      ), 
+                      IconButton(
+                        icon: Icon(
+                          Icons.logout,
+                          color: Colors.black,
+                        ),
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return  AlertDialog(                                  
+                                content: Text("¿Desar cerrar sesión?"),
+                                actions: [
+                                  TextButton(
+                                    child: Text("Cerrar Sesión"),
+                                    onPressed:  () { Get.offAll(Login()); },
+                                  ),
+                                  TextButton(
+                                    child: Text("Regresar"),
+                                    onPressed:  () { Navigator.of(context).pop(); },
+                                  )
+                                ],
+                              );
+                            },
+                          );
+                        },
+                      )
+                    ],
+                )
                     )
                   ],
                 ),

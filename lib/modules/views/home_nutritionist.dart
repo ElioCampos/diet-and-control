@@ -1,3 +1,4 @@
+import 'package:diet_and_control/modules/controllers/auth_controller/auth_controller.dart';
 import 'package:diet_and_control/modules/controllers/nutritionist_home_controller/nutritionist_home_controller.dart';
 import 'package:diet_and_control/widgets/homeNutricionista/list_messages.dart';
 import 'package:diet_and_control/widgets/homeNutricionista/list_patients.dart';
@@ -8,6 +9,9 @@ class HomeNutricionista extends GetWidget<NutritionistHomeController> {
   final Function navigate;
 
   const HomeNutricionista({Key? key, required this.navigate}) : super(key: key);
+
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -26,15 +30,45 @@ class HomeNutricionista extends GetWidget<NutritionistHomeController> {
                   ),
                   Container(
                     width: 290.0,
-                    child: Text(
-                      "Bienvenido ",
-                      style: TextStyle(
-                          color: Color.fromRGBO(59, 203, 90, 1.0),
-                          fontSize: 27.0,
-                          fontWeight: FontWeight.bold),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
+                    child: Row (children: [
+                      Text(
+                        "Bienvenido ",
+                        style: TextStyle(
+                            color: Color.fromRGBO(59, 203, 90, 1.0),
+                            fontSize: 27.0,
+                            fontWeight: FontWeight.bold),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ), 
+                      IconButton(
+                        icon: Icon(
+                          Icons.logout,
+                          color: Colors.black,
+                        ),
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return  AlertDialog(                                  
+                                content: Text("¿Desar cerrar sesión?"),
+                                actions: [
+                                  TextButton(
+                                    child: Text("Cerrar Sesión"),
+                                    onPressed:  () { controller.logoutUser(); },
+                                  ),
+                                  TextButton(
+                                    child: Text("Regresar"),
+                                    onPressed:  () { Navigator.of(context).pop(); },
+                                  )
+                                ],
+                              );
+                            },
+                          );
+                        },
+                      )
+                    ],
+                )
+
                   )
                 ],
               ),

@@ -71,17 +71,41 @@ class ReparticionKCal extends GetView<NewPatientController> {
                       color: Color.fromRGBO(59, 203, 90, 1.0),
                       borderRadius: BorderRadius.circular(20.0)),
                   child: Row(children: [
+                    Text(
+                      "TMB: ",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18.0),
+                    ),
                     Container(
                       width: 100.0,
-                      child: Text(
-                        "TMB: " + "2420",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18.0),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
+                      height:20,
+                      child:                       
+                      TextField(
+                          keyboardType: TextInputType.number,                          
+                          controller: controller.tmbController,
+                          onChanged: (value) {
+                            if (value.length > 6) {
+                              FocusScope.of(context).requestFocus(FocusNode());
+                              controller.tmbController.text =
+                                  controller.tmbController.text[0] + controller.tmbController.text[1]
+                                  + controller.tmbController.text[2] + controller.tmbController.text[3]
+                                  + controller.tmbController.text[4] + controller.tmbController.text[5]
+                                  + controller.tmbController.text[6];
+                            }
+                            if (value != "") {                              
+                                  controller.tbmIndice.value = controller.tmbController.text;                              
+                            }
+                          },
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18.0),
+                          decoration: InputDecoration(                            
+                            border: InputBorder.none,
+                          ),
+                        ),
                     ),
                     Text(
                       " Kcal",
@@ -319,6 +343,9 @@ class ReparticionKCal extends GetView<NewPatientController> {
                   break;
                 case 3:
                   controller.fat.value = int.parse(textController.text);
+                  break;
+                case 4:
+                  controller.tbmIndice.value = textController.text;
                   break;
               }
             }

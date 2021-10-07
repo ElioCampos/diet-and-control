@@ -129,6 +129,7 @@ class NewPatientController extends GetxController {
         }
         print(tbmIndice.value);
         tbmIndice.value = tbmAns.toStringAsFixed(2);
+        tmbController.text = tbmAns.toStringAsFixed(2);
       } else {
         tbmIndice.value = "0";
       }

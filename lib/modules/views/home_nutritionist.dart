@@ -30,7 +30,7 @@ class HomeNutricionista extends GetWidget<NutritionistHomeController> {
                   Container(
                     width: 290.0,
                     child: Text(
-                      "Bienvenido $name",
+                      userData["sex"] ? "Bienvenido $name" : "Bienvenida $name",
                       style: TextStyle(
                           color: Color.fromRGBO(59, 203, 90, 1.0),
                           fontSize: 27.0,

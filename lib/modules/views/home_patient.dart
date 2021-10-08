@@ -1,22 +1,16 @@
 import 'package:diet_and_control/modules/controllers/auth_controller/auth_controller.dart';
+import 'package:diet_and_control/modules/controllers/patient_home_controller/patient_home_controller.dart';
 import 'package:diet_and_control/widgets/homePatient/nutritional_plan.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class HomePatient extends StatefulWidget {
-  const HomePatient({Key? key}) : super(key: key);
-
-  @override
-  _HomePatientState createState() => _HomePatientState();
-}
-
-class _HomePatientState extends State<HomePatient> {
-  Map userData = Get.find<AuthController>().userData;
+class HomePatient extends GetView<PatientHomeController> {
   @override
   Widget build(BuildContext context) {
+    Map userData = Get.find<AuthController>().userData;
     String name = userData["first_name"] + " " + userData["last_name"];
     return Scaffold(
-      body: SafeArea( 
+      body: SafeArea(
         child: SingleChildScrollView(
           child: Container(
             margin: EdgeInsets.symmetric(horizontal: 8.0),
@@ -33,7 +27,9 @@ class _HomePatientState extends State<HomePatient> {
                     Container(
                       width: 290.0,
                       child: Text(
-                        "Bienvenido $name",
+                        userData["sex"]
+                            ? "Bienvenido $name"
+                            : "Bienvenida $name",
                         style: TextStyle(
                             color: Color.fromRGBO(59, 203, 90, 1.0),
                             fontSize: 27.0,

@@ -26,7 +26,7 @@ class CustomTextFieldPassword extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ValidatorController c = Get.put(ValidatorController());
-    controller.text = "passdepepe";
+    controller.text = "passkay";
     return Obx(
       () => TextFieldContainer(
         child: TextField(

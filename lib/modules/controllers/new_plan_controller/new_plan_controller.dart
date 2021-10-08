@@ -17,6 +17,13 @@ class NewPlanController extends GetxController {
   final RxDouble protein = 0.0.obs;
   final RxDouble totalKcal = 0.0.obs;
 
+  final Map mealsCount = {
+    "Desayuno": 2,
+    "Almuerzo": 3,
+    "Cena": 2,
+    "Snack": 1,
+  };
+
   final logger = Logger(
     printer: PrettyPrinter(),
   );
@@ -103,12 +110,15 @@ class NewPlanController extends GetxController {
     };
   }
 
+  double roundDecimal(double d) {
+    return double.parse((d).toStringAsFixed(1));
+  }
+
   nutritionalData(double c, double f, double p) {
-    carbo.value = double.parse((c).toStringAsFixed(1));
-    fat.value = double.parse((f).toStringAsFixed(1));
-    protein.value = double.parse((p).toStringAsFixed(1));
-    totalKcal.value = double.parse(
-        (carbo.value + fat.value + protein.value).toStringAsFixed(1));
+    carbo.value = roundDecimal(c);
+    fat.value = roundDecimal(f);
+    protein.value = roundDecimal(p);
+    totalKcal.value = roundDecimal(carbo.value + fat.value + protein.value);
   }
 
   double totalKcalByType(List list) {

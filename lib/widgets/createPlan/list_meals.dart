@@ -10,13 +10,6 @@ class MealsList extends GetView<NewPlanController> {
   final double fat = 0.0;
   final double protein = 0.0;
 
-  final Map mealsCount = {
-    "Desayuno": 2,
-    "Almuerzo": 3,
-    "Cena": 2,
-    "Snack": 1,
-  };
-
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
@@ -33,7 +26,6 @@ class MealsList extends GetView<NewPlanController> {
                 Container(
                   padding: EdgeInsets.only(bottom: 10),
                   child: Row(
-                    // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Text(
                         viewDetails
@@ -77,7 +69,7 @@ class MealsList extends GetView<NewPlanController> {
   Widget _mealsByDay(int i) {
     return Obx(
       () => ListView.builder(
-        itemCount: mealsCount[controller.orderedMeals.keys.elementAt(i)],
+        itemCount: controller.mealsCount[controller.orderedMeals.keys.elementAt(i)],
         shrinkWrap: true,
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {

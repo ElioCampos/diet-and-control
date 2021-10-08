@@ -1,4 +1,5 @@
 import 'package:diet_and_control/modules/controllers/new_patient_controller/new_patient_controller.dart';
+import 'package:diet_and_control/modules/controllers/patient_home_controller/patient_home_controller.dart';
 import 'package:diet_and_control/modules/providers/auth_providers/auth_provider.dart';
 import 'package:diet_and_control/navigator.dart';
 import 'package:flutter/material.dart';
@@ -95,22 +96,17 @@ class AuthController extends GetxController {
       logger.i(response.data);
       if (response.statusCode == 302) {
         userData.value = response.data;
-        await Get.find<NewPatientController>().getHarmfulHabits();
-        await Get.find<NewPatientController>().getIllnesses();
-        switch (response.data["type"]) {
-          case "doctor":
-            {
-              Get.to(MainNavigator(
-                isPatient: false,
-              ));
-            }
-            break;
-          case "patient":
-            {
-              Get.to(MainNavigator(
-                isPatient: true,
-              ));
-            }
+        if (response.data["type"] == "patient") {
+          await Get.find<PatientHomeController>().getPatientPlan();
+          Get.to(MainNavigator(
+            isPatient: true,
+          ));
+        } else {
+          await Get.find<NewPatientController>().getHarmfulHabits();
+          await Get.find<NewPatientController>().getIllnesses();
+          Get.to(MainNavigator(
+            isPatient: false,
+          ));
         }
       }
       Future.delayed(const Duration(milliseconds: 500), () {

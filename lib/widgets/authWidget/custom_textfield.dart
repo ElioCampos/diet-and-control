@@ -22,9 +22,13 @@ class CustomTextField extends StatefulWidget {
 }
 
 class _CustomTextFieldState extends State<CustomTextField> {
+  
   @override
   Widget build(BuildContext context) {
+  widget.controller.text = "pepe123";
+
     return TextFieldContainer(
+      
       child: TextField(
         onChanged: widget.onChanged,
         controller: widget.controller,

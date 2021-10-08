@@ -110,7 +110,7 @@ class _MainNavigatorState extends State<MainNavigator> {
   togglePlanRoute(a) {
     setState(() {
       a
-          ? _routesN[1] = CreatePlan(confirmPlan: togglePlanRoute,)
+          ? _routesN[1] = CreatePlan(togglePlanRoute)
           : _routesN[1] = NuevoPaciente(goToCreatePlan: togglePlanRoute,);
     });
   }

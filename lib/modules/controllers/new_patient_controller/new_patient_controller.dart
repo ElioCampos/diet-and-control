@@ -1,3 +1,5 @@
+import 'package:diet_and_control/modules/controllers/auth_controller/auth_controller.dart';
+import 'package:diet_and_control/modules/providers/new_patient_provider/new_patient_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
@@ -9,7 +11,12 @@ class NewPatientController extends GetxController {
   );
 
   //*Datps pérsonales
+  late final TextEditingController userController;
+
+  late final TextEditingController emailController;
+  late final TextEditingController passController;
   late final TextEditingController nameController;
+  late final TextEditingController lastNameController;
   late final TextEditingController bornController;
   late final TextEditingController phoneController;
   late final TextEditingController dniController;
@@ -39,9 +46,9 @@ class NewPatientController extends GetxController {
   final RxString valueChooseAnt = "Seleccionar".obs;
   final List enfermedades = [
     "Seleccionar",
-    "Postrado en cama",
-    "Baja actividad"
   ];
+  final RxList<dynamic> harmfulHabits = [].obs;
+  final RxList<dynamic> illnesses = [].obs;
 
   //*Repartición
   final columns = ["%", "Kcal", "g", "g/Kg"];
@@ -65,7 +72,11 @@ class NewPatientController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    userController = TextEditingController();
+    emailController = TextEditingController();
+    passController = TextEditingController();
     nameController = TextEditingController();
+    lastNameController = TextEditingController();
     bornController = TextEditingController();
     phoneController = TextEditingController();
     dniController = TextEditingController();
@@ -136,21 +147,94 @@ class NewPatientController extends GetxController {
     }
   }
 
-  Future getSesion() async {
+  Future getHarmfulHabits() async {
     loading.value = true;
     dio.Response response;
     try {
-      /* response = await LoginProvider()
-          .getSession(usernameController.text, passwordController.text);
-      if (response.statusCode == 201 || response.statusCode == 200) {
-        loading.value = false;
-      } else {
-        logger.i(response.statusCode);
-        loading.value = false;
-      } */
+      response = await NewPatientProvider().getHarmfulHabits();
+      logger.i(response.data);
+      harmfulHabits.value = response.data;
+      loading.value = false;
     } on Exception catch (e) {
       logger.e(e);
       loading.value = false;
+    }
+  }
+
+  Future getIllnesses() async {
+    loading.value = true;
+    dio.Response response;
+    try {
+      response = await NewPatientProvider().getIllnesses();
+      logger.i(response.data);
+      illnesses.value = response.data;
+      for (var illness in illnesses) {
+        enfermedades.add(illness["name"]);
+      }
+      loading.value = false;
+    } on Exception catch (e) {
+      logger.e(e);
+      loading.value = false;
+    }
+  }
+
+  Future createUserProfile() async {
+    int patientId = Get.find<AuthController>().patientId.value;
+    bool gender = false;
+    if (valueChooseSex.value == "Hombre") {
+      gender = true;
+    }
+    dio.Response response;
+    try {
+      response = await NewPatientProvider().createUserProfile(
+          userId: patientId,
+          firstName: nameController.text,
+          lastName: lastNameController.text,
+          birthDate: date,
+          phone: phoneController.text,
+          sex: gender,
+          doi: dniController.text,
+          type: "patient");
+      logger.i(response.data);
+    } on Exception catch (e) {
+      logger.e(e);
+    }
+  }
+
+  Future postIllness() async {
+    int patientId = Get.find<AuthController>().patientId.value;
+    int illnessId = 0;
+    for (var illness in illnesses) {
+      if (illness["name"] == valueChooseActual.value) {
+        illnessId = illness["id"];
+      }
+    }
+    dio.Response response;
+    try {
+      response = await NewPatientProvider()
+          .postIllness(patientId: patientId, illnessId: illnessId);
+      logger.i(response.data);
+    } on Exception catch (e) {
+      logger.e(e);
+    }
+  }
+
+  Future updateProfile() async {
+    int patientId = Get.find<AuthController>().patientId.value;
+    dio.Response response;
+    try {
+      response = await NewPatientProvider().updateProfile(
+          patientId: patientId,
+          imc: double.parse(icmIndice.value),
+          tmb: double.parse(tbmIndice.value),
+          height: double.parse(heightController.text),
+          weight: double.parse(weightController.text),
+          arm: double.parse(armController.text),
+          abdominal: double.parse(abdomenController.text),
+          hip: double.parse(hipsController.text));
+      logger.i(response.data);
+    } on Exception catch (e) {
+      logger.e(e);
     }
   }
 

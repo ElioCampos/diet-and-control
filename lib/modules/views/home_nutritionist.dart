@@ -4,17 +4,16 @@ import 'package:diet_and_control/widgets/homeNutricionista/list_messages.dart';
 import 'package:diet_and_control/widgets/homeNutricionista/list_patients.dart';
 import 'package:flutter/material.dart';
 import 'package:get/state_manager.dart';
+import 'package:get/get.dart';
 
 class HomeNutricionista extends GetWidget<NutritionistHomeController> {
   final Function navigate;
-
   const HomeNutricionista({Key? key, required this.navigate}) : super(key: key);
-
-
-  
 
   @override
   Widget build(BuildContext context) {
+    Map userData = Get.find<AuthController>().userData;
+    String name = userData["first_name"] + " " + userData["last_name"];
     return SafeArea(
       child: SingleChildScrollView(
         child: Container(
@@ -30,45 +29,15 @@ class HomeNutricionista extends GetWidget<NutritionistHomeController> {
                   ),
                   Container(
                     width: 290.0,
-                    child: Row (children: [
-                      Text(
-                        "Bienvenido ",
-                        style: TextStyle(
-                            color: Color.fromRGBO(59, 203, 90, 1.0),
-                            fontSize: 27.0,
-                            fontWeight: FontWeight.bold),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ), 
-                      IconButton(
-                        icon: Icon(
-                          Icons.logout,
-                          color: Colors.black,
-                        ),
-                        onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return  AlertDialog(                                  
-                                content: Text("¿Desar cerrar sesión?"),
-                                actions: [
-                                  TextButton(
-                                    child: Text("Cerrar Sesión"),
-                                    onPressed:  () { controller.logoutUser(); },
-                                  ),
-                                  TextButton(
-                                    child: Text("Regresar"),
-                                    onPressed:  () { Navigator.of(context).pop(); },
-                                  )
-                                ],
-                              );
-                            },
-                          );
-                        },
-                      )
-                    ],
-                )
-
+                    child: Text(
+                      "Bienvenido $name",
+                      style: TextStyle(
+                          color: Color.fromRGBO(59, 203, 90, 1.0),
+                          fontSize: 27.0,
+                          fontWeight: FontWeight.bold),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   )
                 ],
               ),

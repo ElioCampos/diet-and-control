@@ -97,7 +97,7 @@ class Register extends GetView<AuthController> {
                                   userValid &&
                                   passValid &&
                                   repeatPassValid) {
-                                await controller.signUpUser();
+                                await controller.signUpUser(false);
                               }
                             },
                           ),

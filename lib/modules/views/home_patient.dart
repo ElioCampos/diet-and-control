@@ -1,6 +1,6 @@
+import 'package:diet_and_control/modules/controllers/auth_controller/auth_controller.dart';
 import 'package:diet_and_control/widgets/homePatient/nutritional_plan.dart';
 import 'package:flutter/material.dart';
-import 'package:diet_and_control/modules/views/auth/login.dart';
 import 'package:get/get.dart';
 
 class HomePatient extends StatefulWidget {
@@ -11,10 +11,12 @@ class HomePatient extends StatefulWidget {
 }
 
 class _HomePatientState extends State<HomePatient> {
+  Map userData = Get.find<AuthController>().userData;
   @override
   Widget build(BuildContext context) {
+    String name = userData["first_name"] + " " + userData["last_name"];
     return Scaffold(
-      body: SafeArea(
+      body: SafeArea( 
         child: SingleChildScrollView(
           child: Container(
             margin: EdgeInsets.symmetric(horizontal: 8.0),
@@ -30,44 +32,15 @@ class _HomePatientState extends State<HomePatient> {
                     ),
                     Container(
                       width: 290.0,
-                      child: Row (children: [
-                      Text(
-                        "Bienvenido\nJuan Carlos",
+                      child: Text(
+                        "Bienvenido $name",
                         style: TextStyle(
                             color: Color.fromRGBO(59, 203, 90, 1.0),
                             fontSize: 27.0,
                             fontWeight: FontWeight.bold),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                      ), 
-                      IconButton(
-                        icon: Icon(
-                          Icons.logout,
-                          color: Colors.black,
-                        ),
-                        onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return  AlertDialog(                                  
-                                content: Text("¿Desar cerrar sesión?"),
-                                actions: [
-                                  TextButton(
-                                    child: Text("Cerrar Sesión"),
-                                    onPressed:  () { Get.offAll(Login()); },
-                                  ),
-                                  TextButton(
-                                    child: Text("Regresar"),
-                                    onPressed:  () { Navigator.of(context).pop(); },
-                                  )
-                                ],
-                              );
-                            },
-                          );
-                        },
-                      )
-                    ],
-                )
+                      ),
                     )
                   ],
                 ),

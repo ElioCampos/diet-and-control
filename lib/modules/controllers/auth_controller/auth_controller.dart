@@ -1,5 +1,5 @@
+import 'package:diet_and_control/modules/controllers/new_patient_controller/new_patient_controller.dart';
 import 'package:diet_and_control/modules/providers/auth_providers/auth_provider.dart';
-import 'package:diet_and_control/modules/views/auth/login.dart';
 import 'package:diet_and_control/navigator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -15,6 +15,8 @@ class AuthController extends GetxController {
   final Rx<String> token = "".obs;
   final RxBool loading = false.obs;
   final RxInt userId = 0.obs;
+  final RxMap userData = {}.obs;
+  final RxInt patientId = 0.obs;
 
   //*Login
 
@@ -49,20 +51,17 @@ class AuthController extends GetxController {
         token.value = response.data["access"].toString();
         Map<String, dynamic> payload = Jwt.parseJwt(token.value);
         userId.value = payload["user_id"];
-        await userType();
+        await userInfo();
       } else {
         logger.i(response.statusCode);
       }
-      Future.delayed(const Duration(milliseconds: 500), () {
-        loading.value = false;
-      });
     } on Exception catch (e) {
       logger.e(e);
       loading.value = false;
     }
   }
 
-  Future signUpUser() async {
+  Future signUpUser(bool patient) async {
     loading.value = true;
     dio.Response response;
 
@@ -74,7 +73,11 @@ class AuthController extends GetxController {
       );
       logger.i(response.data);
       if (response.statusCode == 201 || response.statusCode == 200) {
-        Get.back();
+        if (!patient) {
+          Get.back();
+        } else {
+          patientId.value = response.data["id"];
+        }
       }
       loading.value = false;
     } on Exception catch (e) {
@@ -83,15 +86,17 @@ class AuthController extends GetxController {
     }
   }
 
-  Future userType() async {
+  Future userInfo() async {
     loading.value = true;
     dio.Response response;
 
     try {
-      response = await AuthProvider().userType();
+      response = await AuthProvider().userInfo();
       logger.i(response.data);
-      logger.i(response.statusCode);
       if (response.statusCode == 302) {
+        userData.value = response.data;
+        await Get.find<NewPatientController>().getHarmfulHabits();
+        await Get.find<NewPatientController>().getIllnesses();
         switch (response.data["type"]) {
           case "doctor":
             {
@@ -106,10 +111,11 @@ class AuthController extends GetxController {
                 isPatient: true,
               ));
             }
-            break;
         }
       }
-      loading.value = false;
+      Future.delayed(const Duration(milliseconds: 500), () {
+        loading.value = false;
+      });
     } on Exception catch (e) {
       loading.value = false;
       logger.e(e);

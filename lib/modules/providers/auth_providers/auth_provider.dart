@@ -3,7 +3,6 @@ import 'package:diet_and_control/utils/http_api.dart';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart' as global;
 import 'package:logger/logger.dart';
-import 'package:jwt_decode/jwt_decode.dart';
 
 class AuthProvider {
   final logger = Logger(
@@ -69,7 +68,9 @@ class AuthProvider {
     return response;
   }
 
-  Future<Response> userType() async {
+
+
+  Future<Response> userInfo() async {
     final _dio = Dio();
     final Response response;
     String token = global.Get.find<AuthController>().token.value;

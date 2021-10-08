@@ -1,76 +1,95 @@
+import 'package:diet_and_control/modules/controllers/new_patient_controller/new_patient_controller.dart';
+import 'package:diet_and_control/modules/controllers/new_plan_controller/new_plan_controller.dart';
 import 'package:diet_and_control/utils/text_style.dart';
 import 'package:diet_and_control/widgets/createPlan/new_plan.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 
-class CreatePlan extends StatefulWidget {
+class CreatePlan extends GetView<NewPatientController> {
   final Function confirmPlan;
-  const CreatePlan({Key? key, required this.confirmPlan}) : super(key: key);
+  CreatePlan(this.confirmPlan);
 
-  @override
-  _CreatePlanState createState() => _CreatePlanState();
-}
-
-class _CreatePlanState extends State<CreatePlan> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Container(
-            margin: EdgeInsets.symmetric(horizontal: 8),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Divider(),
-                Row(
-                  children: [
-                    Image.asset('assets/logo.png', height: 70.0),
-                    SizedBox(
-                      width: 10.0,
-                    ),
-                    Container(
-                      width: 290.0,
-                      child: Text(
-                        "Plan Nutricional: Juan Perez",
-                        style: TextStyle(
-                            color: Color.fromRGBO(59, 203, 90, 1.0),
-                            fontSize: 27.0,
-                            fontWeight: FontWeight.bold),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
+          child: Obx(
+            () => controller.loading.value
+                ? Center(
+                    child: SizedBox(
+                      height: 150,
+                      width: 150,
+                      child: LoadingIndicator(
+                        colors: [Colors.green],
+                        indicatorType: Indicator.ballClipRotateMultiple,
                       ),
-                    )
-                  ],
-                ),
-                NewPlan(),
-                SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    ElevatedButton(
-                      onPressed: () {
-                        showDialog<void>(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return _confirmDialog(context);
-                          },
-                        ).then((value) => widget.confirmPlan(false));
-                      },
-                      child: Text("Confirmar plan nutricional"),
-                      style: ElevatedButton.styleFrom(primary: customGreen),
                     ),
-                    ElevatedButton(
-                      onPressed: () {
-                        widget.confirmPlan(false);
-                      },
-                      child: Text("Cancelar"),
-                      style: ElevatedButton.styleFrom(primary: Colors.red),
+                  )
+                : Container(
+                    margin: EdgeInsets.symmetric(horizontal: 8),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Divider(),
+                        Row(
+                          children: [
+                            Image.asset('assets/logo.png', height: 70.0),
+                            SizedBox(
+                              width: 10.0,
+                            ),
+                            Container(
+                              width: 290.0,
+                              child: Text(
+                                "Plan Nutricional: ${controller.nameController.text} ${controller.lastNameController.text}",
+                                style: TextStyle(
+                                    color: Color.fromRGBO(59, 203, 90, 1.0),
+                                    fontSize: 27.0,
+                                    fontWeight: FontWeight.bold),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            )
+                          ],
+                        ),
+                        NewPlan(),
+                        SizedBox(height: 10),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            ElevatedButton(
+                              onPressed: () {
+                                if (!(Get.find<NewPlanController>()
+                                    .loading
+                                    .value)) {
+                                  showDialog<void>(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return _confirmDialog(context);
+                                    },
+                                  ).then((value) => confirmPlan(false));
+                                }
+                              },
+                              child: Text("Confirmar plan nutricional"),
+                              style: ElevatedButton.styleFrom(
+                                  primary: customGreen),
+                            ),
+                            ElevatedButton(
+                              onPressed: () {
+                                confirmPlan(false);
+                                controller.loading.value = true;
+                              },
+                              child: Text("Cancelar"),
+                              style:
+                                  ElevatedButton.styleFrom(primary: Colors.red),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 10)
+                      ],
                     ),
-                  ],
-                ),
-                SizedBox(height: 10)
-              ],
-            ),
+                  ),
           ),
         ),
       ),
@@ -78,7 +97,7 @@ class _CreatePlanState extends State<CreatePlan> {
   }
 
   Widget _confirmDialog(BuildContext context) {
-    return StatefulBuilder(builder: (context, setState) {
+    return Builder(builder: (context) {
       return Dialog(
         backgroundColor: customGreen,
         child: Column(

@@ -32,7 +32,6 @@ class _MessagesPageState extends State<MessagesPage> {
                     Container(
                       width: 290.0,
                       child: Text(
-                        // "Bienvenido $name",
                         "Mensajes",
                         style: TextStyle(
                             color: Color.fromRGBO(59, 203, 90, 1.0),

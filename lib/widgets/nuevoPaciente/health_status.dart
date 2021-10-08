@@ -4,6 +4,7 @@ import 'package:get/state_manager.dart';
 
 class EstadoSalud extends GetView<NewPatientController> {
   const EstadoSalud({Key? key}) : super(key: key);
+  @override
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +35,7 @@ class EstadoSalud extends GetView<NewPatientController> {
                 Container(
                     width: 150.0,
                     child: Text(
-                      "Enfermedad(s) Actual: ",
+                      "Enfermedad Actual: ",
                       style: TextStyle(
                           color: Color.fromRGBO(59, 203, 90, 1.0),
                           fontWeight: FontWeight.bold),
@@ -83,65 +84,61 @@ class EstadoSalud extends GetView<NewPatientController> {
                   fontWeight: FontWeight.bold),
             ),
             Container(
-                child: Wrap(
-              spacing: 5.0,
-              runSpacing: 3.0,
-              children: [
-                ChipOptions(
-                  chipName: "Alcoholismo",
-                  listOptions: controller.options,
-                ),
-                ChipOptions(
-                  chipName: "Tabaco",
-                  listOptions: controller.options,
-                ),
-                ChipOptions(chipName: "Drogas", listOptions: controller.options)
-              ],
-            )),
-            Row(
-              children: [
-                Container(
-                    width: 150.0,
-                    child: Text(
-                      "Enfermedad(s) Anteriores: ",
-                      style: TextStyle(
-                          color: Color.fromRGBO(59, 203, 90, 1.0),
-                          fontWeight: FontWeight.bold),
-                    )),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 15.0),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(30.0),
-                      border: Border.all(
-                          color: Color.fromRGBO(112, 112, 112, 1.0))),
-                  child: Obx(
-                    () => DropdownButtonHideUnderline(
-                      child: DropdownButton<String>(
-                          value: controller.valueChooseAnt.value,
-                          icon: Icon(Icons.arrow_downward),
-                          elevation: 16,
-                          onChanged: (value) {
-                            controller.valueChooseAnt.value = value!;
-                          },
-                          items: controller.enfermedades.map((valueItem) {
-                            return DropdownMenuItem<String>(
-                                value: valueItem,
-                                child: Container(
-                                  width: 130.0,
-                                  child: Text(
-                                    valueItem,
-                                    style: TextStyle(fontSize: 15.0),
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ));
-                          }).toList()),
-                    ),
-                  ),
-                ),
-              ],
+              child: Wrap(
+                spacing: 5.0,
+                runSpacing: 1.0,
+                children: List.generate(controller.harmfulHabits.length, (index) {
+                  return ChipOptions(
+                    chipName: controller.harmfulHabits[index]["name"],
+                    listOptions: controller.options,
+                  );
+                }),
+              ),
             ),
+            // Row(
+            //   children: [
+            //     Container(
+            //         width: 150.0,
+            //         child: Text(
+            //           "Enfermedad(s) Anteriores: ",
+            //           style: TextStyle(
+            //               color: Color.fromRGBO(59, 203, 90, 1.0),
+            //               fontWeight: FontWeight.bold),
+            //         )),
+            //     Container(
+            //       padding: EdgeInsets.symmetric(horizontal: 15.0),
+            //       decoration: BoxDecoration(
+            //           color: Colors.white,
+            //           borderRadius: BorderRadius.circular(30.0),
+            //           border: Border.all(
+            //               color: Color.fromRGBO(112, 112, 112, 1.0))),
+            //       child: Obx(
+            //         () => DropdownButtonHideUnderline(
+            //           child: DropdownButton<String>(
+            //               value: controller.valueChooseAnt.value,
+            //               icon: Icon(Icons.arrow_downward),
+            //               elevation: 16,
+            //               onChanged: (value) {
+            //                 controller.valueChooseAnt.value = value!;
+            //               },
+            //               items: controller.enfermedades.map((valueItem) {
+            //                 return DropdownMenuItem<String>(
+            //                     value: valueItem,
+            //                     child: Container(
+            //                       width: 130.0,
+            //                       child: Text(
+            //                         valueItem,
+            //                         style: TextStyle(fontSize: 15.0),
+            //                         maxLines: 2,
+            //                         overflow: TextOverflow.ellipsis,
+            //                       ),
+            //                     ));
+            //               }).toList()),
+            //         ),
+            //       ),
+            //     ),
+            //   ],
+            // ),
             SizedBox(
               height: 5.0,
             ),
@@ -155,16 +152,12 @@ class EstadoSalud extends GetView<NewPatientController> {
                 child: Wrap(
               spacing: 5.0,
               runSpacing: 3.0,
-              children: [
-                ChipOptions(
-                  chipName: "Obesidad",
-                  listOptions: controller.options,
-                ),
-                ChipOptions(
-                    chipName: "Diabetes", listOptions: controller.options),
-                ChipOptions(
-                    chipName: "Hipertensión", listOptions: controller.options)
-              ],
+              children: List.generate(controller.illnesses.length, (index) {
+                  return ChipOptions(
+                    chipName: controller.illnesses[index]["name"],
+                    listOptions: controller.options,
+                  );
+                }),
             )),
           ],
         ));

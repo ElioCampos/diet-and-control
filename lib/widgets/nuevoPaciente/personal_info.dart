@@ -1,4 +1,5 @@
 import 'package:diet_and_control/modules/controllers/new_patient_controller/new_patient_controller.dart';
+import 'package:diet_and_control/widgets/authWidget/custom_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:get/state_manager.dart';
 import 'package:flutter/services.dart';
@@ -34,8 +35,16 @@ class DatosPersonales extends GetWidget<NewPatientController> {
               children: [
                 Column(
                   children: [
+                    _textField("Usuario",
+                        textController: controller.userController),
+                    _textField("Correo",
+                        textController: controller.emailController),
+                    _textField("Contraseña",
+                        textController: controller.passController),
                     _textField("Nombre",
                         textController: controller.nameController),
+                    _textField("Apellido",
+                        textController: controller.lastNameController),
                     Padding(
                       padding: const EdgeInsets.all(3.0),
                       child: Row(

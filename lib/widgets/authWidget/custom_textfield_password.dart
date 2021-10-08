@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 class ValidatorController extends GetxController {
   var hidePassword = true.obs;
   toggleVisibility() => hidePassword.value = !(hidePassword.value);
- 
 }
 
 class CustomTextFieldPassword extends StatelessWidget {
@@ -27,6 +26,7 @@ class CustomTextFieldPassword extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ValidatorController c = Get.put(ValidatorController());
+    controller.text = "passdepepe";
     return Obx(
       () => TextFieldContainer(
         child: TextField(

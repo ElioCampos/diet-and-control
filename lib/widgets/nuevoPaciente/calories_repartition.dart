@@ -47,7 +47,7 @@ class ReparticionKCal extends GetView<NewPatientController> {
                           style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
-                              fontSize: 18.0),
+                              fontSize: 14.0),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -58,7 +58,7 @@ class ReparticionKCal extends GetView<NewPatientController> {
                       style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
-                          fontSize: 18.0),
+                          fontSize: 14.0),
                     )
                   ]),
                 ),
@@ -70,49 +70,27 @@ class ReparticionKCal extends GetView<NewPatientController> {
                   decoration: BoxDecoration(
                       color: Color.fromRGBO(59, 203, 90, 1.0),
                       borderRadius: BorderRadius.circular(20.0)),
-                  child: Row(children: [
-                    Text(
-                      "TMB: ",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18.0),
-                    ),
+                  child:Row(children: [
                     Container(
-                      width: 100.0,
-                      height:20,
-                      child:                       
-                      TextField(
-                          keyboardType: TextInputType.number,                          
-                          controller: controller.tmbController,
-                          onChanged: (value) {
-                            if (value.length > 6) {
-                              FocusScope.of(context).requestFocus(FocusNode());
-                              controller.tmbController.text =
-                                  controller.tmbController.text[0] + controller.tmbController.text[1]
-                                  + controller.tmbController.text[2] + controller.tmbController.text[3]
-                                  + controller.tmbController.text[4] + controller.tmbController.text[5]
-                                  + controller.tmbController.text[6];
-                            }
-                            if (value != "") {                              
-                                  controller.tbmIndice.value = controller.tmbController.text;                              
-                            }
-                          },
+                      width: 90.0,
+                      child: Obx(
+                        () => Text(
+                          "TMB: ${controller.tbmIndice.value}",
                           style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
-                              fontSize: 18.0),
-                          decoration: InputDecoration(                            
-                            border: InputBorder.none,
-                          ),
+                              fontSize: 14.0),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
+                      ),
                     ),
                     Text(
-                      " Kcal",
+                      " Kg/m2",
                       style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
-                          fontSize: 18.0),
+                          fontSize: 14.0),
                     )
                   ]),
                 )

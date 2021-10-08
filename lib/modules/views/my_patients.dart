@@ -3,6 +3,7 @@ import 'package:diet_and_control/modules/views/view_plan.dart';
 
 import 'package:diet_and_control/widgets/myPatients/button_patients.dart';
 import 'package:diet_and_control/widgets/myPatients/data_patient.dart';
+import 'package:diet_and_control/widgets/myPatients/patient_log.dart';
 import 'package:diet_and_control/widgets/myPatients/view_status.dart';
 import 'package:flutter/material.dart';
 
@@ -85,8 +86,18 @@ class _MyPatientsState extends State<MyPatients> {
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 ButtonPatients(
-                                  title: "Ver Perfil", 
-                                  onTap: (){}),
+                                  title: "Ver Historial", 
+                                  onTap: (){
+                                    showDialog(
+                                        barrierLabel: "Barrier",
+                                        barrierDismissible: true,
+                                        barrierColor: Color.fromRGBO(30, 30, 30, 0.7),                                  
+                                        context: context,
+                                        builder: (_) {
+                                          return PatientLog(patientName:pacientes[index].name,);
+                                        }                                        
+                                      );
+                                  }),
                                 ButtonPatients(
                                   title: "Ver plan nutricional", 
                                   onTap: (){

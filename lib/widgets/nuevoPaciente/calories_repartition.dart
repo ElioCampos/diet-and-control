@@ -71,19 +71,42 @@ class ReparticionKCal extends GetView<NewPatientController> {
                       color: Color.fromRGBO(59, 203, 90, 1.0),
                       borderRadius: BorderRadius.circular(20.0)),
                   child:Row(children: [
+                    Text(
+                      "TMB: ",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14.0),
+                    ),
                     Container(
-                      width: 90.0,
-                      child: Obx(
-                        () => Text(
-                          "TMB: ${controller.tbmIndice.value}",
+                      width: 100.0,
+                      child:                       
+                      TextField(
+                          keyboardType: TextInputType.number,                          
+                          controller: controller.tmbController,
+                          onChanged: (value) {
+                            if (value.length > 6) {
+                              FocusScope.of(context).requestFocus(FocusNode());
+                              controller.tmbController.text =
+                                  controller.tmbController.text[0] + controller.tmbController.text[1]
+                                  + controller.tmbController.text[2] + controller.tmbController.text[3]
+                                  + controller.tmbController.text[4] + controller.tmbController.text[5]
+                                  + controller.tmbController.text[6];
+                            }
+                            if (value != "") {                              
+                                  controller.tbmIndice.value = controller.tmbController.text;                              
+                            }
+                          },
                           style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
                               fontSize: 14.0),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
+                          decoration: InputDecoration(                            
+                            border: InputBorder.none,
+                            isDense: true,
+                            contentPadding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+                          ),
                         ),
-                      ),
                     ),
                     Text(
                       " Kg/m2",

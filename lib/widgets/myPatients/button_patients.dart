@@ -20,7 +20,7 @@ class _ButtonPatientsState extends State<ButtonPatients> {
     return InkWell(
       onTap: widget.onTap,
       child: Container(
-        padding: EdgeInsets.all(6.0),
+        padding: EdgeInsets.symmetric(vertical:10,horizontal:16),
         decoration: BoxDecoration(
           color: Color.fromRGBO(0, 230, 137, 1),
           borderRadius: BorderRadius.circular(20.0),

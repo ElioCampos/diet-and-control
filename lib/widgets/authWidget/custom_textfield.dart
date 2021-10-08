@@ -22,25 +22,20 @@ class CustomTextField extends StatefulWidget {
 }
 
 class _CustomTextFieldState extends State<CustomTextField> {
-  
   @override
   Widget build(BuildContext context) {
-  widget.controller.text = "kay";
-
     return TextFieldContainer(
-      
       child: TextField(
         onChanged: widget.onChanged,
         controller: widget.controller,
         decoration: InputDecoration(
-          border: InputBorder.none,
-          icon: Icon(
-            widget.icon,
-            color: Color.fromRGBO(0, 214, 129, 1),
-          ),
-          hintText: widget.hintText,
-          errorText: widget.isValid ? null : "Complete este campo."
-        ),
+            border: InputBorder.none,
+            icon: Icon(
+              widget.icon,
+              color: Color.fromRGBO(0, 214, 129, 1),
+            ),
+            hintText: widget.hintText,
+            errorText: widget.isValid ? null : "Complete este campo."),
       ),
     );
   }

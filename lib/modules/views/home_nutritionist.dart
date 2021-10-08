@@ -1,5 +1,6 @@
 import 'package:diet_and_control/modules/controllers/auth_controller/auth_controller.dart';
 import 'package:diet_and_control/modules/controllers/nutritionist_home_controller/nutritionist_home_controller.dart';
+import 'package:diet_and_control/utils/text_style.dart';
 import 'package:diet_and_control/widgets/homeNutricionista/list_messages.dart';
 import 'package:diet_and_control/widgets/homeNutricionista/list_patients.dart';
 import 'package:flutter/material.dart';
@@ -29,15 +30,69 @@ class HomeNutricionista extends GetWidget<NutritionistHomeController> {
                   ),
                   Container(
                     width: 290.0,
-                    child: Text(
-                      userData["sex"] ? "Bienvenido $name" : "Bienvenida $name",
-                      style: TextStyle(
-                          color: Color.fromRGBO(59, 203, 90, 1.0),
-                          fontSize: 27.0,
-                          fontWeight: FontWeight.bold),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 240,
+                          child: Text(
+                            userData["sex"]
+                                ? "Bienvenido $name"
+                                : "Bienvenida $name",
+                            style: TextStyle(
+                                color: Color.fromRGBO(59, 203, 90, 1.0),
+                                fontSize: 27.0,
+                                fontWeight: FontWeight.bold),
+                            maxLines: 3,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        IconButton(
+                          icon: Icon(
+                            Icons.logout,
+                            color: customGreen,
+                          ),
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  content: Text("¿Desea cerrar sesión?"),
+                                  actions: [
+                                    TextButton(
+                                      child: Text("Cerrar sesión"),
+                                      onPressed: () {
+                                        controller.logoutUser();
+                                      },
+                                      style: TextButton.styleFrom(
+                                        primary: customGreen,
+                                      ),
+                                    ),
+                                    TextButton(
+                                      child: Text("Regresar"),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      style: TextButton.styleFrom(
+                                        primary: customGreen,
+                                      ),
+                                    )
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                        )
+                      ],
                     ),
+                    // child: Text(
+                    //   userData["sex"] ? "Bienvenido $name" : "Bienvenida $name",
+                    //   style: TextStyle(
+                    //       color: Color.fromRGBO(59, 203, 90, 1.0),
+                    //       fontSize: 27.0,
+                    //       fontWeight: FontWeight.bold),
+                    //   maxLines: 2,
+                    //   overflow: TextOverflow.ellipsis,
+                    // ),
                   )
                 ],
               ),

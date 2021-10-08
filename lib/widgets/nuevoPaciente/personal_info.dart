@@ -197,7 +197,7 @@ class DatosPersonales extends GetWidget<NewPatientController> {
                   CircleAvatar(
                     backgroundImage: NetworkImage(
                         "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y&s=128"),
-                    radius: 45.0,
+                    radius: 40.0,
                   ),
                   GestureDetector(
                     onTap: () {},

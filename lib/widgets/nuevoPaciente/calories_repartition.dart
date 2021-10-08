@@ -79,13 +79,13 @@ class ReparticionKCal extends GetView<NewPatientController> {
                           fontSize: 14.0),
                     ),
                     Container(
-                      width: 100.0,
+                      width: 70.0,
                       child:                       
                       TextField(
                           keyboardType: TextInputType.number,                          
                           controller: controller.tmbController,
                           onChanged: (value) {
-                            if (value.length > 6) {
+                            if (value.length > 4) {
                               FocusScope.of(context).requestFocus(FocusNode());
                               controller.tmbController.text =
                                   controller.tmbController.text[0] + controller.tmbController.text[1]

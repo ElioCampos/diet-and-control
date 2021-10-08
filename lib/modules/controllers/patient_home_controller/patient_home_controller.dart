@@ -9,8 +9,8 @@ class PatientHomeController extends NewPlanController {
     try {
       response = await PatientHomeProvider().getPatientPlan();
       logger.i(response.data);
-      if (response.statusCode == 302) {
-        menus.value = response.data["menus"];
+      if (response.statusCode == 200) {
+        menus.value = response.data[0]["treatment"]["menus"];
         refreshMeals();
       } else {
         logger.i(response.statusCode);

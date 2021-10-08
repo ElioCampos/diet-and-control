@@ -54,6 +54,21 @@ class NewPlanController extends GetxController {
     }
   }
 
+  Future assignPlan() async {
+    dio.Response response;
+    try {
+      response = await NewPlanProvider().assignPlan(planId.value);
+      if (response.statusCode == 201 || response.statusCode == 200) {
+        logger.i(response.data);
+      } else {
+        logger.i(response.statusCode);
+      }
+    } on Exception catch (e) {
+      logger.e(e);
+      loading.value = false;
+    }
+  }
+
   decreaseDay() {
     if (currentDay.value > 0) {
       currentDay.value--;

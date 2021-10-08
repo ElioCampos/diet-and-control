@@ -59,17 +59,14 @@ class CreatePlan extends GetView<NewPatientController> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             ElevatedButton(
-                              onPressed: () {
-                                if (!(Get.find<NewPlanController>()
-                                    .loading
-                                    .value)) {
+                              onPressed: () async {
+                                  await Get.find<NewPlanController>().assignPlan();
                                   showDialog<void>(
                                     context: context,
                                     builder: (BuildContext context) {
                                       return _confirmDialog(context);
                                     },
                                   ).then((value) => confirmPlan(false));
-                                }
                               },
                               child: Text("Confirmar plan nutricional"),
                               style: ElevatedButton.styleFrom(

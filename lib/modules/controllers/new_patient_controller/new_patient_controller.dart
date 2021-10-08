@@ -44,7 +44,7 @@ class NewPatientController extends GetxController {
   //*Estadp de salud
   final RxString valueChooseActual = "Seleccionar".obs;
   final RxString valueChooseAnt = "Seleccionar".obs;
-  final List enfermedades = [
+  List enfermedades = [
     "Seleccionar",
   ];
   final RxList<dynamic> harmfulHabits = [].obs;
@@ -168,6 +168,9 @@ class NewPatientController extends GetxController {
       response = await NewPatientProvider().getIllnesses();
       logger.i(response.data);
       illnesses.value = response.data;
+      enfermedades = [
+        "Seleccionar",
+      ];
       for (var illness in illnesses) {
         enfermedades.add(illness["name"]);
       }

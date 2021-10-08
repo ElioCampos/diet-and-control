@@ -4,6 +4,8 @@ import 'package:logger/logger.dart';
 import 'package:dio/dio.dart' as dio;
 
 class NewPlanController extends GetxController {
+  final RxInt planId = 0.obs;
+
   final RxInt currentDay = 0.obs;
   final RxList mealsFromToday = [].obs;
   final RxList dList = [].obs;
@@ -38,6 +40,7 @@ class NewPlanController extends GetxController {
       response = await NewPlanProvider()
           .getPlan(carbo: carbo, protein: protein, fat: fat);
       if (response.statusCode == 201 || response.statusCode == 200) {
+        planId.value = response.data["id"];
         menus.value = response.data["menus"];
         refreshMeals();
         loading.value = false;

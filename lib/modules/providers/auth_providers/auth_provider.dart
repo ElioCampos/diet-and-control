@@ -68,7 +68,45 @@ class AuthProvider {
     return response;
   }
 
+  Future<Response> createDoctorProfile({
+    required int userId,
+    required String firstName,
+    required String lastName,
+  }) async {
+    final _dio = Dio();
+    final Response response;
+    String token = global.Get.find<AuthController>().token.value;
 
+    _dio.options.headers = {"Authorization": "Bearer $token"};
+    _dio.options.baseUrl = HttpInfo.url;
+    logger.e({
+      "first_name": firstName,
+      "last_name": lastName,
+    });
+    try {
+      response = await _dio.post("/users/$userId/profiles/",
+          data: {
+            "first_name": firstName,
+            "last_name": lastName,
+            "birth_date": "1980-01-01",
+            "phone": "999888777",
+            "sex": true,
+            "doi": "77777777",
+            "type": "doctor"
+          },
+          options: Options(
+            followRedirects: false,
+            validateStatus: (status) {
+              return status! < 500;
+            },
+          ));
+      logger.i(response.data);
+    } on DioError catch (e) {
+      logger.e(e.response);
+      throw Exception(e);
+    }
+    return response;
+  }
 
   Future<Response> userInfo() async {
     final _dio = Dio();

@@ -1,6 +1,7 @@
 import 'package:diet_and_control/modules/controllers/new_patient_controller/new_patient_controller.dart';
 import 'package:diet_and_control/modules/controllers/patient_home_controller/patient_home_controller.dart';
 import 'package:diet_and_control/modules/providers/auth_providers/auth_provider.dart';
+import 'package:diet_and_control/modules/views/auth/login.dart';
 import 'package:diet_and_control/navigator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -31,6 +32,7 @@ class AuthController extends GetxController {
   late TextEditingController emailController;
   late TextEditingController repeatPasswordController;
   late TextEditingController nameController;
+  late TextEditingController lastNameController;
 
   @override
   void onInit() {
@@ -40,6 +42,7 @@ class AuthController extends GetxController {
     emailController = TextEditingController();
     repeatPasswordController = TextEditingController();
     nameController = TextEditingController();
+    lastNameController = TextEditingController();
   }
 
   Future getSesion() async {
@@ -65,7 +68,7 @@ class AuthController extends GetxController {
   Future signUpUser(bool patient) async {
     loading.value = true;
     dio.Response response;
-
+    dio.Response profileAuth;
     try {
       response = await AuthProvider().signUpUser(
         username: usernameController.text,
@@ -75,7 +78,11 @@ class AuthController extends GetxController {
       logger.i(response.data);
       if (response.statusCode == 201 || response.statusCode == 200) {
         if (!patient) {
-          Get.back();
+          profileAuth = await AuthProvider()
+              .getSession(usernameController.text, passwordController.text);
+          token.value = profileAuth.data["access"].toString();
+          await createDoctorProfile(response.data["id"]);
+          Get.to(Login());
         } else {
           patientId.value = response.data["id"];
         }
@@ -83,6 +90,19 @@ class AuthController extends GetxController {
       loading.value = false;
     } on Exception catch (e) {
       loading.value = false;
+      logger.e(e);
+    }
+  }
+
+  Future createDoctorProfile(int userId) async {
+    dio.Response response;
+    try {
+      response = await AuthProvider().createDoctorProfile(
+          userId: userId,
+          firstName: nameController.text,
+          lastName: lastNameController.text);
+      logger.i(response.data);
+    } on Exception catch (e) {
       logger.e(e);
     }
   }

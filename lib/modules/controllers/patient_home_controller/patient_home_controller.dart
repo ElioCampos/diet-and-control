@@ -3,16 +3,15 @@ import 'package:diet_and_control/modules/providers/patient_home_provider/patient
 import 'package:dio/dio.dart' as dio;
 
 class PatientHomeController extends NewPlanController {
-
   Future getPatientPlan() async {
     loading.value = true;
     dio.Response response;
     try {
       response = await PatientHomeProvider().getPatientPlan();
-      if (response.statusCode == 201 || response.statusCode == 200) {
+      logger.i(response.data);
+      if (response.statusCode == 302) {
         menus.value = response.data["menus"];
         refreshMeals();
-        loading.value = false;
       } else {
         logger.i(response.statusCode);
         loading.value = false;

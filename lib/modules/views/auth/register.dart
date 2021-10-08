@@ -12,6 +12,8 @@ import 'login.dart';
 
 bool emailValid = true;
 bool nameValid = true;
+bool lastNameValid = true;
+
 bool userValid = true;
 bool passValid = true;
 bool repeatPassValid = true;
@@ -45,10 +47,16 @@ class Register extends GetView<AuthController> {
                                 height: 150.0),
                           ),
                           CustomTextField(
-                              hintText: "Nombres",
+                              hintText: "Nombre",
                               isValid: nameValid,
                               icon: Icons.api,
                               controller: controller.nameController,
+                              onChanged: (value) {}),
+                          CustomTextField(
+                              hintText: "Apellido",
+                              isValid: lastNameValid,
+                              icon: Icons.api,
+                              controller: controller.lastNameController,
                               onChanged: (value) {}),
                           CustomTextField(
                               hintText: "Usuario",
@@ -82,6 +90,9 @@ class Register extends GetView<AuthController> {
                               controller.nameController.text.isNotEmpty
                                   ? nameValid = true
                                   : nameValid = false;
+                              controller.lastNameController.text.isNotEmpty
+                                  ? lastNameValid = true
+                                  : lastNameValid = false;
                               controller.usernameController.text.isNotEmpty
                                   ? userValid = true
                                   : userValid = false;
@@ -96,7 +107,8 @@ class Register extends GetView<AuthController> {
                                   emailValid &&
                                   userValid &&
                                   passValid &&
-                                  repeatPassValid) {
+                                  repeatPassValid &&
+                                  lastNameValid) {
                                 await controller.signUpUser(false);
                               }
                             },

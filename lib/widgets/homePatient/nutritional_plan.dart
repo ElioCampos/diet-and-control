@@ -16,12 +16,28 @@ Map days = {
 };
 
 class NutritionalPlan extends GetView<PatientHomeController> {
+
+  List<bool> checkedmeals = [false,false,false,false,false,false,false,false];
+
   @override
   Widget build(BuildContext context) {
     return Obx(
       () => Container(
         child: Column(
           children: [
+            Text(
+                        
+                     (() {
+                if(controller.traceIds[controller.currentDay.value]["success"] == true){
+                return "Completado";} 
+                return "Por completar";
+                })(),   
+                        // controller.traceIds[controller.currentDay.value]["id"].toString(),
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: customGreen,
+                            fontWeight: FontWeight.bold),
+                      ),
             Container(
               decoration: BoxDecoration(
                 border: Border.all(
@@ -54,6 +70,7 @@ class NutritionalPlan extends GetView<PatientHomeController> {
                         ),
                         onTap: () {
                           controller.selectDay(index);
+                          checkedmeals = List.filled(8, false);
                         });
                   },
                 ),
@@ -89,7 +106,8 @@ class NutritionalPlan extends GetView<PatientHomeController> {
   }
 
   Widget _mealsByType(int i) {
-    return Obx(() => ListView.builder(
+    return  StatefulBuilder(
+    builder: (BuildContext context, StateSetter setState) { return Obx(() => ListView.builder(
         itemCount:
             controller.mealsCount[controller.orderedMeals.keys.elementAt(i)],
         shrinkWrap: true,
@@ -124,8 +142,8 @@ class NutritionalPlan extends GetView<PatientHomeController> {
                   child: Column(
                     children: [
                       Text(
-                        controller.orderedMeals.values.elementAt(i)[index]
-                            ["name"],
+
+                        controller.orderedMeals.values.elementAt(i)[index]["name"],
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 15,
@@ -190,23 +208,63 @@ class NutritionalPlan extends GetView<PatientHomeController> {
                     ],
                   ),
                 ),
+              ), 
+              /* Text( 
+                (
+                (() {
+                if(i == 1){
+                return 1;}else if (i==2){return 3;} else if (i==3){return 4;}
+                return 0;
+                })()
+                + 
+                i+index
+                ).toString()
+
+              ), */
+              Expanded(
+                child: Checkbox(                  
+                  checkColor: Colors.white,
+                  activeColor: customGreen,
+                  value: 
+                  (() {
+                  if(controller.traceIds[controller.currentDay.value]["success"]){
+                  return controller.traceIds[controller.currentDay.value]["success"];}                                   
+                  return checkedmeals[(
+                (() {
+                if(i == 1){
+                return 1;}else if (i==2){return 3;} else if (i==3){return 4;}
+                return 0;
+                })()
+                + 
+                i+index
+                )];
+                  })(), //controller.traceIds[controller.currentDay.value]["success"],
+                  onChanged: (bool? value) {
+                    setState(() {
+                      checkedmeals[(
+                (() {
+                if(i == 1){
+                return 1;}else if (i==2){return 3;} else if (i==3){return 4;}
+                return 0;
+                })()
+                + 
+                i+index
+                )] = true; 
+                    });
+
+                  if(checkedmeals.contains(false)){ }
+                    else { controller.updateTrace(controller.traceIds[controller.currentDay.value]["id"]); }
+
+                  },
+                ),
               ),
-              // Expanded(
-              //   child: Checkbox(
-              //     checkColor: Colors.white,
-              //     activeColor: customGreen,
-              //     value: meals[index].completed,
-              //     onChanged: (bool? value) {
-              //       setState(() {
-              //         meals[index].completed = value!;
-              //       });
-              //     },
-              //   ),
-              // ),
             ],
           );
         }));
+    });
   }
+
+  
 
   Widget _mealDetails(int index, BuildContext context) {
     return Builder(builder: (context) {

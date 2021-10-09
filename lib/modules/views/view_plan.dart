@@ -18,18 +18,8 @@ Map days = {
   "Do": "Domingo"
 };
 
-// class ViewPlan extends StatefulWidget {
-//   final int patientId;
-
-//   const ViewPlan({Key? key, required this.patientId}) : super(key: key);
-
-//   @override
-//   _ViewPlanState createState() => _ViewPlanState();
-// }
-
 class ViewPlan extends GetView<PatientHomeController> {
   final int patientId;
-  // var controller = Get.find<PatientHomeController>();
   final List patientData = Get.find<NutritionistHomeController>().patients;
 
   ViewPlan(this.patientId);
@@ -83,46 +73,6 @@ class ViewPlan extends GetView<PatientHomeController> {
                       )
                     ],
                   ),
-                  // Container(
-                  //   child: Row(
-                  //     mainAxisAlignment: MainAxisAlignment.center,
-                  //     children: [
-                  //       IconButton(
-                  //         onPressed: () {
-                  //           if (_currentWeek == 1) {
-                  //             print(_currentWeek);
-                  //           } else {
-                  //             setState(() {
-                  //               _currentWeek--;
-                  //             });
-                  //           }
-                  //         },
-                  //         icon: Icon(
-                  //           Icons.keyboard_arrow_left,
-                  //           color: Color.fromRGBO(0, 230, 137, 1),
-                  //         ),
-                  //       ),
-                  //       Text(
-                  //         "Semana $_currentWeek",
-                  //         style: TextStyle(
-                  //             color: Color.fromRGBO(0, 230, 137, 1),
-                  //             fontSize: 20,
-                  //             fontWeight: FontWeight.bold),
-                  //       ),
-                  //       IconButton(
-                  //         onPressed: () {
-                  //           setState(() {
-                  //             _currentWeek++;
-                  //           });
-                  //         },
-                  //         icon: Icon(
-                  //           Icons.keyboard_arrow_right,
-                  //           color: Color.fromRGBO(0, 230, 137, 1),
-                  //         ),
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
                   ViewStatus(paciente: pacientes[patientId]),
                   Divider(),
                   Row(

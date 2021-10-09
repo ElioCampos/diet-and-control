@@ -249,50 +249,6 @@ class ReparticionKCal extends GetView<NewPatientController> {
               ),
             ),
           ),
-          /* Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
-            child: Text(
-              "Requerimiento energético del día:",
-              style: TextStyle(
-                  color: Colors.grey,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 17.0),
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  requerimentText("Desayuno: " + "25%", 15.0),
-                  requerimentText("Almuerzo: " + "45%", 15.0),
-                  requerimentText("Cena: " + "30%", 15.0),
-                  requerimentText("Calorías Totales: ", 17.0),
-                ],
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  requerimentText("408 kcal", 15.0),
-                  requerimentText("700 kcal", 15.0),
-                  requerimentText("203 kcal", 15.0),
-                  requerimentText("2630 kcal", 17.0),
-                ],
-              ) 
-            ],
-          ),*/
-          // PieChart(
-          //   dataMap: dataMap,
-          //   chartLegendSpacing: 30,
-          //   chartValuesOptions: ChartValuesOptions(
-          //     showChartValueBackground: true,
-          //     showChartValues: true,
-          //     showChartValuesInPercentage: true,
-          //     showChartValuesOutside: false,
-          //     decimalPlaces: 0,
-          //   ),
-          // )
         ]));
   }
 

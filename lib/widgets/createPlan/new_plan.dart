@@ -3,14 +3,6 @@ import 'package:diet_and_control/utils/text_style.dart';
 import 'package:diet_and_control/widgets/createPlan/list_meals.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:loading_indicator/loading_indicator.dart';
-
-// class NewPlan extends StatefulWidget {
-//   const NewPlan({Key? key}) : super(key: key);
-
-//   @override
-//   _NewPlanState createState() => _NewPlanState();
-// }
 
 class NewPlan extends GetView<NewPlanController> {
   final List days = [

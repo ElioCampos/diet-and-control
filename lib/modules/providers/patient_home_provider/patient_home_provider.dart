@@ -14,7 +14,6 @@ class PatientHomeProvider {
     final _dio = Dio();
     final Response response;
     String token = global.Get.find<AuthController>().token.value;
-    // int userId = global.Get.find<AuthController>().userId.value;
     _dio.options.headers = {"Authorization": "Bearer $token"};
     _dio.options.baseUrl = HttpInfo.url;
     try {

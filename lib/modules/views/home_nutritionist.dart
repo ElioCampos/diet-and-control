@@ -84,15 +84,6 @@ class HomeNutricionista extends GetWidget<NutritionistHomeController> {
                         )
                       ],
                     ),
-                    // child: Text(
-                    //   userData["sex"] ? "Bienvenido $name" : "Bienvenida $name",
-                    //   style: TextStyle(
-                    //       color: Color.fromRGBO(59, 203, 90, 1.0),
-                    //       fontSize: 27.0,
-                    //       fontWeight: FontWeight.bold),
-                    //   maxLines: 2,
-                    //   overflow: TextOverflow.ellipsis,
-                    // ),
                   )
                 ],
               ),
@@ -106,7 +97,7 @@ class HomeNutricionista extends GetWidget<NutritionistHomeController> {
                 ),
               ),
               InkResponse(
-                onTap: () {
+                onTap: () async {
                   navigate(1);
                 },
                 child: Container(

@@ -1,4 +1,5 @@
 import 'package:diet_and_control/modules/controllers/new_patient_controller/new_patient_controller.dart';
+import 'package:diet_and_control/modules/controllers/nutritionist_home_controller/nutritionist_home_controller.dart';
 import 'package:diet_and_control/modules/controllers/patient_home_controller/patient_home_controller.dart';
 import 'package:diet_and_control/modules/providers/auth_providers/auth_provider.dart';
 import 'package:diet_and_control/modules/views/auth/login.dart';
@@ -122,6 +123,7 @@ class AuthController extends GetxController {
             isPatient: true,
           ));
         } else {
+          await Get.find<NutritionistHomeController>().getPatients();
           await Get.find<NewPatientController>().getHarmfulHabits();
           await Get.find<NewPatientController>().getIllnesses();
           Get.to(MainNavigator(

@@ -69,6 +69,7 @@ class NewPatientController extends GetxController {
   final RxString icmIndice = "0".obs;
   final RxString tbmIndice = "0".obs;
 
+
   @override
   void onInit() {
     super.onInit();
@@ -180,6 +181,7 @@ class NewPatientController extends GetxController {
       loading.value = false;
     }
   }
+
 
   Future createUserProfile() async {
     int patientId = Get.find<AuthController>().patientId.value;

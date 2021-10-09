@@ -1,5 +1,6 @@
 import 'package:diet_and_control/modules/controllers/new_patient_controller/new_patient_controller.dart';
 import 'package:diet_and_control/modules/controllers/new_plan_controller/new_plan_controller.dart';
+import 'package:diet_and_control/modules/controllers/nutritionist_home_controller/nutritionist_home_controller.dart';
 import 'package:diet_and_control/utils/text_style.dart';
 import 'package:diet_and_control/widgets/createPlan/new_plan.dart';
 import 'package:flutter/material.dart';
@@ -60,13 +61,16 @@ class CreatePlan extends GetView<NewPatientController> {
                           children: [
                             ElevatedButton(
                               onPressed: () async {
-                                  await Get.find<NewPlanController>().assignPlan();
-                                  showDialog<void>(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return _confirmDialog(context);
-                                    },
-                                  ).then((value) => confirmPlan(false));
+                                await Get.find<NewPlanController>()
+                                    .assignPlan();
+                                await Get.find<NutritionistHomeController>()
+                                    .getPatients();
+                                showDialog<void>(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return _confirmDialog(context);
+                                  },
+                                ).then((value) => confirmPlan(false));
                               },
                               child: Text("Confirmar plan nutricional"),
                               style: ElevatedButton.styleFrom(

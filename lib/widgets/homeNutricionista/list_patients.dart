@@ -1,15 +1,9 @@
 import 'package:diet_and_control/models/patient.dart';
-import 'package:diet_and_control/modules/controllers/auth_controller/auth_controller.dart';
 import 'package:diet_and_control/modules/controllers/nutritionist_home_controller/nutritionist_home_controller.dart';
+import 'package:diet_and_control/modules/controllers/patient_home_controller/patient_home_controller.dart';
+import 'package:diet_and_control/modules/views/view_plan.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-// class ListPacientes extends StatefulWidget {
-//   const ListPacientes({Key? key}) : super(key: key);
-
-//   @override
-//   _ListPacientesState createState() => _ListPacientesState();
-// }
 
 class ListPacientes extends GetView<NutritionistHomeController> {
   @override
@@ -117,7 +111,17 @@ class ListPacientes extends GetView<NutritionistHomeController> {
                               //   ),
                               // ),
                               GestureDetector(
-                                onTap: () {
+                                onTap: () async {
+                                  print(controller.patients[index]["user"]);
+                                  await Get.find<PatientHomeController>().getPatientPlan(controller.patients[index]["user"], true);
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => ViewPlan(
+                                        controller.patients[index]["user"],
+                                      ),
+                                    ),
+                                  );
                                   // print(Get.find<AuthController>().token.value);
                                 },
                                 child: Padding(
@@ -135,7 +139,12 @@ class ListPacientes extends GetView<NutritionistHomeController> {
                           ),
                         );
                       })
-                  : Center(child: Text("No tienes pacientes.", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),)),
+                  : Center(
+                      child: Text(
+                      "No tienes pacientes.",
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    )),
             )
           ],
         ),

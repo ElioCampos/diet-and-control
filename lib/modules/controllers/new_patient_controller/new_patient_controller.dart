@@ -69,7 +69,6 @@ class NewPatientController extends GetxController {
   final RxString icmIndice = "0".obs;
   final RxString tbmIndice = "0".obs;
 
-
   @override
   void onInit() {
     super.onInit();
@@ -127,13 +126,15 @@ class NewPatientController extends GetxController {
         if (valueChooseSex.value == "Hombre") {
           tbmAns = (66.00 +
                   13.7 * double.parse(weight) +
-                  5 * double.parse(height) / 100 -
+                  5 * double.parse(height) -
+                  // 5 * double.parse(height) / 100 -
                   6.8 * age) *
               factor;
         } else if (valueChooseSex.value == "Mujer") {
           tbmAns = (655.00 +
                   9.6 * double.parse(weight) +
-                  1.8 * double.parse(height) / 100 -
+                  // 1.8 * double.parse(height) / 100 -
+                  1.8 * double.parse(height) -
                   4.7 * age) *
               factor;
         } else {
@@ -181,7 +182,6 @@ class NewPatientController extends GetxController {
       loading.value = false;
     }
   }
-
 
   Future createUserProfile() async {
     int patientId = Get.find<AuthController>().patientId.value;

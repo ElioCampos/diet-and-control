@@ -79,6 +79,9 @@ class NuevoPaciente extends GetView<NewPatientController> {
                               controller.lastNameController.text.isNotEmpty &&
                               controller.date != DateTime.now() &&
                               controller.phoneController.text.isNotEmpty &&
+                              controller.abdomenController.text.isNotEmpty &&
+                              controller.armController.text.isNotEmpty &&
+                              controller.hipsController.text.isNotEmpty &&
                               controller.valueChooseSex.value !=
                                   "Seleccionar" &&
                               controller.dniController.text.isNotEmpty &&

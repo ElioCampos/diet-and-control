@@ -4,22 +4,23 @@ import 'package:dio/dio.dart' as dio;
 import 'package:get/get.dart';
 
 class PatientHomeController extends NewPlanController {
-
   final RxInt personalTreatmentId = 0.obs;
   final RxList traceIds = [].obs;
   final RxInt monday = 0.obs;
 
-  Future getPatientPlan() async {
+  Future getPatientPlan(int userId, bool fromDoctor) async {
     loading.value = true;
     dio.Response response;
     try {
-      response = await PatientHomeProvider().getPatientPlan();
+      response = await PatientHomeProvider().getPatientPlan(userId);
       logger.i(response.data);
       if (response.statusCode == 200) {
         menus.value = response.data[0]["treatment"]["menus"];
-        personalTreatmentId.value = response.data[0]["id"];        
+        personalTreatmentId.value = response.data[0]["id"];
         refreshMeals();
-        getPatientTraces();
+        if (!fromDoctor) {
+          getPatientTraces();
+        }
       } else {
         logger.i(response.statusCode);
         loading.value = false;
@@ -29,7 +30,6 @@ class PatientHomeController extends NewPlanController {
       loading.value = false;
     }
   }
-
 
   Future getPatientTraces() async {
     loading.value = true;
@@ -40,7 +40,6 @@ class PatientHomeController extends NewPlanController {
       if (response.statusCode == 200) {
         traceIds.value = response.data;
         traceIds.sort((a, b) => a["day"].compareTo(b["day"]));
-
       } else {
         logger.i(response.statusCode);
         loading.value = false;
@@ -51,15 +50,14 @@ class PatientHomeController extends NewPlanController {
     }
   }
 
-
   Future updateTrace(int treatmentId) async {
     loading.value = true;
     dio.Response response;
     try {
       response = await PatientHomeProvider().updateTrace(treatmentId);
       logger.i(response.data);
-      if (response.statusCode == 200) { 
-        getPatientTraces();       
+      if (response.statusCode == 200) {
+        getPatientTraces();
       } else {
         logger.i(response.statusCode);
         loading.value = false;
@@ -67,9 +65,8 @@ class PatientHomeController extends NewPlanController {
     } on Exception catch (e) {
       logger.e(e);
       loading.value = false;
-    } 
+    }
   }
-
 
   selectDay(int i) {
     currentDay.value = i;

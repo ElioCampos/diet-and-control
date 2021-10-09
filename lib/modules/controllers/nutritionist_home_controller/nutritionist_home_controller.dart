@@ -1,7 +1,5 @@
-import 'package:diet_and_control/modules/providers/auth_providers/auth_provider.dart';
 import 'package:diet_and_control/modules/providers/nutritionist_home_provider/nutritionist_home_provider.dart';
 import 'package:diet_and_control/modules/views/auth/login.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
 import 'package:dio/dio.dart' as dio;
@@ -20,12 +18,19 @@ class NutritionistHomeController extends GetxController {
   }
 
   Future getPatients() async {
+    List ids = [];
     loading.value = true;
     dio.Response response;
     try {
+      patients.value = [];
       response = await NutritionistHomeProvider().getPatients();
       logger.i(response.data);
-      patients.value = response.data;
+      for (var patient in response.data) {
+        if (!ids.contains(patient["user"])) {
+          patients.add(patient);
+        }
+        ids.add(patient["user"]);
+      }
       loading.value = false;
     } on Exception catch (e) {
       logger.e(e);
@@ -34,6 +39,7 @@ class NutritionistHomeController extends GetxController {
   }
 
   void logoutUser() {
+    patients.value = [];
     Get.offAll(Login());
   }
 

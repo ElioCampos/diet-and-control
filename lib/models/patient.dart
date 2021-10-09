@@ -153,5 +153,141 @@ List<Paciente> pacientes = [
         "Vi": 0,
         "Sa": 0,
         "Do": 0
+      }),
+  Paciente(
+      name: "Rodrigo Morales",
+      photo:
+          "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y&s=128",
+      diagnosis: "Paciente diabético",
+      progress: 0.70,
+      status: "Al día",
+      enfermedad: "Hipertensión",
+      statusDay: {
+        "Lu": 1,
+        "Ma": 1,
+        "Mi": 1,
+        "Ju": 1,
+        "Vi": 0,
+        "Sa": 0,
+        "Do": 0
+      }),
+  Paciente(
+      name: "Rodrigo Morales",
+      photo:
+          "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y&s=128",
+      diagnosis: "Paciente diabético",
+      progress: 0.70,
+      status: "Al día",
+      enfermedad: "Hipertensión",
+      statusDay: {
+        "Lu": 1,
+        "Ma": 1,
+        "Mi": 1,
+        "Ju": 1,
+        "Vi": 0,
+        "Sa": 0,
+        "Do": 0
+      }),
+  Paciente(
+      name: "Rodrigo Morales",
+      photo:
+          "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y&s=128",
+      diagnosis: "Paciente diabético",
+      progress: 0.70,
+      status: "Al día",
+      enfermedad: "Hipertensión",
+      statusDay: {
+        "Lu": 1,
+        "Ma": 1,
+        "Mi": 1,
+        "Ju": 1,
+        "Vi": 0,
+        "Sa": 0,
+        "Do": 0
+      }),
+  Paciente(
+      name: "Rodrigo Morales",
+      photo:
+          "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y&s=128",
+      diagnosis: "Paciente diabético",
+      progress: 0.70,
+      status: "Al día",
+      enfermedad: "Hipertensión",
+      statusDay: {
+        "Lu": 1,
+        "Ma": 1,
+        "Mi": 1,
+        "Ju": 1,
+        "Vi": 0,
+        "Sa": 0,
+        "Do": 0
+      }),
+  Paciente(
+      name: "Rodrigo Morales",
+      photo:
+          "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y&s=128",
+      diagnosis: "Paciente diabético",
+      progress: 0.70,
+      status: "Al día",
+      enfermedad: "Hipertensión",
+      statusDay: {
+        "Lu": 1,
+        "Ma": 1,
+        "Mi": 1,
+        "Ju": 1,
+        "Vi": 0,
+        "Sa": 0,
+        "Do": 0
+      }),
+  Paciente(
+      name: "Rodrigo Morales",
+      photo:
+          "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y&s=128",
+      diagnosis: "Paciente diabético",
+      progress: 0.70,
+      status: "Al día",
+      enfermedad: "Hipertensión",
+      statusDay: {
+        "Lu": 1,
+        "Ma": 1,
+        "Mi": 1,
+        "Ju": 1,
+        "Vi": 0,
+        "Sa": 0,
+        "Do": 0
+      }),
+  Paciente(
+      name: "Rodrigo Morales",
+      photo:
+          "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y&s=128",
+      diagnosis: "Paciente diabético",
+      progress: 0.70,
+      status: "Al día",
+      enfermedad: "Hipertensión",
+      statusDay: {
+        "Lu": 1,
+        "Ma": 1,
+        "Mi": 1,
+        "Ju": 1,
+        "Vi": 0,
+        "Sa": 0,
+        "Do": 0
+      }),
+  Paciente(
+      name: "Rodrigo Morales",
+      photo:
+          "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y&s=128",
+      diagnosis: "Paciente diabético",
+      progress: 0.70,
+      status: "Al día",
+      enfermedad: "Hipertensión",
+      statusDay: {
+        "Lu": 1,
+        "Ma": 1,
+        "Mi": 1,
+        "Ju": 1,
+        "Vi": 0,
+        "Sa": 0,
+        "Do": 0
       })
 ];

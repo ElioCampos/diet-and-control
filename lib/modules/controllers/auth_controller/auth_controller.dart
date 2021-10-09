@@ -118,7 +118,7 @@ class AuthController extends GetxController {
       if (response.statusCode == 302) {
         userData.value = response.data;
         if (response.data["type"] == "patient") {
-          await Get.find<PatientHomeController>().getPatientPlan();
+          await Get.find<PatientHomeController>().getPatientPlan(userId.value, false);
           Get.to(MainNavigator(
             isPatient: true,
           ));

@@ -16,8 +16,16 @@ Map days = {
 };
 
 class NutritionalPlan extends GetView<PatientHomeController> {
-
-  List<bool> checkedmeals = [false,false,false,false,false,false,false,false];
+  List<bool> checkedmeals = [
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -26,18 +34,20 @@ class NutritionalPlan extends GetView<PatientHomeController> {
         child: Column(
           children: [
             Text(
-                        
-                     (() {
-                if(controller.traceIds[controller.currentDay.value]["success"] == true){
-                return "Completado";} 
+              (() {
+                if (controller.traceIds[controller.currentDay.value]
+                        ["success"] ==
+                    true) {
+                  return "Completado";
+                }
                 return "Por completar";
-                })(),   
-                        // controller.traceIds[controller.currentDay.value]["id"].toString(),
-                        style: TextStyle(
-                            fontSize: 20,
-                            color: customGreen,
-                            fontWeight: FontWeight.bold),
-                      ),
+              })(),
+              // controller.traceIds[controller.currentDay.value]["id"].toString(),
+              style: TextStyle(
+                  fontSize: 20,
+                  color: customGreen,
+                  fontWeight: FontWeight.bold),
+            ),
             Container(
               decoration: BoxDecoration(
                 border: Border.all(
@@ -106,110 +116,112 @@ class NutritionalPlan extends GetView<PatientHomeController> {
   }
 
   Widget _mealsByType(int i) {
-    return  StatefulBuilder(
-    builder: (BuildContext context, StateSetter setState) { return Obx(() => ListView.builder(
-        itemCount:
-            controller.mealsCount[controller.orderedMeals.keys.elementAt(i)],
-        shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
-        itemBuilder: (context, index) {
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Expanded(
-                child: Container(
-                  padding: EdgeInsets.all(10),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(15.0),
-                    child: Image.network(
-                      controller.orderedMeals.values.elementAt(i)[index]
-                          ["image_url"],
-                      scale: 2,
+    return StatefulBuilder(
+        builder: (BuildContext context, StateSetter setState) {
+      return Obx(
+        () => ListView.builder(
+          itemCount:
+              controller.mealsCount[controller.orderedMeals.keys.elementAt(i)],
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          itemBuilder: (context, index) {
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: Container(
+                    padding: EdgeInsets.all(10),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(15.0),
+                      child: Image.network(
+                        controller.orderedMeals.values.elementAt(i)[index]
+                            ["image_url"],
+                        scale: 2,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              Expanded(
-                child: InkWell(
-                  onTap: () {
-                    // showDialog<void>(
-                    //   context: context,
-                    //   builder: (BuildContext context) {
-                    //     return _mealDetails(index, context);
-                    //   },
-                    // );
-                  },
-                  child: Column(
-                    children: [
-                      Text(
-
-                        controller.orderedMeals.values.elementAt(i)[index]["name"],
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15,
-                          color: customGreen,
+                Expanded(
+                  child: InkWell(
+                    onTap: () {
+                      // showDialog<void>(
+                      //   context: context,
+                      //   builder: (BuildContext context) {
+                      //     return _mealDetails(index, context);
+                      //   },
+                      // );
+                    },
+                    child: Column(
+                      children: [
+                        Text(
+                          controller.orderedMeals.values.elementAt(i)[index]
+                              ["name"],
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                            color: customGreen,
+                          ),
+                          textAlign: TextAlign.center,
                         ),
-                        textAlign: TextAlign.center,
-                      ),
-                      Center(
-                        child: Column(
-                          children: [
-                            Text(
-                              "Carbohidratos",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 13,
+                        Center(
+                          child: Column(
+                            children: [
+                              Text(
+                                "Carbohidratos",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 13,
+                                ),
                               ),
-                            ),
-                            Text(
-                              "${controller.roundDecimal(controller.orderedMeals.values.elementAt(i)[index]["carbohydrate_kcal"])}Kcal",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontWeight: FontWeight.w300,
-                                fontSize: 13,
+                              Text(
+                                "${controller.roundDecimal(controller.orderedMeals.values.elementAt(i)[index]["carbohydrate_kcal"])}Kcal",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w300,
+                                  fontSize: 13,
+                                ),
                               ),
-                            ),
-                            Text(
-                              "Proteínas",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 13,
+                              Text(
+                                "Proteínas",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 13,
+                                ),
                               ),
-                            ),
-                            Text(
-                              "${controller.roundDecimal(controller.orderedMeals.values.elementAt(i)[index]["protein_kcal"])}Kcal",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontWeight: FontWeight.w300,
-                                fontSize: 13,
+                              Text(
+                                "${controller.roundDecimal(controller.orderedMeals.values.elementAt(i)[index]["protein_kcal"])}Kcal",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w300,
+                                  fontSize: 13,
+                                ),
                               ),
-                            ),
-                            Text(
-                              "Grasas",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 13,
+                              Text(
+                                "Grasas",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 13,
+                                ),
                               ),
-                            ),
-                            Text(
-                              "${controller.roundDecimal(controller.orderedMeals.values.elementAt(i)[index]["fat_kcal"])}Kcal",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontWeight: FontWeight.w300,
-                                fontSize: 13,
+                              Text(
+                                "${controller.roundDecimal(controller.orderedMeals.values.elementAt(i)[index]["fat_kcal"])}Kcal",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w300,
+                                  fontSize: 13,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              ), 
-              /* Text( 
+                /* Text( 
                 (
                 (() {
                 if(i == 1){
@@ -221,142 +233,56 @@ class NutritionalPlan extends GetView<PatientHomeController> {
                 ).toString()
 
               ), */
-              Expanded(
-                child: Checkbox(                  
-                  checkColor: Colors.white,
-                  activeColor: customGreen,
-                  value: 
-                  (() {
-                  if(controller.traceIds[controller.currentDay.value]["success"]){
-                  return controller.traceIds[controller.currentDay.value]["success"];}                                   
-                  return checkedmeals[(
-                (() {
-                if(i == 1){
-                return 1;}else if (i==2){return 3;} else if (i==3){return 4;}
-                return 0;
-                })()
-                + 
-                i+index
-                )];
-                  })(), //controller.traceIds[controller.currentDay.value]["success"],
-                  onChanged: (bool? value) {
-                    setState(() {
-                      checkedmeals[(
-                (() {
-                if(i == 1){
-                return 1;}else if (i==2){return 3;} else if (i==3){return 4;}
-                return 0;
-                })()
-                + 
-                i+index
-                )] = true; 
-                    });
+                Expanded(
+                  child: Checkbox(
+                    checkColor: Colors.white,
+                    activeColor: customGreen,
+                    value: (() {
+                      if (controller.traceIds[controller.currentDay.value]
+                          ["success"]) {
+                        return controller.traceIds[controller.currentDay.value]
+                            ["success"];
+                      }
+                      return checkedmeals[((() {
+                            if (i == 1) {
+                              return 1;
+                            } else if (i == 2) {
+                              return 3;
+                            } else if (i == 3) {
+                              return 4;
+                            }
+                            return 0;
+                          })() +
+                          i +
+                          index)];
+                    })(), //controller.traceIds[controller.currentDay.value]["success"],
+                    onChanged: (bool? value) {
+                      setState(() {
+                        checkedmeals[((() {
+                              if (i == 1) {
+                                return 1;
+                              } else if (i == 2) {
+                                return 3;
+                              } else if (i == 3) {
+                                return 4;
+                              }
+                              return 0;
+                            })() +
+                            i +
+                            index)] = true;
+                      });
 
-                  if(checkedmeals.contains(false)){ }
-                    else { controller.updateTrace(controller.traceIds[controller.currentDay.value]["id"]); }
-
-                  },
-                ),
-              ),
-            ],
-          );
-        }));
-    });
-  }
-
-  
-
-  Widget _mealDetails(int index, BuildContext context) {
-    return Builder(builder: (context) {
-      return Dialog(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              padding: EdgeInsets.fromLTRB(10, 50, 20, 20),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: Container(
-                          child: Column(
-                            children: [
-                              Text(meals[index].name,
-                                  style: TextStyle(
-                                      fontSize: 24,
-                                      color: customGreen,
-                                      fontWeight: FontWeight.bold),
-                                  textAlign: TextAlign.center),
-                              Container(
-                                padding: EdgeInsets.fromLTRB(10, 20, 20, 20),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(15.0),
-                                  child: Image.network(
-                                    meals[index].imageUrl,
-                                    scale: 4,
-                                  ),
-                                ),
-                              ),
-                              Text(
-                                  days[days.keys
-                                      .elementAt(controller.currentDay.value)],
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    color: customGreen,
-                                  ),
-                                  textAlign: TextAlign.center),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.only(left: 10),
-                        child: Column(
-                          children: [
-                            infoText("Carbohidratos", true),
-                            infoText("30Kcal", false),
-                            Divider(),
-                            infoText("Proteínas", true),
-                            infoText("30Kcal", false),
-                            Divider(),
-                            infoText("Grasas", true),
-                            infoText("30Kcal", false),
-                            Divider(),
-                            Text(
-                              "Kcal totales",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.red,
-                                  fontSize: 20),
-                            ),
-                            Text(
-                              "90Kcal",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(fontSize: 20),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 10),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.pop(context);
+                      if (checkedmeals.contains(false)) {
+                      } else {
+                        controller.updateTrace(controller
+                            .traceIds[controller.currentDay.value]["id"]);
+                      }
                     },
-                    style: ElevatedButton.styleFrom(primary: Colors.amber),
-                    child: Text(
-                      "Cerrar",
-                      style: TextStyle(color: Colors.black),
-                    ),
                   ),
-                ],
-              ),
-            ),
-          ],
+                ),
+              ],
+            );
+          },
         ),
       );
     });

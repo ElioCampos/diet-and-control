@@ -50,13 +50,14 @@ class DatosPersonales extends GetWidget<NewPatientController> {
                       child: Row(
                         children: [
                           Container(
-                              width: 85.0,
-                              child: Text(
-                                "Fecha de nacimiento: ",
-                                style: TextStyle(
-                                    color: Color.fromRGBO(59, 203, 90, 1.0),
-                                    fontWeight: FontWeight.bold),
-                              )),
+                            width: 85.0,
+                            child: Text(
+                              "Fecha de nacimiento: ",
+                              style: TextStyle(
+                                  color: Color.fromRGBO(59, 203, 90, 1.0),
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
                           Container(
                             width: 150.0,
                             height: 42.0,
@@ -66,24 +67,26 @@ class DatosPersonales extends GetWidget<NewPatientController> {
                                 borderRadius: BorderRadius.circular(30.0),
                                 border: Border.all(
                                     color: Color.fromRGBO(112, 112, 112, 1.0))),
-                            child: Obx(() => TextField(
-                                  readOnly: true,
-                                  style: TextStyle(fontSize: 15.0),
-                                  decoration: InputDecoration(
-                                      labelText: controller.dateFormat.value,
-                                      border: InputBorder.none,
-                                      labelStyle: TextStyle(
-                                          color: Colors.black, fontSize: 13.0),
-                                      suffixIcon: IconButton(
-                                        icon:
-                                            Icon(Icons.calendar_today_rounded),
-                                        color: Color.fromRGBO(59, 203, 90, 1.0),
-                                        onPressed: () {
-                                          _selectDate(context);
-                                          controller.calcIcmTmb();
-                                        },
-                                      )),
-                                )),
+                            child: Obx(
+                              () => TextField(
+                                readOnly: true,
+                                style: TextStyle(fontSize: 15.0),
+                                decoration: InputDecoration(
+                                  labelText: controller.dateFormat.value,
+                                  border: InputBorder.none,
+                                  labelStyle: TextStyle(
+                                      color: Colors.black, fontSize: 13.0),
+                                  suffixIcon: IconButton(
+                                    icon: Icon(Icons.calendar_today_rounded),
+                                    color: Color.fromRGBO(59, 203, 90, 1.0),
+                                    onPressed: () {
+                                      _selectDate(context);
+                                      controller.calcIcmTmb();
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ),
                           ),
                         ],
                       ),

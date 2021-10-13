@@ -22,10 +22,9 @@ class PatientHomeController extends NewPlanController {
           await Get.find<ViewStatusController>()
               .getPlanTrace(personalTreatmentId.value);
         }
-
         refreshMeals();
         if (!fromDoctor) {
-          getPatientTraces();
+          await getPatientTraces();
         }
         loading.value = false;
       } else {

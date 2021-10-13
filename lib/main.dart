@@ -3,6 +3,7 @@ import 'package:diet_and_control/modules/controllers/new_patient_controller/new_
 import 'package:diet_and_control/modules/controllers/new_plan_controller/new_plan_controller.dart';
 import 'package:diet_and_control/modules/controllers/nutritionist_home_controller/nutritionist_home_controller.dart';
 import 'package:diet_and_control/modules/controllers/patient_home_controller/patient_home_controller.dart';
+import 'package:diet_and_control/modules/controllers/view_status_controller/view_status_controller.dart';
 import 'package:diet_and_control/modules/views/auth/login.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -13,6 +14,7 @@ void main() {
   Get.put(NutritionistHomeController());
   Get.put(NewPlanController());
   Get.put(PatientHomeController());
+  Get.put(ViewStatusController());
   runApp(MyApp());
 }
 

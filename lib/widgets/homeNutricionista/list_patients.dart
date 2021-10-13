@@ -43,14 +43,15 @@ class ListPacientes extends GetView<NutritionistHomeController> {
                           width: 160.0,
                           margin: EdgeInsets.only(left: 10.0, bottom: 40.0),
                           decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(20.0),
-                              boxShadow: [
-                                BoxShadow(
-                                    blurRadius: 3.0,
-                                    color: Colors.black,
-                                    offset: Offset(2.0, 2.0))
-                              ]),
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(20.0),
+                            boxShadow: [
+                              BoxShadow(
+                                  blurRadius: 3.0,
+                                  color: Colors.black,
+                                  offset: Offset(2.0, 2.0))
+                            ],
+                          ),
                           child: Column(
                             children: [
                               Container(
@@ -73,7 +74,7 @@ class ListPacientes extends GetView<NutritionistHomeController> {
                                 child: CircleAvatar(
                                   radius: 50.0,
                                   backgroundImage:
-                                      NetworkImage(pacientes[index].photo),
+                                      NetworkImage(pacientes[0].photo),
                                 ),
                               ),
                               // Container(
@@ -112,8 +113,9 @@ class ListPacientes extends GetView<NutritionistHomeController> {
                               // ),
                               GestureDetector(
                                 onTap: () async {
-                                  print(controller.patients[index]["user"]);
-                                  await Get.find<PatientHomeController>().getPatientPlan(controller.patients[index]["user"], true);
+                                  Get.find<PatientHomeController>()
+                                      .loading
+                                      .value = true;
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -122,6 +124,10 @@ class ListPacientes extends GetView<NutritionistHomeController> {
                                       ),
                                     ),
                                   );
+                                  await Get.find<PatientHomeController>()
+                                      .getPatientPlan(
+                                          controller.patients[index]["user"],
+                                          true);
                                   // print(Get.find<AuthController>().token.value);
                                 },
                                 child: Padding(
@@ -138,13 +144,15 @@ class ListPacientes extends GetView<NutritionistHomeController> {
                             ],
                           ),
                         );
-                      })
+                      },
+                    )
                   : Center(
                       child: Text(
-                      "No tienes pacientes.",
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    )),
+                        "No tienes pacientes.",
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
+                    ),
             )
           ],
         ),

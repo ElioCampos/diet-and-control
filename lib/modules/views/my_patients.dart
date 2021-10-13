@@ -1,5 +1,6 @@
 import 'package:diet_and_control/models/patient.dart';
 import 'package:diet_and_control/modules/controllers/nutritionist_home_controller/nutritionist_home_controller.dart';
+import 'package:diet_and_control/modules/controllers/patient_home_controller/patient_home_controller.dart';
 import 'package:diet_and_control/modules/views/view_plan.dart';
 import 'package:diet_and_control/widgets/myPatients/button_patients.dart';
 import 'package:diet_and_control/widgets/myPatients/data_patient.dart';
@@ -66,8 +67,8 @@ class MyPatients extends GetView<NutritionistHomeController> {
                                       children: [
                                         CircleAvatar(
                                           radius: 35.0,
-                                          backgroundImage: NetworkImage(
-                                              pacientes[index].photo),
+                                          backgroundImage:
+                                              NetworkImage(pacientes[0].photo),
                                         ),
                                         SizedBox(
                                           width: 20.0,
@@ -85,16 +86,15 @@ class MyPatients extends GetView<NutritionistHomeController> {
                                                         ["last_name"]),
                                             DataPatient(
                                                 data: "Enfermedad: " +
-                                                    pacientes[index]
-                                                        .enfermedad),
+                                                    pacientes[0].enfermedad),
                                             DataPatient(
                                                 data: "Progreso: " +
-                                                    pacientes[index].status),
+                                                    pacientes[0].status),
                                           ],
                                         )
                                       ],
                                     ),
-                                    ViewStatus(paciente: pacientes[index]),
+                                    // ViewStatus(pacientes[0]),
                                     Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceAround,
@@ -111,21 +111,31 @@ class MyPatients extends GetView<NutritionistHomeController> {
                                                   builder: (_) {
                                                     return PatientLog(
                                                       patientName:
-                                                          pacientes[index].name,
+                                                          pacientes[0].name,
                                                     );
                                                   });
                                             }),
                                         ButtonPatients(
                                           title: "Ver plan nutricional",
-                                          onTap: () {
+                                          onTap: () async {
+                                            Get.find<PatientHomeController>()
+                                                .loading
+                                                .value = true;
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(
                                                 builder: (context) => ViewPlan(
-                                                  controller.patients[index]["user"],
+                                                  controller.patients[index]
+                                                      ["user"],
                                                 ),
                                               ),
                                             );
+                                            await Get.find<
+                                                    PatientHomeController>()
+                                                .getPatientPlan(
+                                                    controller.patients[index]
+                                                        ["user"],
+                                                    true);
                                           },
                                         ),
                                       ],

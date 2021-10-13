@@ -1,4 +1,5 @@
 import 'package:diet_and_control/modules/controllers/new_plan_controller/new_plan_controller.dart';
+import 'package:diet_and_control/modules/controllers/view_status_controller/view_status_controller.dart';
 import 'package:diet_and_control/modules/providers/patient_home_provider/patient_home_provider.dart';
 import 'package:dio/dio.dart' as dio;
 import 'package:get/get.dart';
@@ -17,10 +18,16 @@ class PatientHomeController extends NewPlanController {
       if (response.statusCode == 200) {
         menus.value = response.data[0]["treatment"]["menus"];
         personalTreatmentId.value = response.data[0]["id"];
+        if (fromDoctor) {
+          await Get.find<ViewStatusController>()
+              .getPlanTrace(personalTreatmentId.value);
+        }
+
         refreshMeals();
         if (!fromDoctor) {
           getPatientTraces();
         }
+        loading.value = false;
       } else {
         logger.i(response.statusCode);
         loading.value = false;

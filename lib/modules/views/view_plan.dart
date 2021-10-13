@@ -7,6 +7,7 @@ import 'package:diet_and_control/widgets/myPatients/data_patient.dart';
 import 'package:diet_and_control/widgets/myPatients/view_status.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 
 Map days = {
   "Lu": "Lunes",
@@ -35,121 +36,133 @@ class ViewPlan extends GetView<PatientHomeController> {
     }
     return Obx(
       () => Scaffold(
-        body: SafeArea(
-          child: SingleChildScrollView(
-            child: Container(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  IconButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      icon: Icon(Icons.arrow_back_ios, size: 30.0)),
-                  SizedBox(
-                    height: 20.0,
+        body: controller.loading.value
+            ? Center(
+                child: SizedBox(
+                  height: 150,
+                  width: 150,
+                  child: LoadingIndicator(
+                    colors: [Colors.green],
+                    indicatorType: Indicator.ballClipRotateMultiple,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      CircleAvatar(
-                        radius: 35.0,
-                        backgroundImage:
-                            NetworkImage(pacientes[patientId].photo),
-                      ),
-                      SizedBox(
-                        width: 20.0,
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          DataPatient(
-                              data:
-                                  "Nombre: ${currentPatient["first_name"]} ${currentPatient["last_name"]}"),
-                          DataPatient(
-                              data: "Enfermedad: " +
-                                  pacientes[patientId].enfermedad),
-                        ],
-                      )
-                    ],
-                  ),
-                  ViewStatus(paciente: pacientes[patientId]),
-                  Divider(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      ButtonPatients(
-                          title: "Modificar plan", onTap: () => null),
-                      ButtonPatients(
-                          title: "Ver datos estadísticos", onTap: () => null),
-                    ],
-                  ),
-                  Divider(),
-                  Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: customGreen,
-                        width: 2,
-                      ),
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(20),
-                      ),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: List.generate(
-                        days.length,
-                        (index) {
-                          return InkWell(
-                              child: Container(
-                                padding: EdgeInsets.all(10),
-                                child: Text(
-                                  days.keys.elementAt(index),
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight:
-                                          index == controller.currentDay.value
-                                              ? FontWeight.bold
-                                              : FontWeight.w300,
-                                      color:
-                                          index == controller.currentDay.value
-                                              ? customGreen
-                                              : null),
-                                ),
-                              ),
-                              onTap: () {
-                                controller.selectDay(index);
-                              });
-                        },
-                      ),
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.only(top: 10),
+                ),
+              )
+            : SafeArea(
+                child: SingleChildScrollView(
+                  child: Container(
                     child: Column(
-                      children: List.generate(4, (index) {
-                        return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        IconButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            icon: Icon(Icons.arrow_back_ios, size: 30.0)),
+                        SizedBox(
+                          height: 20.0,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            SizedBox(height: 20),
-                            Text(
-                              controller.orderedMeals.keys.elementAt(index),
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  color: customGreen,
-                                  fontWeight: FontWeight.bold),
+                            CircleAvatar(
+                              radius: 35.0,
+                              backgroundImage: NetworkImage(pacientes[0].photo),
                             ),
-                            Divider(),
-                            _mealsByType(index),
+                            SizedBox(
+                              width: 20.0,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                DataPatient(
+                                    data:
+                                        "Nombre: ${currentPatient["first_name"]} ${currentPatient["last_name"]}"),
+                                DataPatient(
+                                    data: "Enfermedad: " +
+                                        pacientes[0].enfermedad),
+                              ],
+                            )
                           ],
-                        );
-                      }),
+                        ),
+                        ViewStatus(pacientes[0]),
+                        Divider(),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            ButtonPatients(
+                                title: "Modificar plan", onTap: () => null),
+                            ButtonPatients(
+                                title: "Ver datos estadísticos",
+                                onTap: () => null),
+                          ],
+                        ),
+                        Divider(),
+                        Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: customGreen,
+                              width: 2,
+                            ),
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(20),
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: List.generate(
+                              days.length,
+                              (index) {
+                                return InkWell(
+                                    child: Container(
+                                      padding: EdgeInsets.all(10),
+                                      child: Text(
+                                        days.keys.elementAt(index),
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: index ==
+                                                    controller.currentDay.value
+                                                ? FontWeight.bold
+                                                : FontWeight.w300,
+                                            color: index ==
+                                                    controller.currentDay.value
+                                                ? customGreen
+                                                : null),
+                                      ),
+                                    ),
+                                    onTap: () {
+                                      controller.selectDay(index);
+                                    });
+                              },
+                            ),
+                          ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.only(top: 10),
+                          child: Column(
+                            children: List.generate(4, (index) {
+                              return Column(
+                                children: [
+                                  SizedBox(height: 20),
+                                  Text(
+                                    controller.orderedMeals.keys
+                                        .elementAt(index),
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        color: customGreen,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Divider(),
+                                  _mealsByType(index),
+                                ],
+                              );
+                            }),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
+                ),
               ),
-            ),
-          ),
-        ),
       ),
     );
   }

@@ -61,8 +61,6 @@ Future<Response> getPatientTrace() async {
     return response;
   }
 
-
-
   Future<Response> updateTrace(int treatmentId) async {
     final _dio = Dio();
     final Response response;    

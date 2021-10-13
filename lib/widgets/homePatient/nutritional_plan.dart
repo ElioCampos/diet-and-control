@@ -15,7 +15,7 @@ Map days = {
   "Do": "Domingo"
 };
 
-class NutritionalPlan extends GetView<PatientHomeController> {
+class  NutritionalPlan extends GetView<PatientHomeController> {
   List<bool> checkedmeals = [
     false,
     false,
@@ -255,7 +255,8 @@ class NutritionalPlan extends GetView<PatientHomeController> {
                           })() +
                           i +
                           index)];
-                    })(), //controller.traceIds[controller.currentDay.value]["success"],
+                    })(),
+                    // controller.traceIds[controller.currentDay.value]["success"],
                     onChanged: (bool? value) {
                       setState(() {
                         checkedmeals[((() {

@@ -20,6 +20,7 @@ class AuthController extends GetxController {
   final RxInt userId = 0.obs;
   final RxMap userData = {}.obs;
   final RxInt patientId = 0.obs;
+  final RxBool accountNotFound = false.obs;
 
   //*Login
 
@@ -53,6 +54,7 @@ class AuthController extends GetxController {
       response = await AuthProvider()
           .getSession(usernameController.text, passwordController.text);
       if (response.statusCode == 201 || response.statusCode == 200) {
+        accountNotFound.value = false;
         token.value = response.data["access"].toString();
         Map<String, dynamic> payload = Jwt.parseJwt(token.value);
         userId.value = payload["user_id"];
@@ -61,6 +63,7 @@ class AuthController extends GetxController {
         logger.i(response.statusCode);
       }
     } on Exception catch (e) {
+      accountNotFound.value = true;
       logger.e(e);
       loading.value = false;
     }
@@ -118,7 +121,8 @@ class AuthController extends GetxController {
       if (response.statusCode == 302) {
         userData.value = response.data;
         if (response.data["type"] == "patient") {
-          await Get.find<PatientHomeController>().getPatientPlan(userId.value, false);
+          await Get.find<PatientHomeController>()
+              .getPatientPlan(userId.value, false);
           Get.to(MainNavigator(
             isPatient: true,
           ));

@@ -13,6 +13,8 @@ bool emailValid = true;
 bool passValid = true;
 
 class Login extends GetView<AuthController> {
+  final snackBar = SnackBar(content: Text("Credenciales incorrectas."));
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,6 +66,10 @@ class Login extends GetView<AuthController> {
                                   : passValid = false;
                               if (userValid && passValid) {
                                 await controller.getSesion();
+                                if (controller.accountNotFound.value) {
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(snackBar);
+                                }
                               }
                             },
                           ),

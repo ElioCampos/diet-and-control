@@ -8,6 +8,7 @@ class PatientHomeController extends NewPlanController {
   final RxInt personalTreatmentId = 0.obs;
   final RxList traceIds = [].obs;
   final RxInt monday = 0.obs;
+  final RxBool noPlan = false.obs;
 
   Future getPatientPlan(int userId, bool fromDoctor) async {
     loading.value = true;
@@ -16,17 +17,23 @@ class PatientHomeController extends NewPlanController {
       response = await PatientHomeProvider().getPatientPlan(userId);
       logger.i(response.data);
       if (response.statusCode == 200) {
-        menus.value = response.data[0]["treatment"]["menus"];
-        personalTreatmentId.value = response.data[0]["id"];
-        if (fromDoctor) {
-          await Get.find<ViewStatusController>()
-              .getPlanTrace(personalTreatmentId.value);
+        if (response.data.length >= 1) {
+          noPlan.value = false;
+          menus.value = response.data[0]["treatment"]["menus"];
+          personalTreatmentId.value = response.data[0]["id"];
+          if (fromDoctor) {
+            await Get.find<ViewStatusController>()
+                .getPlanTrace(personalTreatmentId.value);
+          }
+          refreshMeals();
+          if (!fromDoctor) {
+            await getPatientTraces();
+          }
+          loading.value = false;
         }
-        refreshMeals();
-        if (!fromDoctor) {
-          await getPatientTraces();
+        else {
+          noPlan.value = true;
         }
-        loading.value = false;
       } else {
         logger.i(response.statusCode);
         loading.value = false;

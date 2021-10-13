@@ -15,7 +15,7 @@ Map days = {
   "Do": "Domingo"
 };
 
-class  NutritionalPlan extends GetView<PatientHomeController> {
+class NutritionalPlan extends GetView<PatientHomeController> {
   List<bool> checkedmeals = [
     false,
     false,
@@ -30,88 +30,97 @@ class  NutritionalPlan extends GetView<PatientHomeController> {
   @override
   Widget build(BuildContext context) {
     return Obx(
-      () => Container(
-        child: Column(
-          children: [
-            Text(
-              (() {
-                if (controller.traceIds[controller.currentDay.value]
-                        ["success"] ==
-                    true) {
-                  return "Completado";
-                }
-                return "Por completar";
-              })(),
-              // controller.traceIds[controller.currentDay.value]["id"].toString(),
-              style: TextStyle(
-                  fontSize: 20,
-                  color: customGreen,
-                  fontWeight: FontWeight.bold),
-            ),
-            Container(
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: customGreen,
-                  width: 2,
-                ),
-                borderRadius: BorderRadius.all(
-                  Radius.circular(20),
-                ),
+      () => controller.noPlan.value
+          ? Center(
+              child: Text(
+                "No tienes un plan asignado.",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: List.generate(
-                  days.length,
-                  (index) {
-                    return InkWell(
-                        child: Container(
-                          padding: EdgeInsets.all(10),
-                          child: Text(
-                            days.keys.elementAt(index),
-                            style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: index == controller.currentDay.value
-                                    ? FontWeight.bold
-                                    : FontWeight.w300,
-                                color: index == controller.currentDay.value
-                                    ? customGreen
-                                    : null),
-                          ),
-                        ),
-                        onTap: () {
-                          controller.selectDay(index);
-                          checkedmeals = List.filled(8, false);
-                        });
-                  },
-                ),
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.only(top: 10),
+            )
+          : Container(
               child: Column(
-                children: List.generate(4, (index) {
-                  return Column(
-                    children: [
-                      SizedBox(height: 20),
-                      Text(
-                        controller.orderedMeals.keys.elementAt(index),
-                        style: TextStyle(
-                            fontSize: 20,
-                            color: customGreen,
-                            fontWeight: FontWeight.bold),
+                children: [
+                  Text(
+                    (() {
+                      if (controller.traceIds[controller.currentDay.value]
+                              ["success"] ==
+                          true) {
+                        return "Completado";
+                      }
+                      return "Por completar";
+                    })(),
+                    // controller.traceIds[controller.currentDay.value]["id"].toString(),
+                    style: TextStyle(
+                        fontSize: 20,
+                        color: customGreen,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: customGreen,
+                        width: 2,
                       ),
-                      Divider(),
-                      _mealsByType(index),
-                    ],
-                  );
-                }),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(20),
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: List.generate(
+                        days.length,
+                        (index) {
+                          return InkWell(
+                              child: Container(
+                                padding: EdgeInsets.all(10),
+                                child: Text(
+                                  days.keys.elementAt(index),
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight:
+                                          index == controller.currentDay.value
+                                              ? FontWeight.bold
+                                              : FontWeight.w300,
+                                      color:
+                                          index == controller.currentDay.value
+                                              ? customGreen
+                                              : null),
+                                ),
+                              ),
+                              onTap: () {
+                                controller.selectDay(index);
+                                checkedmeals = List.filled(8, false);
+                              });
+                        },
+                      ),
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(top: 10),
+                    child: Column(
+                      children: List.generate(4, (index) {
+                        return Column(
+                          children: [
+                            SizedBox(height: 20),
+                            Text(
+                              controller.orderedMeals.keys.elementAt(index),
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  color: customGreen,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            Divider(),
+                            _mealsByType(index),
+                          ],
+                        );
+                      }),
+                    ),
+                  ),
+                  Divider(),
+                  ListMensajes(),
+                ],
               ),
             ),
-            Divider(),
-            ListMensajes(),
-          ],
-        ),
-      ),
     );
   }
 

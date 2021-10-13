@@ -65,6 +65,7 @@ class CreatePlan extends GetView<NewPatientController> {
                                     .assignPlan();
                                 await Get.find<NutritionistHomeController>()
                                     .getPatients();
+                                Get.find<NewPatientController>().clearSpaces();
                                 showDialog<void>(
                                   context: context,
                                   builder: (BuildContext context) {

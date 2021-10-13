@@ -243,6 +243,33 @@ class NewPatientController extends GetxController {
     }
   }
 
+  clearSpaces() {
+    userController.text = "";
+    emailController.text = "";
+    passController.text = "";
+    nameController.text = "";
+    lastNameController.text = "";
+    bornController.text = "";
+    phoneController.text = "";
+    dniController.text = "";
+
+    weightController.text = "";
+    heightController.text = "";
+    armController.text = "";
+    abdomenController.text = "";
+    hipsController.text = "";
+
+    carbohydrateController.text = "";
+    proteinController.text = "";
+    fatController.text = "";
+
+    carbohydrateController.text = 0.toString();
+    proteinController.text = 0.toString();
+    fatController.text = 0.toString();
+
+    tmbController.text = "";
+  }
+
   @override
   void onReady() {
     super.onReady();

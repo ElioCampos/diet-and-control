@@ -1,3 +1,4 @@
+import 'package:diet_and_control/modules/controllers/new_patient_controller/new_patient_controller.dart';
 import 'package:diet_and_control/modules/providers/nutritionist_home_provider/nutritionist_home_provider.dart';
 import 'package:diet_and_control/modules/views/auth/login.dart';
 import 'package:get/get.dart';
@@ -40,6 +41,7 @@ class NutritionistHomeController extends GetxController {
 
   void logoutUser() {
     patients.value = [];
+    Get.find<NewPatientController>().clearSpaces();
     Get.offAll(Login());
   }
 

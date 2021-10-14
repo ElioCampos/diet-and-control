@@ -110,8 +110,10 @@ class MyPatients extends GetView<NutritionistHomeController> {
                                                   context: context,
                                                   builder: (_) {
                                                     return PatientLog(
-                                                      patientName:
-                                                          pacientes[0].name,
+                                                      patientName: controller.patients[index]["first_name"]+ " " +controller.patients[index]["last_name"],
+                                                      patientRegisterDate: controller.patients[index]["register_date"],
+                                                      patientIMC: controller.patients[index]["imc"].toString(),
+                                                      patientWeight: controller.patients[index]["weight"].toString(),
                                                     );
                                                   });
                                             }),

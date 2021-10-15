@@ -90,6 +90,7 @@ class _MessagesPageState extends State<MessagesPage> {
                                   MaterialPageRoute(
                                     builder: (BuildContext context) => ChatUI(
                                       username:getName(chats[i]),
+                                      chatId: chats[i]["id"],
                                     ),
                                   ),
                                 );

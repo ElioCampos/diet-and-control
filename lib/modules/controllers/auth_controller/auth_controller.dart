@@ -128,6 +128,7 @@ class AuthController extends GetxController {
           ));
         } else {
           await Get.find<NutritionistHomeController>().getPatients();
+          await Get.find<NutritionistHomeController>().getChats();
           await Get.find<NewPatientController>().getHarmfulHabits();
           await Get.find<NewPatientController>().getIllnesses();
           Get.to(MainNavigator(

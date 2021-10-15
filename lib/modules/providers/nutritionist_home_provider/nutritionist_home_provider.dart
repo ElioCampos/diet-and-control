@@ -28,4 +28,24 @@ class NutritionistHomeProvider {
     logger.i(response.data);
     return response;
   }
+
+  Future<Response> getChats() async {
+    final _dio = Dio();
+    final Response response;
+    String token = global.Get.find<AuthController>().token.value;
+    int userId = global.Get.find<AuthController>().userId.value;
+    _dio.options.headers = {"Authorization": "Bearer $token"};
+    _dio.options.baseUrl = HttpInfo.url;
+    try {
+      logger.d(userId);
+      response = await _dio.get(
+        "/profiles/$userId/chats",
+      );
+    } on DioError catch(e) {
+      logger.e(e.response);
+      throw Exception(e);
+    }
+    logger.i(response.data);
+    return response;
+  }
 }

@@ -1,6 +1,9 @@
-import 'package:diet_and_control/models/messages.dart';
+import 'package:diet_and_control/modules/controllers/auth_controller/auth_controller.dart';
+import 'package:diet_and_control/modules/controllers/nutritionist_home_controller/nutritionist_home_controller.dart';
 import 'package:diet_and_control/utils/text_style.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart' as global;
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
 
 import 'chat_ui.dart';
 
@@ -12,8 +15,19 @@ class MessagesPage extends StatefulWidget {
 }
 
 class _MessagesPageState extends State<MessagesPage> {
+
+  String getName(chat) {
+     return chat["sender_id"] ==
+         global.Get.find<AuthController>()
+             .userId
+             .value
+         ? "${chat["receiver_name"]}"
+         : "${chat["sender_name"]}";
+  }
+
   @override
   Widget build(BuildContext context) {
+    RxList chats = global.Get.find<NutritionistHomeController>().chats;
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -32,7 +46,7 @@ class _MessagesPageState extends State<MessagesPage> {
                     Container(
                       width: 290.0,
                       child: Text(
-                        "Mensajes",
+                        "Chats",
                         style: TextStyle(
                             color: Color.fromRGBO(59, 203, 90, 1.0),
                             fontSize: 27.0,
@@ -58,13 +72,13 @@ class _MessagesPageState extends State<MessagesPage> {
                       scrollDirection: Axis.vertical,
                       physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
-                      itemCount: messages.length,
+                      itemCount:  chats.length,
                       itemBuilder: (BuildContext context, i) {
                         return Column(
                           children: [
                             ListTile(
-                              title: Text(messages[i].user),
-                              subtitle: Text(messages[i].message),
+                              title: Text(getName(chats[i]),),
+                              // subtitle: Text(messages[i].message),
                               leading: CircleAvatar(
                                 backgroundImage: NetworkImage(
                                     "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y&s=128"),
@@ -75,7 +89,7 @@ class _MessagesPageState extends State<MessagesPage> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (BuildContext context) => ChatUI(
-                                      username: messages[i].user,
+                                      username:getName(chats[i]),
                                     ),
                                   ),
                                 );

@@ -12,6 +12,7 @@ class NutritionistHomeController extends GetxController {
 
   final RxBool loading = false.obs;
   final RxList patients = [].obs;
+  final RxList chats = [].obs;
 
   @override
   void onInit() {
@@ -31,6 +32,22 @@ class NutritionistHomeController extends GetxController {
           patients.add(patient);
         }
         ids.add(patient["user"]);
+      }
+      loading.value = false;
+    } on Exception catch (e) {
+      logger.e(e);
+      loading.value = false;
+    }
+  }
+  Future getChats() async {
+    loading.value = true;
+    dio.Response response;
+    try {
+      chats.value = [];
+      response = await NutritionistHomeProvider().getChats();
+      logger.i(response.data);
+      for (var chat in response.data) {
+        chats.add(chat);
       }
       loading.value = false;
     } on Exception catch (e) {

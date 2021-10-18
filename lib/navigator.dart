@@ -8,6 +8,7 @@ import 'modules/views/home_nutritionist.dart';
 import 'modules/views/home_patient.dart';
 import 'modules/views/messages_page.dart';
 import 'modules/views/my_patients.dart';
+import 'modules/views/my_plan.dart';
 import 'modules/views/new_patient.dart';
 
 class MainNavigator extends StatefulWidget {
@@ -19,7 +20,7 @@ class MainNavigator extends StatefulWidget {
 }
 
 class _MainNavigatorState extends State<MainNavigator> {
-  List<Widget> _routes = [HomePatient(), HomePatient(), HomePatient()];
+  List<Widget> _routes = [HomePatient(), MyPlan(), MessagesPage()];
   List<Widget> _routesN = [];
   int _activePage = 0;
 

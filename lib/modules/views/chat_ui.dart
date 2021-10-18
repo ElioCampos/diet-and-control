@@ -12,7 +12,8 @@ class ChatMessage {
 
 class ChatUI extends StatefulWidget {
   final String username;
-  const ChatUI({Key? key, required this.username}) : super(key: key);
+  final int chatId;
+  const ChatUI({Key? key, required this.username, required this.chatId}) : super(key: key);
 
   @override
   _ChatUIState createState() => _ChatUIState();

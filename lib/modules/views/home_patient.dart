@@ -1,8 +1,10 @@
 import 'package:diet_and_control/modules/controllers/auth_controller/auth_controller.dart';
 import 'package:diet_and_control/modules/controllers/patient_home_controller/patient_home_controller.dart';
 import 'package:diet_and_control/utils/text_style.dart';
+import 'package:diet_and_control/widgets/homePatient/button_picture.dart';
 import 'package:diet_and_control/widgets/homePatient/nutritional_plan.dart';
 import 'package:diet_and_control/modules/views/auth/login.dart';
+import 'package:diet_and_control/widgets/myPatients/patient_log.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -10,7 +12,9 @@ class HomePatient extends GetView<PatientHomeController> {
   @override
   Widget build(BuildContext context) {
     Map userData = Get.find<AuthController>().userData;
-    String name = userData["first_name"] + " " + userData["last_name"];
+    String name = userData["first_name"] + " " + userData["last_name"];  
+    controller.getPatientLog(userData["user"]);
+    List log = controller.patientLog;  
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -85,6 +89,33 @@ class HomePatient extends GetView<PatientHomeController> {
                     )
                   ],
                 ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 15.0, horizontal: 7.0),
+                  child: Text(
+                    "Mi Progreso",
+                    style: TextStyle(
+                        color: Color.fromRGBO(0, 214, 129, 1.0),
+                        fontSize: 25.0),
+                  ),
+                ),ButtonPicture( title: "Ver Historial",
+                  pictureUrl: "https://cdn.discordapp.com/attachments/874441203809144853/899723913557336074/historial.png",
+                  onTap: () {
+                    showDialog(
+                        barrierLabel: "Barrier",
+                        barrierDismissible: true,
+                        barrierColor: Color.fromRGBO(
+                            30, 30, 30, 0.7),
+                        context: context,                        
+                        builder: (_) {                          
+                          return PatientLog(
+                            patientName: userData["first_name"]+ " " + userData["last_name"],
+                            patientRegisterDate: userData["register_date"],
+                            patientIMC: log[0]["imc"].toString(),
+                            patientWeight: log[0]["weight"].toString(),
+                          );
+                  });
+                }),
                 Padding(
                   padding: const EdgeInsets.symmetric(
                       vertical: 15.0, horizontal: 7.0),

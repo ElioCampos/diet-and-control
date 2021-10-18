@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 class PatientHomeController extends NewPlanController {
   final RxInt personalTreatmentId = 0.obs;
   final RxList traceIds = [].obs;
+  final RxList patientLog = [].obs;
   final RxInt monday = 0.obs;
   final RxBool noPlan = false.obs;
 
@@ -78,6 +79,21 @@ class PatientHomeController extends NewPlanController {
     } on Exception catch (e) {
       logger.e(e);
       loading.value = false;
+    }
+  }
+
+  Future getPatientLog(int patientId) async {
+    dio.Response response;
+    try {
+      response = await PatientHomeProvider().getPatientLog(patientId);
+      logger.i(response.data);
+      if (response.statusCode == 200) {
+        patientLog.value = response.data;
+      } else {
+        logger.i(response.statusCode);
+      }
+    } on Exception catch (e) {
+      logger.e(e);
     }
   }
 

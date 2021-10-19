@@ -1,9 +1,11 @@
 import 'package:diet_and_control/modules/controllers/auth_controller/auth_controller.dart';
 import 'package:diet_and_control/modules/controllers/nutritionist_home_controller/nutritionist_home_controller.dart';
+import 'package:diet_and_control/modules/providers/chat_providers/channel_provider.dart';
 import 'package:diet_and_control/utils/text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' as global;
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 
 import 'chat_ui.dart';
 
@@ -85,12 +87,14 @@ class _MessagesPageState extends State<MessagesPage> {
                                 backgroundColor: customGreen,
                               ),
                               onTap: () {
+                                WebSocketChannel channel = ChannelProvider(chats[i]["id"]).channel;
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                     builder: (BuildContext context) => ChatUI(
                                       username:getName(chats[i]),
                                       chatId: chats[i]["id"],
+                                      channel: channel,
                                     ),
                                   ),
                                 );

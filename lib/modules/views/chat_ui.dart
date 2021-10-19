@@ -1,19 +1,36 @@
+import 'dart:convert';
+import 'dart:developer';
+
+import 'package:diet_and_control/modules/controllers/auth_controller/auth_controller.dart';
 import 'package:diet_and_control/utils/text_style.dart';
 import 'package:flutter/material.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
+import 'package:get/get.dart' as global;
 
-class ChatMessage {
-  String message;
-  bool isMainUser;
-  String hour;
+class ErrorText extends StatelessWidget {
+  final message;
+  const ErrorText({Key? key, required String this.message}) : super(key: key);
 
-  ChatMessage(
-      {required this.message, required this.isMainUser, required this.hour});
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      message,
+      style: TextStyle(fontSize: 40, fontFamily: "Pacific"),
+    );
+  }
 }
 
 class ChatUI extends StatefulWidget {
   final String username;
   final int chatId;
-  const ChatUI({Key? key, required this.username, required this.chatId}) : super(key: key);
+  final WebSocketChannel channel;
+  const ChatUI(
+      {Key? key,
+      required this.username,
+      required this.chatId,
+      required this.channel})
+      : super(key: key);
 
   @override
   _ChatUIState createState() => _ChatUIState();
@@ -22,18 +39,37 @@ class ChatUI extends StatefulWidget {
 class _ChatUIState extends State<ChatUI> {
   TextEditingController messageText = new TextEditingController();
 
-  List<ChatMessage> chat = [
-    ChatMessage(
-        message: "Qué tal, como estás", isMainUser: true, hour: "10:00"),
-    ChatMessage(message: "Bien, bien", isMainUser: false, hour: "10:20"),
-    ChatMessage(
-        message:
-            "Gracias por las recomendaciones, me está viniendo muy bien la dieta",
-        isMainUser: false,
-        hour: "10:20"),
-    ChatMessage(message: "Qué genial", isMainUser: true, hour: "10:30"),
-    ChatMessage(message: "Sigue así", isMainUser: true, hour: "10:30"),
-  ];
+  late int userId;
+  late String name;
+  late int chatId;
+  var channel;
+  List<dynamic> messages = [];
+  var message = {"command": "", "username": "", "chat_id": ""};
+  var commands = ["init_chat", "fetch_messages", "new_message"];
+
+  initChat() {
+    message["command"] = commands[0];
+    message["user"] = userId.toString();
+    message["chat_id"] = chatId.toString();
+    channel.sink.add(json.encode(message));
+  }
+
+  fetchMessage() {
+    message["command"] = commands[1];
+    message["user"] = userId.toString();
+    message["chat"] = chatId.toString();
+    channel.sink.add(json.encode(message));
+  }
+
+  @override
+  void initState() {
+    userId = global.Get.find<AuthController>().userId.value;
+    chatId = widget.chatId;
+    log('UserName: $userId');
+    channel = widget.channel;
+    initChat();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -123,16 +159,18 @@ class _ChatUIState extends State<ChatUI> {
                     width: 50,
                     child: RawMaterialButton(
                       onPressed: () {
+                        message = {
+                          "command": "new_message",
+                          "from": userId.toString(),
+                          "text": "",
+                          "chat": chatId.toString()
+                        };
                         if (messageText.text != '') {
                           setState(() {
                             var text = messageText.text;
+                            message["text"] = text;
                             messageText.text = '';
-                            chat.add(
-                              ChatMessage(
-                                  message: text,
-                                  isMainUser: true,
-                                  hour: "10:20"),
-                            );
+                            channel.sink.add(json.encode(message));
                           });
                         }
                       },
@@ -155,41 +193,82 @@ class _ChatUIState extends State<ChatUI> {
     );
   }
 
+  @override
+  void dispose() {
+    channel.sink.close();
+    super.dispose();
+  }
+
+  bool isMainUser(message) {
+    return message["author"] == global.Get.find<AuthController>().userId.value;
+  }
+
   Widget _chatMessages() {
-    return SingleChildScrollView(
-      child: ListView.builder(
-        scrollDirection: Axis.vertical,
-        physics: NeverScrollableScrollPhysics(),
-        shrinkWrap: true,
-        itemCount: chat.length,
-        itemBuilder: (BuildContext context, i) {
-          return Column(
-            children: <Widget>[
-              Align(
-                alignment: chat[i].isMainUser
-                    ? Alignment.centerRight
-                    : Alignment.centerLeft,
-                child: Container(
-                  constraints: BoxConstraints(maxWidth: 250),
-                  padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: chat[i].isMainUser ? customGreen : Colors.white,
-                    borderRadius: BorderRadius.circular(20.0),
-                    border: Border.all(
-                      width: 0.7,
-                      color: Color.fromRGBO(218, 218, 218, 1.0),
+    return StreamBuilder(
+      stream: channel.stream,
+      builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+        if (snapshot.hasData) {
+          var response = json.decode(snapshot.data);
+
+          if (response["command"] == "init_chat") {
+            fetchMessage();
+          } else if (response["command"] == "message") {
+            var data = response["messages"];
+            messages = data;
+          } else if (response["command"] == "new_message") {
+            var newMessage = response["message"];
+            messages = [newMessage] + messages;
+            response = null;
+          }
+          // fetchMessage();
+          return SingleChildScrollView(
+            child: ListView.builder(
+              scrollDirection: Axis.vertical,
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: messages.length,
+              itemBuilder: (BuildContext context, i) {
+                return Column(
+                  children: <Widget>[
+                    Align(
+                      alignment: isMainUser(messages[i])
+                          ? Alignment.centerRight
+                          : Alignment.centerLeft,
+                      child: Container(
+                        constraints: BoxConstraints(maxWidth: 250),
+                        padding: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: isMainUser(messages[i])
+                              ? customGreen
+                              : Colors.white,
+                          borderRadius: BorderRadius.circular(20.0),
+                          border: Border.all(
+                            width: 0.7,
+                            color: Color.fromRGBO(218, 218, 218, 1.0),
+                          ),
+                        ),
+                        child: Text(
+                          messages[i]["content"],
+                        ),
+                      ),
                     ),
-                  ),
-                  child: Text(
-                    chat[i].message,
-                  ),
-                ),
-              ),
-              SizedBox(height: 3),
-            ],
+                    SizedBox(height: 3),
+                  ],
+                );
+              },
+            ),
           );
-        },
-      ),
+        } else {
+          return Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ErrorText(
+                  message: "Error when try to connect to the chat",
+                )
+              ]);
+        }
+      },
     );
   }
 }

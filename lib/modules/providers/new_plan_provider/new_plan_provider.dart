@@ -64,4 +64,55 @@ class NewPlanProvider {
     logger.i(response.data);
     return response;
   }
+
+
+Future<Response> getMealSchedule(String schedule) async {
+    final _dio = Dio();
+    final Response response;
+    String token = global.Get.find<AuthController>().token.value;
+    _dio.options.headers = {"Authorization": "Bearer $token"};
+    _dio.options.baseUrl = HttpInfo.url;
+
+    try {
+      response = await _dio.get(
+        "/meals_schedule/schedule=$schedule",
+      );
+    } on DioError catch (e) {
+      logger.e(e.response);
+      throw Exception(e);
+    }
+    logger.i(response.data);
+    return response;
+  }
+
+ Future<Response> updateTreatment(int treatmentId, menuList) async {
+    final _dio = Dio();
+    final Response response;
+    String token = global.Get.find<AuthController>().token.value;
+    _dio.options.headers = {"Authorization": "Bearer $token"};
+    _dio.options.baseUrl = HttpInfo.url;
+
+    try {
+      response = await _dio.put(
+        "/personal_treatments/$treatmentId/",
+        data: {"menus": menuList}, 
+        options: Options(
+          followRedirects: false,
+          validateStatus: (status) {
+            return status! < 500;
+          },
+        ),
+      );
+    } on DioError catch (e) {
+      logger.e(e.response);
+      throw Exception(e);
+    }
+    logger.i(response.data);
+    return response;
+  }
+
+
+
+
+
 }

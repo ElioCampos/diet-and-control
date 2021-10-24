@@ -1,6 +1,7 @@
 import 'package:diet_and_control/models/patient.dart';
 import 'package:diet_and_control/modules/controllers/nutritionist_home_controller/nutritionist_home_controller.dart';
 import 'package:diet_and_control/modules/controllers/patient_home_controller/patient_home_controller.dart';
+import 'package:diet_and_control/modules/views/edit_plan.dart';
 import 'package:diet_and_control/utils/text_style.dart';
 import 'package:diet_and_control/widgets/myPatients/button_patients.dart';
 import 'package:diet_and_control/widgets/myPatients/data_patient.dart';
@@ -50,6 +51,7 @@ class ViewPlan extends GetView<PatientHomeController> {
             : SafeArea(
                 child: SingleChildScrollView(
                   child: Container(
+                    padding: EdgeInsets.all(10),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -90,10 +92,11 @@ class ViewPlan extends GetView<PatientHomeController> {
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             ButtonPatients(
-                                title: "Modificar plan", onTap: () => null),
-                            ButtonPatients(
-                                title: "Ver datos estadísticos",
-                                onTap: () => null),
+                                title: "Modificar plan", 
+                                onTap: () async {                                            
+                                            Get.to(EditPlan(patientId));                                           
+                                          }, 
+                                ),                            
                           ],
                         ),
                         Divider(),

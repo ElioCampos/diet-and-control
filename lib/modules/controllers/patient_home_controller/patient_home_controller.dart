@@ -21,7 +21,11 @@ class PatientHomeController extends NewPlanController {
         if (response.data.length >= 1) {
           noPlan.value = false;
           menus.value = response.data[0]["treatment"]["menus"];
+          menus.sort((a, b) => a["day"].compareTo(b["day"]));
+                
+
           personalTreatmentId.value = response.data[0]["id"];
+          personal_treatmentId.value = personalTreatmentId.value ;
           if (fromDoctor) {
             await Get.find<ViewStatusController>()
                 .getPlanTrace(personalTreatmentId.value);

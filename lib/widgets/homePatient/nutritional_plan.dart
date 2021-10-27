@@ -16,16 +16,8 @@ Map days = {
 };
 
 class NutritionalPlan extends GetView<PatientHomeController> {
-  List<bool> checkedmeals = [
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false
-  ];
+  List<bool> checkedmeals = List.filled(8, false);
+  bool checkboxState = false;
 
   @override
   Widget build(BuildContext context) {
@@ -243,9 +235,9 @@ class NutritionalPlan extends GetView<PatientHomeController> {
 
               ), */
                 Expanded(
-                  child: Checkbox(
+                  child: Checkbox(                    
                     checkColor: Colors.white,
-                    activeColor: customGreen,
+                    activeColor: customGreen,                    
                     value: (() {
                       if (controller.traceIds[controller.currentDay.value]
                           ["success"]) {
@@ -265,7 +257,7 @@ class NutritionalPlan extends GetView<PatientHomeController> {
                           i +
                           index)];
                     })(),
-                    // controller.traceIds[controller.currentDay.value]["success"],
+                    // controller.traceIds[controller.currentDay.value]["success"],                    
                     onChanged: (bool? value) {
                       setState(() {
                         checkedmeals[((() {
@@ -279,13 +271,45 @@ class NutritionalPlan extends GetView<PatientHomeController> {
                               return 0;
                             })() +
                             i +
-                            index)] = true;
+                            index)] = !checkedmeals[((() {
+                              if (i == 1) {
+                                return 1;
+                              } else if (i == 2) {
+                                return 3;
+                              } else if (i == 3) {
+                                return 4;
+                              }
+                              return 0;
+                            })() +
+                            i +
+                            index)];
                       });
 
                       if (checkedmeals.contains(false)) {
                       } else {
                         controller.updateTrace(controller
                             .traceIds[controller.currentDay.value]["id"]);
+
+                            showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(            
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Image.network("https://cdn.discordapp.com/attachments/874441203809144853/902835530960605214/checksito.gif", 
+                width:100, height:100),
+                Center(child:Text("Dia Completado",
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: customGreen,
+                        fontWeight: FontWeight.bold)),)
+              ],
+            )          
+          );
+        });
+
+                             
                       }
                     },
                   ),

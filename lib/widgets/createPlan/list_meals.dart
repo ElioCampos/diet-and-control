@@ -2,6 +2,8 @@ import 'package:diet_and_control/modules/controllers/new_plan_controller/new_pla
 import 'package:diet_and_control/utils/text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:loading_indicator/loading_indicator.dart';
+
 
 class MealsList extends GetView<NewPlanController> {
   final bool viewDetails = false;
@@ -12,279 +14,430 @@ class MealsList extends GetView<NewPlanController> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      scrollDirection: Axis.vertical,
-      shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
-      itemCount: 4,
-      itemBuilder: (BuildContext context, i) {
+    
         return Obx(
           () => SingleChildScrollView(
             physics: ScrollPhysics(),
             child: Column(
               children: [
-                Container(
-                  padding: EdgeInsets.only(bottom: 10),
-                  child: Row(
-                    children: [
-                      Text(
-                        viewDetails
-                            ? controller.orderedMeals.keys
-                                .elementAt(currentSelection)
-                            : controller.orderedMeals.keys.elementAt(i) + ":",
-                        style: TextStyle(
-                            fontSize: 20,
-                            color: customGreen,
-                            fontWeight: FontWeight.bold),
+                Column(
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                "Desayuno",
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    color: customGreen,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                " ${controller.totalKcalByType([
+                                      controller.mealsEdit.values.elementAt(
+                                              controller.currentDay.value)[0]
+                                          ["meal"],
+                                      controller.mealsEdit.values.elementAt(
+                                              controller.currentDay.value)[1]
+                                          ["meal"]
+                                    ])}",
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                " Kcal",
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                          Divider(),
+                          Container(
+                              height: 210.0,
+                              child: new ListView(
+                                  scrollDirection: Axis.horizontal,
+                                  children: [
+                                    _meals(controller.currentDay.value, 0,
+                                        "BREAKFAST1", context),
+                                    _meals(controller.currentDay.value, 1,
+                                        "BREAKFAST2", context)
+                                  ])),
+                        ],
+                      ),               
+                Column(
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                "Almuerzo",
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    color: customGreen,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                " ${controller.totalKcalByType([
+                                      controller.mealsEdit.values.elementAt(
+                                              controller.currentDay.value)[4]
+                                          ["meal"],
+                                      controller.mealsEdit.values.elementAt(
+                                              controller.currentDay.value)[5]
+                                          ["meal"],
+                                      controller.mealsEdit.values.elementAt(
+                                              controller.currentDay.value)[6]
+                                          ["meal"]
+                                    ])}",
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                " Kcal",
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                          Divider(),
+                          Container(
+                              height: 210.0,
+                              child: new ListView(
+                                  scrollDirection: Axis.horizontal,
+                                  children: [
+                                    _meals(controller.currentDay.value, 4,
+                                        "LUNCH1", context),
+                                    _meals(controller.currentDay.value, 5,
+                                        "LUNCH2", context),
+                                    _meals(controller.currentDay.value, 6,
+                                        "LUNCH3", context),
+                                  ])),
+                        ],
                       ),
-                      Text(
-                        " ${controller.totalKcalByType(controller.orderedMeals.values.elementAt(i))}",
-                        style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold),
+                      Column(
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                "Cena",
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    color: customGreen,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                " ${controller.totalKcalByType([
+                                      controller.mealsEdit.values.elementAt(
+                                              controller.currentDay.value)[2]
+                                          ["meal"],
+                                      controller.mealsEdit.values.elementAt(
+                                              controller.currentDay.value)[3]
+                                          ["meal"]
+                                    ])}",
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                " Kcal",
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                          Divider(),
+                          Container(
+                              height: 210.0,
+                              child: new ListView(
+                                  scrollDirection: Axis.horizontal,
+                                  children: [
+                                    _meals(controller.currentDay.value, 2,
+                                        "DINNER1", context),
+                                    _meals(controller.currentDay.value, 3,
+                                        "DINNER2", context)
+                                  ])),
+                        ],
                       ),
-                       Text(
-                        " Kcal",
-                        style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.red,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  height: 210.0,
-                  child: _mealsByDay(i),
-                ),
+                      Column(
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                "Snack",
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    color: customGreen,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                " ${controller.totalKcalByType([
+                                      controller.mealsEdit.values.elementAt(
+                                              controller.currentDay.value)[7]
+                                          ["meal"]
+                                    ])}",
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                " Kcal",
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                          Divider(),
+                          Container(
+                              height: 210.0,
+                              child: _meals(controller.currentDay.value, 7,
+                                  "SNACK", context)),
+                        ],
+                      )                    
               ],
             ),
           ),
         );
-      },
-    );
+      
   }
 
-  Widget _mealsByDay(int i) {
-    return Obx(
-      () => ListView.builder(
-        itemCount: controller.mealsCount[controller.orderedMeals.keys.elementAt(i)],
-        shrinkWrap: true,
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (context, index) {
-          return Column(children: [
-            Card(
-              child: InkWell(
-                onTap: () {
-                  controller.nutritionalData(
-                      controller.orderedMeals.values.elementAt(i)[index]
-                          ["carbohydrate_kcal"],
-                      controller.orderedMeals.values.elementAt(i)[index]
-                          ["fat_kcal"],
-                      controller.orderedMeals.values.elementAt(i)[index]
-                          ["protein_kcal"]);
-                  showDialog<void>(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return _mealDetails(index,
-                          controller.orderedMeals.keys.elementAt(i), context);
-                    },
-                  );
-                },
-                child: Column(
-                  children: [
-                    Container(
-                      width: 200,
-                      padding: EdgeInsets.fromLTRB(10, 10, 10, 5),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(15.0),
-                        child: Image.network(
-                          controller.orderedMeals.values.elementAt(i)[index]
-                              ["image_url"],
-                        ),
-                      ),
-                    ),
-                    Container(
-                      width: 120,
-                      child: Text(
-                        controller.orderedMeals.values.elementAt(i)[index]
-                            ["name"],
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: controller.orderedMeals.values
-                                        .elementAt(i)[index]["name"]
-                                        .length >
-                                    43
-                                ? 10
-                                : 15),
-                        maxLines: 20,
-                        textAlign: TextAlign.center,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                    SizedBox(height: 10)
-                  ],
+   Widget _meals(int dayid, int i, String schedule, context) {
+    return Card(
+      child: InkWell(
+        onTap: () {
+          controller.getMealSchedule(schedule, i, dayid);
+          controller.nutritionalData(
+              controller.mealsEdit.values.elementAt(dayid)[i]["meal"]
+                  ["carbohydrate_kcal"],
+              controller.mealsEdit.values.elementAt(dayid)[i]["meal"]
+                  ["fat_kcal"],
+              controller.mealsEdit.values.elementAt(dayid)[i]["meal"]
+                  ["protein_kcal"]);
+          showDialog<void>(
+            context: context,
+            builder: (BuildContext context) {
+              return _mealDetails(i, context);
+            },
+          );
+        },
+        child: Column(
+          children: [
+            Container(
+              width: 200,
+              padding: EdgeInsets.fromLTRB(10, 10, 10, 5),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(15.0),
+                child: Image.network(
+                  controller.mealsEdit.values.elementAt(dayid)[i]["meal"]
+                      ["image_url"],
                 ),
               ),
-            )
-          ]);
-        },
+            ),
+            Container(
+              width: 120,
+              child: Text(
+                controller.mealsEdit.values.elementAt(dayid)[i]["meal"]["name"],
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: controller.mealsEdit.values
+                                .elementAt(dayid)[i]["meal"]["name"]
+                                .length >
+                            43
+                        ? 10
+                        : 15),
+                maxLines: 20,
+                textAlign: TextAlign.center,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            SizedBox(height: 10)
+          ],
+        ),
       ),
     );
   }
 
-  Widget _mealDetails(int index, String type, BuildContext context) {
+  Widget _mealDetails(int index, BuildContext context) {
     return StatefulBuilder(builder: (context, setState) {
       return Obx(
         () => Dialog(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
-                child: Column(
+          child: controller.dialogloading.value
+              ? Column(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        IconButton(
-                          onPressed: () {
-                            // setState(() {
-                            //   if (index == 0) {
-                            //     index = (_allMeals[type].length - 1);
-                            //   } else {
-                            //     index--;
-                            //   }
-                            // });
-                          },
-                          icon: Icon(
-                            Icons.keyboard_arrow_left,
-                            color: customGreen,
-                          ),
+                    Center(
+                      child: SizedBox(
+                        height: 150,
+                        width: 150,
+                        child: LoadingIndicator(
+                          colors: [Colors.green],
+                          indicatorType: Indicator.ballClipRotateMultiple,
                         ),
-                        Expanded(
-                          child: Container(
-                            child: Column(
-                              children: [
-                                Text(
-                                    controller.orderedMeals[type][index]
-                                        ["name"],
-                                    style: TextStyle(
-                                        fontSize: 15,
-                                        color: customGreen,
-                                        fontWeight: FontWeight.bold),
-                                    textAlign: TextAlign.center),
-                                Container(
-                                  padding: EdgeInsets.fromLTRB(10, 20, 20, 10),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(15.0),
-                                    child: Image.network(
-                                      controller.orderedMeals[type][index]
-                                          ["image_url"],
-                                      scale: 4,
-                                    ),
-                                  ),
-                                ),
-                              ],
+                      ),
+                    ),
+                  ],
+                )
+              : Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      padding: EdgeInsets.all(20),
+                      child: Column(
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(bottom: 10),
+                            height: 100,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15.0),
+                              image: DecorationImage(
+                                image: NetworkImage(controller.mealSchedule[
+                                        controller.currentMeal.value]["meal"]
+                                    ["image_url"]),
+                                fit: BoxFit.cover,
+                              ),
                             ),
                           ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.only(left: 10),
-                          child: Column(
+                          Text(
+                              controller.mealSchedule[controller
+                                      .currentMeal.value]["meal"]["name"] +
+                                  "\n",
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  color: customGreen,
+                                  fontWeight: FontWeight.bold),
+                              textAlign: TextAlign.center),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              infoText("Carbohidratos", true),
-                              infoText("${controller.carbo.value}Kcal", false),
-                              infoText("Proteínas", true),
-                              infoText(
-                                  "${controller.protein.value}Kcal", false),
-                              infoText("Grasas", true),
-                              infoText("${controller.fat.value}Kcal", false),
-                              Divider(),
-                              Text(
-                                "Kcal totales",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.red,
-                                    fontSize: 20),
+                              IconButton(
+                                onPressed: () {
+                                  controller.decreaseMeal();
+                                },
+                                icon: Icon(
+                                  Icons.keyboard_arrow_left,
+                                  color: customGreen,
+                                ),
                               ),
-                              Text(
-                                "${controller.totalKcal.value}Kcal",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(fontSize: 20),
+                              Container(
+                                padding: EdgeInsets.only(left: 10),
+                                child: Column(
+                                  children: [
+                                    infoText("Carbohidratos", true),
+                                    infoText(
+                                        controller.mealSchedule[controller
+                                                        .currentMeal
+                                                        .value]["meal"]
+                                                    ["carbohydrate_kcal"]
+                                                .toStringAsFixed(1) +
+                                            "Kcal",
+                                        false),
+                                    infoText("Proteínas", true),
+                                    infoText(
+                                        controller.mealSchedule[controller
+                                                        .currentMeal.value]
+                                                    ["meal"]["protein_kcal"]
+                                                .toStringAsFixed(1) +
+                                            "Kcal",
+                                        false),
+                                    infoText("Grasas", true),
+                                    infoText(
+                                        controller.mealSchedule[controller
+                                                    .currentMeal
+                                                    .value]["meal"]["fat_kcal"]
+                                                .toStringAsFixed(1) +
+                                            "Kcal",
+                                        false),
+                                    Divider(),
+                                    Text(
+                                      "Kcal totales",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.red,
+                                          fontSize: 20),
+                                    ),
+                                    Text(
+                                      (controller.mealSchedule[controller.currentMeal.value]
+                                                          ["meal"]
+                                                      ["carbohydrate_kcal"] +
+                                                  controller.mealSchedule[
+                                                          controller.currentMeal
+                                                              .value]["meal"]
+                                                      ["protein_kcal"] +
+                                                  controller.mealSchedule[
+                                                          controller.currentMeal
+                                                              .value]["meal"]
+                                                      ["fat_kcal"])
+                                              .toStringAsFixed(1) +
+                                          " kcal",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(fontSize: 20),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  controller.increaseMeal();
+                                },
+                                icon: Icon(
+                                  Icons.keyboard_arrow_right,
+                                  color: customGreen,
+                                ),
                               ),
                             ],
                           ),
-                        ),
-                        IconButton(
-                          onPressed: () {
-                            // setState(() {
-                            //   if (index == (_allMeals[type].length - 1)) {
-                            //     index = 0;
-                            //   } else {
-                            //     index++;
-                            //   }
-                            // });
-                          },
-                          icon: Icon(
-                            Icons.keyboard_arrow_right,
-                            color: customGreen,
-                          ),
-                        ),
-                      ],
+                          SizedBox(height: 10),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              ElevatedButton(
+                                onPressed: () {
+                                  controller.editmenuid(
+                                      controller.currentDay.value,
+                                      index,
+                                      controller.currentMeal.value);
+                                  Navigator.pop(context);
+                                },
+                                style: ElevatedButton.styleFrom(
+                                    primary: customGreen),
+                                child: Text(
+                                  "Seleccionar",
+                                  style: TextStyle(color: Colors.black),
+                                ),
+                              ),
+                              ElevatedButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                style: ElevatedButton.styleFrom(
+                                    primary: Colors.amber),
+                                child: Text(
+                                  "Cancelar",
+                                  style: TextStyle(color: Colors.black),
+                                ),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
                     ),
-                    SizedBox(height: 10),
-                    // Divider(),
-                    // Text(
-                    //   "Requerimiento recomendado",
-                    //   textAlign: TextAlign.center,
-                    //   style: TextStyle(
-                    //       fontWeight: FontWeight.bold,
-                    //       color: customGreen,
-                    //       fontSize: 20),
-                    // ),
-                    // Text(
-                    //   "320Kcal",
-                    //   textAlign: TextAlign.center,
-                    //   style:
-                    //       TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    // ),
-                    // SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        ElevatedButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          style: ElevatedButton.styleFrom(primary: customGreen),
-                          child: Text(
-                            "Guardar cambios",
-                            style: TextStyle(color: Colors.black),
-                          ),
-                        ),
-                        ElevatedButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          style:
-                              ElevatedButton.styleFrom(primary: Colors.amber),
-                          child: Text(
-                            "Cancelar",
-                            style: TextStyle(color: Colors.black),
-                          ),
-                        ),
-                      ],
-                    )
                   ],
                 ),
-              ),
-            ],
-          ),
         ),
       );
     });
   }
+
+
 }

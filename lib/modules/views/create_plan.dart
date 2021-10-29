@@ -7,12 +7,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 
-class CreatePlan extends GetView<NewPatientController> {
+class CreatePlan extends GetView<NewPlanController> {
+  
   final Function confirmPlan;
   CreatePlan(this.confirmPlan);
 
-  @override
+  @override  
   Widget build(BuildContext context) {
+    controller.loading.value = true;
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -28,7 +30,7 @@ class CreatePlan extends GetView<NewPatientController> {
                       ),
                     ),
                   )
-                : Container(
+                : Container(                  
                     margin: EdgeInsets.symmetric(horizontal: 8),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -43,7 +45,7 @@ class CreatePlan extends GetView<NewPatientController> {
                             Container(
                               width: 290.0,
                               child: Text(
-                                "Plan Nutricional: ${controller.nameController.text} ${controller.lastNameController.text}",
+                                "Plan Nutricional:",
                                 style: TextStyle(
                                     color: Color.fromRGBO(59, 203, 90, 1.0),
                                     fontSize: 27.0,

@@ -73,11 +73,6 @@ class NewPlan extends GetView<NewPlanController> {
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 16),
                         ),
-                      ),
-                      ElevatedButton(
-                        onPressed: () {},
-                        child: Text("Datos generales"),
-                        style: ElevatedButton.styleFrom(primary: customGreen),
                       )
                     ],
                   ),

@@ -58,13 +58,15 @@ class NewPlanController extends GetxController {
     loading.value = true;
     dio.Response response;
     try {
-      response = await NewPlanProvider()
-          .getPlan(carbo: carbo, protein: protein, fat: fat);
+      response = await NewPlanProvider().getPlan(carbo: carbo, protein: protein, fat: fat);
       if (response.statusCode == 201 || response.statusCode == 200) {
+         if (response.data.length >= 1) {
+        mealsEdit.clear();
+        mealIds.clear();
         planId.value = response.data["id"];
         menus.value = response.data["menus"];
-        refreshMeals();
-        loading.value = false;
+        getmenuids();
+        loading.value = false;}
       } else {
         logger.i(response.statusCode);
         loading.value = false;
@@ -78,7 +80,8 @@ class NewPlanController extends GetxController {
   Future assignPlan() async {
     dio.Response response;
     try {
-      response = await NewPlanProvider().assignPlan(planId.value);
+      
+      response = await NewPlanProvider().assignPlan(mealIds.isNotEmpty ? 0 : planId.value, mealIds);
       if (response.statusCode == 201 || response.statusCode == 200) {
         logger.i(response.data);
       } else {
@@ -129,7 +132,7 @@ Future updateTreatment(menuList) async {
       loading.value = false;
     }
   }
-
+ 
   getmenuids(){    
     menuMon.value = menus[0]["meal_schedules"];
     menuTue.value = menus[1]["meal_schedules"];

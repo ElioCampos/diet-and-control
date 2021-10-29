@@ -38,7 +38,7 @@ class NewPlanProvider {
     return response;
   }
 
-  Future<Response> assignPlan(int treatmentId) async {
+  Future<Response> assignPlan(int treatmentId, menuList) async {
     final _dio = Dio();
     final Response response;
     int doctorId = global.Get.find<AuthController>().userId.value;
@@ -49,7 +49,7 @@ class NewPlanProvider {
     try {
       response = await _dio.post(
         "/doctors/$doctorId/patients/$patientId/personal_treatments/",
-        data: {"menus": [], "selected_treatment": treatmentId},
+        data: {"menus": menuList, "selected_treatment": treatmentId},
         options: Options(
           followRedirects: false,
           validateStatus: (status) {

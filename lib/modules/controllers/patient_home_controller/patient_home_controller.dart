@@ -22,8 +22,7 @@ class PatientHomeController extends NewPlanController {
           noPlan.value = false;
           menus.value = response.data[0]["treatment"]["menus"];
           menus.sort((a, b) => a["day"].compareTo(b["day"]));
-                
-
+          mealIds.clear();  
           personalTreatmentId.value = response.data[0]["id"];
           personal_treatmentId.value = personalTreatmentId.value ;
           if (fromDoctor) {

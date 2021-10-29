@@ -16,6 +16,7 @@ class NewPlanController extends GetxController {
   final RxList cList = [].obs;
   final RxList sList = [].obs;
   final RxMap orderedMeals = {}.obs;
+  final RxMap mealsEdit = {}.obs;
 
   final RxList menuMon = [].obs;
   final RxList menuTue = [].obs;
@@ -26,6 +27,8 @@ class NewPlanController extends GetxController {
   final RxList menuSun = [].obs;
 
   final RxMap menuIds = {}.obs;
+
+  final RxList mealIds = [].obs;
 
   final RxBool mealChanged = false.obs;
 
@@ -88,23 +91,16 @@ class NewPlanController extends GetxController {
   }
 
 
-Future getMealSchedule(String schedule, int index) async {
+Future getMealSchedule(String schedule, int index, int day) async {
     dio.Response response;
     try {
-      dialogloading.value = true;
-      String schedule2 = "";
-      mealSchedule.value = [];
-      switch (schedule) {
-        case "Desayuno": {schedule2 = "BREAKFAST"+ (index+1).toString(); } break;
-        case "Almuerzo":{schedule2 = "LUNCH"+ (index+1).toString();} break;
-        case "Cena": {schedule2 = "DINNER"+ (index+1).toString();} break;
-        case "Snack": {schedule2 = "SNACK";} 
-      }     
-      response = await NewPlanProvider().getMealSchedule(schedule2);
+      dialogloading.value = true;      
+      mealSchedule.clear();          
+      response = await NewPlanProvider().getMealSchedule(schedule);
       mealSchedule.value = await response.data;  
       logger.i(response.data); 
       if (mealSchedule.isNotEmpty){
-        currentMeal.value = mealSchedule.indexWhere((element) => element["meal"]["id"] == orderedMeals[schedule][index]["id"]);        
+        currentMeal.value = mealSchedule.indexWhere((element) => element["meal"]["id"] == mealsEdit.values.elementAt(day)[index]["meal"]["id"]);        
         dialogloading.value = false;} 
     } on Exception catch (e) {
       logger.e(e);
@@ -134,40 +130,46 @@ Future updateTreatment(menuList) async {
     }
   }
 
-  getmenuids(){
-    // for(var i = 0; i < 7; i++){
-    //   for(var j = 0; j < 8; j++){
-    //      menuIds.values.elementAt(i)[j] = menus[i]["meal_schedules"][j]["id"];
-    //    }  
-    // }
-    menuMon.value = [ for(var j = 0; j < 8; j++){menus[0]["meal_schedules"][j]["id"],} ];
-    menuTue.value = [ for(var j = 0; j < 8; j++){menus[1]["meal_schedules"][j]["id"],} ];
-    menuWed.value = [ for(var j = 0; j < 8; j++){menus[2]["meal_schedules"][j]["id"],} ];
-    menuThu.value = [ for(var j = 0; j < 8; j++){menus[3]["meal_schedules"][j]["id"],} ];
-    menuFri.value = [ for(var j = 0; j < 8; j++){menus[4]["meal_schedules"][j]["id"],} ];
-    menuSat.value = [ for(var j = 0; j < 8; j++){menus[5]["meal_schedules"][j]["id"],} ];
-    menuSun.value = [ for(var j = 0; j < 8; j++){menus[6]["meal_schedules"][j]["id"],} ];
+  getmenuids(){    
+    menuMon.value = menus[0]["meal_schedules"];
+    menuTue.value = menus[1]["meal_schedules"];
+    menuWed.value = menus[2]["meal_schedules"];
+    menuThu.value = menus[3]["meal_schedules"];
+    menuFri.value = menus[4]["meal_schedules"];
+    menuSat.value = menus[5]["meal_schedules"];
+    menuSun.value = menus[6]["meal_schedules"];
+
+    menuMon.sort((a, b) => a["schedule"].compareTo(b["schedule"]));   
+    menuTue.sort((a, b) => a["schedule"].compareTo(b["schedule"]));
+    menuWed.sort((a, b) => a["schedule"].compareTo(b["schedule"]));
+    menuThu.sort((a, b) => a["schedule"].compareTo(b["schedule"]));
+    menuFri.sort((a, b) => a["schedule"].compareTo(b["schedule"]));
+    menuSat.sort((a, b) => a["schedule"].compareTo(b["schedule"]));
+    menuSun.sort((a, b) => a["schedule"].compareTo(b["schedule"]));
+
+    mealsEdit.value = {
+      "Mon": menuMon,
+      "Tue": menuTue,
+      "Wed": menuWed,
+      "Thu": menuThu,
+      "Fri": menuFri,
+      "Sat": menuSat,
+      "Sun": menuSun
+    };       
   }
   
-  editmenuid(int date, String type, int index, int newvalue){
-    int typemeal = -1;
-    mealChanged.value = false;
-    switch (type) {
-        case "Desayuno": {typemeal = 0 + index; } break;
-        case "Almuerzo":{typemeal = 2 + index;} break;
-        case "Cena": {typemeal = 5 + index;} break;
-        case "Snack": {typemeal = 7;} 
-    } 
-    if (typemeal!=-1) {
-    switch (date) {
-        case 0: {menuMon[typemeal]=newvalue;mealChanged.value = true;} break;
-        case 1: {menuTue[typemeal]=newvalue;mealChanged.value = true;} break;
-        case 2: {menuWed[typemeal]=newvalue;mealChanged.value = true;} break;
-        case 3: {menuThu[typemeal]=newvalue;mealChanged.value = true;} break;
-        case 4: {menuFri[typemeal]=newvalue;mealChanged.value = true;} break;
-        case 5: {menuSat[typemeal]=newvalue;mealChanged.value = true;} break;
-        case 6: {menuSun[typemeal]=newvalue;mealChanged.value = true;} break;
-    } }    
+  getmealids(){
+    mealIds.clear();
+    mealsEdit.values.forEach((element) {
+      mealIds.add([for (var i = 0; i < 8; i++)element[i]["id"]],);
+    });
+  }
+  
+  editmenuid(int date, int index, int newvalueid){
+     mealChanged.value = false;
+     mealsEdit.values.elementAt(date)[index] = mealSchedule[newvalueid];
+     getmealids();
+     mealChanged.value = true; 
   }
 
   decreaseMeal() {
@@ -207,13 +209,13 @@ Future updateTreatment(menuList) async {
     refreshMeals();
   }
   
-  refreshMeals() {
+  refreshMeals() {    
     dList.clear();
     aList.clear();
     cList.clear();
     sList.clear();
     mealsFromToday.value = menus[currentDay.value]["meal_schedules"]; 
-    //mealsFromToday.sort((a, b) => a["schedule"].compareTo(b["schedule"]));   
+    mealsFromToday.sort((a, b) => a["schedule"].compareTo(b["schedule"]));   
     
 
     for (var i = 0; i < 8; i++) {
@@ -226,15 +228,15 @@ Future updateTreatment(menuList) async {
           break;
         case 2:
         case 3:
-        case 4:
           {
-            aList.add(mealsFromToday[i]["meal"]);
+            cList.add(mealsFromToday[i]["meal"]);
           }
           break;
+        case 4:          
         case 5:
         case 6:
           {
-            cList.add(mealsFromToday[i]["meal"]);
+            aList.add(mealsFromToday[i]["meal"]);
           }
           break;
         case 7:
@@ -242,14 +244,13 @@ Future updateTreatment(menuList) async {
             sList.add(mealsFromToday[i]["meal"]);
           }
       }
-    }    
-
+    }  
     orderedMeals.value = {
       "Desayuno": dList,
       "Almuerzo": aList,
       "Cena": cList,
       "Snack": sList
-    };
+    };    
   }
 
   double roundDecimal(double d) {

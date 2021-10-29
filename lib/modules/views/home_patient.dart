@@ -3,6 +3,7 @@ import 'package:diet_and_control/modules/controllers/patient_home_controller/pat
 import 'package:diet_and_control/utils/text_style.dart';
 import 'package:diet_and_control/widgets/homePatient/button_picture.dart';
 import 'package:diet_and_control/widgets/homePatient/nutritional_plan.dart';
+import 'package:diet_and_control/widgets/homeNutricionista/list_messages.dart';
 import 'package:diet_and_control/modules/views/auth/login.dart';
 import 'package:diet_and_control/widgets/myPatients/patient_log.dart';
 import 'package:flutter/material.dart';
@@ -127,6 +128,7 @@ class HomePatient extends GetView<PatientHomeController> {
                   ),
                 ),
                 NutritionalPlan(),
+                ListMensajes(),
               ],
             ),
           ),

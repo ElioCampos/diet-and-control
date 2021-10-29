@@ -40,10 +40,10 @@ class NutritionistHomeController extends GetxController {
     }
   }
   Future getChats() async {
+    chats.clear();
     loading.value = true;
     dio.Response response;
-    try {
-      chats.value = [];
+    try {      
       response = await NutritionistHomeProvider().getChats();
       logger.i(response.data);
       for (var chat in response.data) {

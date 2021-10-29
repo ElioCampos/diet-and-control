@@ -12,10 +12,10 @@ class HomeNutricionista extends GetWidget<NutritionistHomeController> {
   const HomeNutricionista({Key? key, required this.navigate}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) {    
     Map userData = Get.find<AuthController>().userData;
     String name = userData["first_name"] + " " + userData["last_name"];
-    return SafeArea(
+    return SafeArea(      
       child: SingleChildScrollView(
         child: Container(
           margin: EdgeInsets.symmetric(horizontal: 8.0),

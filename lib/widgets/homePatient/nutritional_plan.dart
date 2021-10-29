@@ -1,7 +1,5 @@
-import 'package:diet_and_control/models/meal.dart';
 import 'package:diet_and_control/modules/controllers/patient_home_controller/patient_home_controller.dart';
 import 'package:diet_and_control/utils/text_style.dart';
-import 'package:diet_and_control/widgets/homeNutricionista/list_messages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -108,8 +106,7 @@ class NutritionalPlan extends GetView<PatientHomeController> {
                       }),
                     ),
                   ),
-                  Divider(),
-                  ListMensajes(),
+                  Divider()                  
                 ],
               ),
             ),

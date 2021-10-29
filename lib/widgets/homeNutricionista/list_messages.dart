@@ -8,7 +8,8 @@ import 'package:get/get.dart' as global;
 class ListMensajes extends GetView<NutritionistHomeController> {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Obx(
+      () => Container(
         margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 7.0),
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
@@ -77,6 +78,7 @@ class ListMensajes extends GetView<NutritionistHomeController> {
                   );
                 }),
           )
-        ]));
+        ]))
+  );
   }
 }

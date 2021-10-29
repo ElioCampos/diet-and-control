@@ -14,8 +14,6 @@ class HomePatient extends GetView<PatientHomeController> {
   Widget build(BuildContext context) {
     Map userData = Get.find<AuthController>().userData;
     String name = userData["first_name"] + " " + userData["last_name"];  
-    controller.getPatientLog(userData["user"]);
-    List log = controller.patientLog;  
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -23,7 +21,7 @@ class HomePatient extends GetView<PatientHomeController> {
             margin: EdgeInsets.symmetric(horizontal: 8.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+              children: [                
                 SizedBox(height: 10),
                 Row(
                   children: [
@@ -112,8 +110,8 @@ class HomePatient extends GetView<PatientHomeController> {
                           return PatientLog(
                             patientName: userData["first_name"]+ " " + userData["last_name"],
                             patientRegisterDate: userData["register_date"],
-                            patientIMC: log[0]["imc"].toString(),
-                            patientWeight: log[0]["weight"].toString(),
+                            patientIMC: controller.patientIMC.toString(),
+                            patientWeight: controller.patientWeight.toString(),
                           );
                   });
                 }),

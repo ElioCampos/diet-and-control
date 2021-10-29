@@ -8,6 +8,8 @@ class PatientHomeController extends NewPlanController {
   final RxInt personalTreatmentId = 0.obs;
   final RxList traceIds = [].obs;
   final RxList patientLog = [].obs;
+  final RxDouble patientWeight = 0.0.obs;
+  final RxDouble patientIMC = 0.0.obs;
   final RxInt monday = 0.obs;
   final RxBool noPlan = false.obs;
 
@@ -32,6 +34,7 @@ class PatientHomeController extends NewPlanController {
           refreshMeals();
           if (!fromDoctor) {
             await getPatientTraces();
+            await getPatientInfo();
           }
           loading.value = false;
         }
@@ -85,18 +88,41 @@ class PatientHomeController extends NewPlanController {
     }
   }
 
-  Future getPatientLog(int patientId) async {
+  Future getPatientLog(int patientid) async {
+    loading.value = true;
     dio.Response response;
     try {
-      response = await PatientHomeProvider().getPatientLog(patientId);
-      logger.i(response.data);
-      if (response.statusCode == 200) {
-        patientLog.value = response.data;
+      response = await PatientHomeProvider().getPatientLog(patientid);
+      logger.i(response.data);      
+      if (response.statusCode == 200 || response.statusCode == 302) {
+        patientLog.value = response.data;        
+        loading.value = false;
       } else {
         logger.i(response.statusCode);
+        loading.value = false;
       }
     } on Exception catch (e) {
       logger.e(e);
+      
+    }
+  }
+
+  Future getPatientInfo() async {
+    loading.value = true;
+    dio.Response response;
+    try {
+      response = await PatientHomeProvider().getPatientInfo();
+      logger.i(response.data);
+      if (response.statusCode == 200 || response.statusCode == 302) {
+        patientWeight.value = response.data["weight"];
+        patientIMC.value = response.data["imc"];
+      } else {
+        logger.i(response.statusCode);
+        loading.value = false;
+      }
+    } on Exception catch (e) {
+      logger.e(e);
+      loading.value = false;
     }
   }
 

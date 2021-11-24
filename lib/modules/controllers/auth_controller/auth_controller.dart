@@ -86,6 +86,7 @@ class AuthController extends GetxController {
               .getSession(usernameController.text, passwordController.text);
           token.value = profileAuth.data["access"].toString();
           await createDoctorProfile(response.data["id"]);
+          await acceptTerms(response.data["id"]);
           Get.to(Login());
         } else {
           patientId.value = response.data["id"];
@@ -97,6 +98,19 @@ class AuthController extends GetxController {
       logger.e(e);
     }
   }
+
+
+  Future acceptTerms(int userId) async {
+    dio.Response response;
+    try {
+      response = await AuthProvider().acceptTerms(
+          userId: userId);
+      logger.i(response.data);
+    } on Exception catch (e) {
+      logger.e(e);
+    }
+  }
+
 
   Future createDoctorProfile(int userId) async {
     dio.Response response;

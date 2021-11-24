@@ -108,6 +108,35 @@ class AuthProvider {
     return response;
   }
 
+
+  Future<Response> acceptTerms({
+    required int userId,
+    }) async {
+    final _dio = Dio();
+    final Response response;
+    String token = global.Get.find<AuthController>().token.value;
+    _dio.options.headers = {"Authorization": "Bearer $token"};
+    _dio.options.baseUrl = HttpInfo.url;    
+    try {
+      response = await _dio.post("/profiles/$userId/terms/",
+          data: {
+            "accept": true
+          },
+          options: Options(
+            followRedirects: false,
+            validateStatus: (status) {
+              return status! < 500;
+            },
+          ));
+      logger.i(response.data);
+    } on DioError catch (e) {
+      logger.e(e.response);
+      throw Exception(e);
+    }
+    return response;
+  }
+
+
   Future<Response> userInfo() async {
     final _dio = Dio();
     final Response response;

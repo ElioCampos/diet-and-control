@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 
 class RoundedButton extends StatefulWidget {
-  final String title;
+  final String title; 
+  final bool isInactive;
   final Function() onTap;
   const RoundedButton({ 
     Key? key,
     required this.title,
-    required this.onTap
+    required this.onTap, 
+    this.isInactive = false, 
   }) : super(key: key);
 
   @override
@@ -23,7 +25,7 @@ class _RoundedButtonState extends State<RoundedButton> {
         padding: EdgeInsets.symmetric(vertical: 15.0),
         width: MediaQuery.of(context).size.width*0.7,
         decoration: BoxDecoration(
-          color: Color.fromRGBO(0, 214, 129, 1),
+          color: widget.isInactive ? Colors.grey.shade300 : Color.fromRGBO(0, 214, 129, 1),
           borderRadius: BorderRadius.circular(30.0),
           boxShadow: [
             BoxShadow(
